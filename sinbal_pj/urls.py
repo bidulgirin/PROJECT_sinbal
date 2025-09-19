@@ -23,9 +23,9 @@ urlpatterns = [
     # 홈
     path("", include('home.urls')),
     # 커뮤니티
-    path("", include('community.urls')),
+    path("community/", include('community.urls')),
     # 몰
-    path("", include('mall.urls')),
+    path("mall/", include('mall.urls')),
     # 마이페이지
-    path("", include('mypage.urls')),
+    path("mypage/", include('mypage.urls')),
 ]
