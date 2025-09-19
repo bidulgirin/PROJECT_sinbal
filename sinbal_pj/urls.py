@@ -16,8 +16,16 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    # 홈
+    path("", include('home.urls')),
+    # 커뮤니티
+    path("", include('community.urls')),
+    # 몰
+    path("", include('mall.urls')),
+    # 마이페이지
+    path("", include('mypage.urls')),
 ]
