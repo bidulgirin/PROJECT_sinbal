@@ -1,0 +1,22 @@
+<!-- 상품 상세 페이지 -->
+{% extends 'base/base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/splide/splide.min.css'%}">
+<link rel="stylesheet" href="{% static 'css/mall/style.css' %}">
+<!-- 콘텐츠 영억 -->
+<div>
+
+</div>
+<!-- splide 슬라이더 기능  -->
+<script src="{% static 'js/splide/splide.min.js'%}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const elms = document.getElementsByClassName('splide');
+
+        for (let i = 0; i < elms.length; i++) {
+            new Splide(elms[i]).mount();
+        }
+    });
+</script>
+{% endblock %}
