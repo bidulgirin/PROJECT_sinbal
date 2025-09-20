@@ -1,0 +1,26 @@
+<!-- 기본 레이아웃 -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 검색 키워드 -->
+    <meta name="Keywords" content="런닝화, 신발, 런닝" />
+    <!-- 검색 결과에 표시되는 문자 지정 -->
+    <meta name="Description" content="런닝전문 쇼핑몰 커뮤니티 이런신발" />
+    <!-- 부트스트랩 css -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}">
+    <title>{% block head_name %}Sinbal{% endblock%}</title>
+
+</head>
+
+<body>
+    {% block content %}
+    {% endblock%}
+</body>
+<!-- 부트스트랩 js 연결 -->
+<script src="{% static 'js/bootstrap.bundle.min.js'%}"></script>
+
+</html>
