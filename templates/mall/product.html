@@ -1,18 +1,13 @@
-<!-- 작성 : 이경민 , mall 메인 -->
+<!-- 상품페이지 -->
 {% extends 'base/base.html' %}
 {% load static %}
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/splide/splide.min.css'%}">
 <link rel="stylesheet" href="{% static 'css/mall/style.css' %}">
 <!-- 콘텐츠 영억 -->
+<div>
 
-<!-- 슬라이드 -->
-{% include 'mall/components/main_slide.html' %}
-<!-- 몰 -->
-{% include 'mall/components/main_list.html' %}
-<!-- 리뷰 -->
-{% include 'mall/components/main_review.html' %}
-
+</div>
 <!-- splide 슬라이더 기능  -->
 <script src="{% static 'js/splide/splide.min.js'%}"></script>
 <script>
