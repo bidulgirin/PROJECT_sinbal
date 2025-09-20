@@ -41,24 +41,26 @@
 </ul>
 
 <h5>전달사항</h5>
-<ul>
-      <li>
+
+<ol>
+    <li>
         패키지 일괄설치 파일인 requirements.txt 를 추가시켰습니다<br/>
         pip install -r requirements.txt 로 실행시키면 편하게 패키지가 설치됩니다.
-      </li>
-      <li>
+    </li>
+    <li>
         Django==5.2.6 # 장고프레임워크<br/>
         Pillow==5.4.1 # 이미지 파일<br/>
         Requests==2.32.5 # 데이터통신<br/>
         BeautifulSoup==4.13.5 # 정적크롤링<br/>
         Selenium==4.35.0 #동적크롤링
-      </li>
-</ul>
-
+    </li>
+    <li>
+        requirements.txt 사용이유와 사용법 알리기
+    </li>
+    <li>
+        base.html 을 만들었으니 extends 해서 사용바람
+    </li>
+    <li>branch head 확인하고 pull 받기 </li>
+    <li>merge 는 월요일또는 화요일날 할 예정</li>
+</ol>
 <p>작성자 : 이경민</p>
-
-
-
-
-
-
