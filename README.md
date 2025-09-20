@@ -29,7 +29,7 @@
      <tr>
       <td>3</td>
       <td>이경민</td>
-      <td>UI/UX 설계, git 관리, 진행기록</td>
+      <td>UI/UX 설계, github 관리, 진행기록</td>
     </tr>
   </tbody>
 </table>
