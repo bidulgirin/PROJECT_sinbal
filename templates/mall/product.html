@@ -4,7 +4,17 @@
 {% block content %}
 <!-- 콘텐츠 영억 -->
 <div>
-    상품페이지 {{ category }}
+    카테고리별 상품 페이지
+    <br />
+    예를 들어 카본런닝화 카테고리 안에 있는 상품들만 좍~ 보여줌
+    <div>
+        현재 카테고리 : {{category}}<br />
+        {% if datas %}
+        {% for data in datas %}
+        카테고리 종류들 : {{ data }}
+        {% endfor %}
+        {% endif %}
+    </div>
 </div>
 
 {% endblock %}
