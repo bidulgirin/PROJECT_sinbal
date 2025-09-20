@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css'%}">
     <!-- jQuery js 연결 -->
     <script src="{% static 'js/jquery/jquery-3.7.1.min.js' %}"></script>
+    <!-- 공통 css -->
+    <link rel="stylesheet" href="{% static 'css/common/main_navi.css' %}">
     <title>{% block head_name %}Sinbal{% endblock %}</title>
 </head>
 
@@ -26,6 +28,6 @@
     {% block footer %}{% endblock %}
 </body>
 <!-- 부트스트랩 js 연결 -->
-<script src="{% static 'js/bootstrap/bootstrap.bundle.min.js'%}"></script>
+<script src="{% static 'js/bootstrap/bootstrap.min.js'%}"></script>
 
 </html>
