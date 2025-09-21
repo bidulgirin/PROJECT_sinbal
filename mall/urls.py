@@ -13,4 +13,6 @@ urlpatterns = [
     path("parchase/", views.mall_parchase, name="parchase"),
     # 삼품구매완료
     path("parchase_completed/", views.mall_parchase_completed, name="parchase_completed"),
+    # 슈마커 크롤링 요청
+    path("c/", views.crawling_shoes_page)
 ]
