@@ -1,0 +1,8 @@
+# requirements.txt 설치시 일괄로 패키지를 설치해주는 파일입니다
+# 이경민 : pip install -r requirements.txt 로 실행시키세요 
+# 출처: https://intstorage.tistory.com/entry/파이썬-패키지-일괄-설치-requirementstxt-활용-가이드 [Interesting Story Storage:티스토리]
+Django==5.2.6 # 장고프레임워크
+Pillow==5.4.1 # 이미지 파일
+Requests==2.32.5 # 데이터통신
+BeautifulSoup==4.13.5 # 정적크롤링
+Selenium==4.35.0 #동적크롤링
