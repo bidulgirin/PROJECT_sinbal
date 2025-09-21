@@ -8,10 +8,12 @@
 
 <!-- 슬라이드 -->
 {% include 'mall/components/main_slide.html' %}
-<!-- 몰 -->
-{% include 'mall/components/main_list.html' %}
-<!-- 리뷰 -->
-{% include 'mall/components/main_review.html' %}
+<div class="container">
+    <!-- 몰 -->
+    {% include 'mall/components/main_list.html' %}
+    <!-- 리뷰 -->
+    {% include 'mall/components/main_review.html' %}
+</div>
 
 <!-- splide 슬라이더 기능  -->
 <script src="{% static 'js/splide/splide.min.js'%}"></script>

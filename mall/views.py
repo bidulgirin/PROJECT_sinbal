@@ -76,7 +76,6 @@ def crawling_shoes_page(request):
         image_urls = soup.select(".product-list .ly-img img")
         links = soup.select(".product-list .ly-img img")
         prices = soup.select(".product-list .ly-price span:nth-child(1)") # 할인율을 안가져올것임
-        # description = models.TextField(blank=True) 
         # source_url = models.TextField() 
         # categories = models.ManyToManyField(Category) 
         # weight = models.IntegerField(null=True, blank=True) 

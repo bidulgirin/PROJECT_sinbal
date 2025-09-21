@@ -5,10 +5,63 @@
 <link rel="stylesheet" href="{% static 'css/splide/splide.min.css'%}">
 <link rel="stylesheet" href="{% static 'css/mall/style.css' %}">
 <!-- 콘텐츠 영억 -->
-<div>
-    현재 상품 id : {{ data.id }} <br>
-    현재 상품 이름 : {{ data.title }} <br>
-    현재 상품 카테고리 : {{ data.slug }} <br>
+
+현재 상품 id : {{ data.id }} <br>
+현재 상품 이름 : {{ data.title }} <br>
+현재 상품 카테고리 : {{ data.slug }} <br>
+
+
+<div class="l_product">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="l_product_preview">
+                    <img class="img-thumbnail" src="" alt="">
+                </div>
+                <div>
+                    <div class="row">
+                        <div class="col tab_1">설명</div>
+                        <div class="col tab_2">후기</div>
+                    </div>
+                </div>
+                <div>
+                    <ul>
+                        <li class="col tab_1">설명</li>
+                        <li class="col tab_2">후기</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col l_product_option">
+                <div class="l_brand">
+                    <div class="l_brand_img"><img
+                            src="https://image.msscdn.net/thumbnails/images/goods_img/20250304/4851552/4851552_17412521434733_500.jpg"
+                            alt=""></div>
+                    <div class="l_brand_name">얼게이트</div>
+                </div>
+                <div class="l_category">스포츠/레저 > 잡화</div>
+                <div class="l_name">[2PACK] 심리스 스포츠 헤어밴드 러닝 헤드밴드</div>
+                <div class="l_star">별점</div>
+                <div class="l_price">63,660</div>
+                <div class="l_options">
+                    <select name="" id="">
+                        <option value="220">220</option>
+                        <option value="220">225</option>
+                        <option value="220">230</option>
+                    </select>
+                </div>
+                <div class="l_options">
+                    <div>찜</div>
+                    <div>장바구니</div>
+                    <div>구매하기</div>
+                </div>
+
+                <div class="l_tag">
+                    <a href="">#태그</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>
 <!-- splide 슬라이더 기능  -->
 <script src="{% static 'js/splide/splide.min.js'%}"></script>
