@@ -1,3 +1,8 @@
+import os
+import urllib
+from PIL import Image
+from io import BytesIO
+from urllib.request import urlopen
 from django.shortcuts import redirect, render
 from mall.models import Example, ExampleProduct
 from bs4 import BeautifulSoup
@@ -62,12 +67,15 @@ def crawling_shoes_page(request):
     
     if response.status_code == 200: 
         soup = BeautifulSoup(response.content, 'html.parser')
+        
+        # 상품이름
+        names = soup.select(".product-list .ly-name") # | 이거 기준을 split 해서 [0] 값 가져오는 처리
+        # 상품 브랜드
         brands = soup.select(".product-list .ly-brand")
+        # 상품 사진 url ()
         image_urls = soup.select(".product-list .ly-img img")
         links = soup.select(".product-list .ly-img img")
         prices = soup.select(".product-list .ly-price span:nth-child(1)") # 할인율을 안가져올것임
-        names = soup.select(".product-list .ly-name") # | 이거 기준을 split 해서 [0] 값 가져오는 처리
-        # price = models.IntegerField() 
         # description = models.TextField(blank=True) 
         # source_url = models.TextField() 
         # categories = models.ManyToManyField(Category) 
@@ -88,12 +96,15 @@ def crawling_shoes_page(request):
         link_arr = []
         price_arr = []
         name_arr = []
+        
+        originalUrl = 'https://www.shoemarker.co.kr'
+        
         # zip 을 이용해서 데이터를 엮어보자 
-        for brand,image_url,link,price,name in zip(brands,image_urls,links,prices,names):
+        for brand, image_url, link, price, name in zip(brands,image_urls,links,prices,names):
             # brand
             brand_arr.append(brand.get_text().strip())
             # image_url
-            image_url_arr.append("https://www.shoemarker.co.kr/ASP" + image_url["src"])
+            image_url_arr.append(originalUrl + image_url["src"])
             # print(image_url["src"])
             #  # link
             # print(link)
@@ -101,16 +112,46 @@ def crawling_shoes_page(request):
             # print(price.get_text())
             # name
             name_arr.append(name.get_text().split("|")[0].strip())
-        
+
             
             # new_shoes_datas.append(ExampleProduct(
             #                         name = name.text,
             #                         brand = brand.text,
             #                         ))
-            
-        print(image_url_arr)            
+        
+        
+        # 이미지를 직접 저장할경우
+        # 코드 가져온곳 : (https://dev-guardy.tistory.com/102)
+        
+        # save_folder = "images"
+        # images 폴더가 없으면 만들어라
+        # if not os.path.exists(save_folder):
+        #     os.makedirs(save_folder)
+        
+        # for index, img_url  in enumerate(image_url_arr):
+        #     img_response = requests.get(img_url)
+        #     img = Image.open(BytesIO(img_response.content))
+        #     img_name = os.path.join(save_folder, str(index) + '.png')
+        #     img.save(img_name)
+        #     print(f"Saved image: {img_name} (Height: {img.height})")
+        
+        save_folder = "./images"
+        if not os.path.exists(save_folder):
+            os.makedirs(save_folder)
+        print("image_url_arr")
+        print(image_url_arr)
+        for idx, i in enumerate(image_url_arr):
+            # 이미지 요청 및 다운로드
+            file_name = save_folder + "/" + str(idx) + ".jpg"
+            urllib.request.urlretrieve(i, file_name)
+        
+        
+
         print(link_arr)            
-        print(price_arr)            
+        print(price_arr)  
+        
+        
+                 
                   
         # if new_shoes_datas:
         #     # 여러개의 데이터값을..넣으려고...해봤다...
