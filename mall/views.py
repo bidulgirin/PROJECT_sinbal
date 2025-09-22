@@ -4,7 +4,7 @@ from PIL import Image
 from io import BytesIO
 from urllib.request import urlopen
 from django.shortcuts import redirect, render
-from home.models import Brand, Category, Shoe, Review, Cart
+from home.models import Brand, Category, Order, Shoe, Review, Cart
 from django.db.models import Q # 모델의 데이터를 불러올때 조건값을 붙이기 위함 
 from bs4 import BeautifulSoup
 import requests
@@ -70,11 +70,79 @@ def mall_parchase(request):
     # 만약 ids 라는 값을 찾는데 Shoe 모델에 값이 없다면
     # 장바구니에서부터 뜨면 안됨 
 
+    # 넣을 데이터 예시
+
+    
+
+
     # 결제를 요청
     if request.method == "POST":
         # 받을것 
-        pass
+        print(request.POST)
+        result = request.POST
+        # user 정보 user 없으면 날려버리는 거 안함
+        conn_user = request.user
+        # 이게 한 주문 
+        #     <QueryDict: {
+        # 'name': ['itsc'], 
+        # 'addr_num': [''], 
+        # 'address': [''], 
+        # 'detail_address': [''], 
+        # 'phone': [''], 
+        # 'order_message': [''], 
+        # 'shoe_id[]': ['1', '2'], 
+        # 'cart_id[]': ['1', '2'], 
+        # 'shoe_name[]': ['나이키 V2K 런', '멋진신발'], 
+        # 'price[]': ['126000', '3'], 
+        # 'shoe_size[]': ['220', '250'], 
+        # 'quantity[]': ['3', '5']}>
+        # 'total_price': ['126003']
 
+        name = result["name"]
+        addr_num = result["addr_num"] or ""
+        address = result["address"] or ""
+        detail_address = result["detail_address"] or ""
+        phone = result["phone"] or ""
+        order_message = result["order_message"] or ""
+        # 배열값으로 나올것이여
+        shoe_id = result["shoe_id[]"] or ""
+        cart_id = result["cart_id[]"] or ""
+        shoe_name = result["shoe_name[]"] or ""
+        price = result["price[]"] or ""
+        shoe_size = result["shoe_size[]"] or ""
+        quantity = result["quantity[]"] or ""
+        total_price = result["total_price"] or ""
+
+        # Order model 에는 주문만 들어가게하기 => 한개 들어감 =======================
+
+        # order = Order.objects.create(
+        #     user = conn_user, # 내정보
+        #     total_price = total_price,
+        #     name = name, 
+        #     phone = , 
+        #     addr_num =,
+        #     address =,
+        #     detail_address = ,
+        #     order_message = ,
+        #     pay_method = ,
+
+        # )
+
+
+
+        # OrderItem model 에는 상품별로 들어가게하기 => 여러개 들어감 =======================
+
+
+        # class OrderItem(models.Model): 
+        # order = models.ForeignKey(Order, on_delete=models.CASCADE) 
+        # shoe = models.ForeignKey(Shoe, on_delete=models.CASCADE) 
+        # size = models.CharField(max_length=10) 
+        # quantity = models.IntegerField() 
+        # price = models.IntegerField() 
+        
+
+        # Order 의 id 를 넘겨야함 # 구매정보를 알수있도록
+        #return redirect("parchase_completed") # 구매완료페이지로 넘기기 
     return render(request, "mall/parchase.html", context)
 # 삼품구매완료
 def mall_parchase_completed(request):

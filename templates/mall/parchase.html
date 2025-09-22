@@ -5,19 +5,9 @@
 <!-- 콘텐츠 영역 -->
 <div class="container">
     <form method="POST" action="{% url 'parchase' %}">
+        {% csrf_token %}
         <div class="row">
             <div class="col">
-                <!-- 
-                결제 시 필요한 필드
-                user = models.ForeignKey(User, on_delete=models.CASCADE) 
-                total_price = models.IntegerField() 
-                name = models.CharField(max_length=50) 
-                phone = models.CharField(max_length=20) 
-                address = models.TextField() 
-                status = models.CharField(max_length=20, default='주문완료') 
-                created_at = models.DateTimeField(auto_now_add=True) 
-                
-                -->
                 <h1>배송지(유저정보자동으로불러오기)</h1>
                 <div>
                     <!-- 아이디 말고 실제 이름 -->
@@ -28,17 +18,15 @@
                         placeholder="이름"
                         value="{{user}}"
                         autofocus
-                        required
                     />
                 </div>
                 <div>
                     <label for="">주소</label>
                     <input
                         type="text"
-                        id="sample6_postcode"
+                        id="postcode"
                         placeholder="우편번호"
                         name="addr_num"
-                        required
                     />
                     <input
                         type="button"
@@ -204,6 +192,7 @@
                                 type="text"
                                 hidden
                             />
+                            <p id="total_price_p"></p>
                         </td>
                     </tr>
                     <tr>
@@ -216,7 +205,7 @@
                     2. 결제수단을 입력하였는지 확인하는 js 코드 필요
                     3. 모두 입력했으면 결제하기 버튼 활성화시키기
                 -->
-                <button class="btn btn-primary">결제하기</button>
+                <button class="btn btn-primary" type="submit">결제하기</button>
             </div>
         </div>
     </form>
@@ -269,8 +258,7 @@
                 }
 
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById("sample6_postcode").value =
-                    data.zonecode;
+                document.getElementById("postcode").value = data.zonecode;
                 document.getElementById("address").value = addr;
                 // 커서를 상세주소 필드로 이동한다.
                 document.getElementById("detailAddress").focus();
@@ -290,9 +278,10 @@
     });
     // 나온값 form input 입력
     const total_price_input = document.querySelector("#total_price");
+    const total_price_p = document.querySelector("#total_price_p");
     total_price_input.value = total_price;
     // html 에도 입력
-    total_price_input.parentElement.innerText += `${addComma(total_price)} 원`;
+    total_price_p.innerText += `${addComma(total_price)} 원`;
 
     // 체크 박스 하나만
 
