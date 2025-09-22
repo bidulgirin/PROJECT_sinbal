@@ -3,5 +3,5 @@ from mypage import views
 
 
 urlpatterns = [
-    path("", )
+    #path("")
 ]
