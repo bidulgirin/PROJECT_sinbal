@@ -7,14 +7,8 @@
     <div class="d-flex">
         <div class="flex-fill l_pr">
             <div class="l_pr_sumbnail">
-                <!-- <div class="img-thumbnail selected">
-                        <img
-                            src="https://cdn.shoemarker.co.kr/Upload/ProductImage/030402/48772_1_0500_0500.gif"
-                            alt=""
-                        />
-                    </div> -->
-
                 <div class="wrapper">
+                    <!-- 썸네일이 여러개일때 표기 -->
                     <div class="img-selection">
                         <div class="img-thumbnail selected">
                             <img
@@ -36,6 +30,7 @@
                             />
                         </div>
                     </div>
+                    <!-- 썸네일이 여러개일때 표기 end -->
                     <div class="big-img">
                         <img
                             src="http://vignette1.wikia.nocookie.net/overwatch/images/b/b7/CuteSprayAvatars-Tracer.png/revision/latest?cb=20160511194930"
@@ -45,11 +40,13 @@
                 </div>
             </div>
             <div id="tab_container">
-                <div class="tabs-container">
-                    <button class="btn active" data-id="detail">
+                <div class="d-flex tabs-container">
+                    <button class="btn active flex-fill" data-id="detail">
                         상세보기
                     </button>
-                    <button class="btn" data-id="reviews">후기 (0) 개</button>
+                    <button class="btn flex-fill" data-id="reviews">
+                        후기 (0) 개
+                    </button>
                 </div>
                 <div class="tabs-content">
                     <!-- item 1 -->
@@ -130,14 +127,12 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="flex-fill">
-                            <button class="btn text-center">장바구니</button>
-                        </div>
-                        <div class="flex-fill">
-                            <button class="btn btn-primary text-center">
-                                구매하기
-                            </button>
-                        </div>
+                        <button class="btn text-center flex-fill btn-light">
+                            장바구니
+                        </button>
+                        <button class="btn btn-primary text-center flex-fill">
+                            구매하기
+                        </button>
                     </div>
                 </div>
                 <div class="l_tag">

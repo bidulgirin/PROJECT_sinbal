@@ -53,15 +53,11 @@ ul.cards {
         display: block;
     }
 }
-
 /* 탭 style */
-.tabs-container {
-    max-width: 750px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-}
+
 .l_pr {
-    max-width: 500px;
+    max-width: 550px;
+    min-width: 550px;
     .l_pr_sumnail img {
         width: 100%;
     }
@@ -93,6 +89,8 @@ ul.cards {
     height: 30px;
     position: relative;
     display: flex;
+    justify-content: center;
+    gap: 3px;
     /*사용자정의: var 함수로 핸들링*/
     --c: #ff6b81;
 }
@@ -148,7 +146,7 @@ ul.cards {
     position: relative;
     margin: 0 auto;
     width: 100%;
-    padding-left: 150px;
+    padding-left: 120px;
 }
 .img-selection {
     position: absolute;
@@ -181,8 +179,8 @@ ul.cards {
 
 .big-img {
     position: relative;
-    width: 345px;
-    height: 345px;
+    width: 400px;
+    height: 400px;
     border: 1px solid #ddd;
     cursor: zoom-in;
     overflow: hidden;

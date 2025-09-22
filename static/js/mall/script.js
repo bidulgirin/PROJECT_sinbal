@@ -65,8 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
     incr.addEventListener("click", increase);
 
     // 이미지 썸네일
-
-    var thumbs = $(".img-selection").find("img");
+    const thumbs = $(".img-selection").find("img");
 
     thumbs.click(function () {
         var src = $(this).attr("src");
@@ -81,13 +80,13 @@ document.addEventListener("DOMContentLoaded", function () {
         $(this).addClass("selected");
     });
 
-    var zoom = $(".big-img").find("img").attr("src");
+    const zoom = $(".big-img").find("img").attr("src");
     $(".big-img").append('<img class="zoom" src="' + zoom + '">');
     $(".big-img").mouseenter(function () {
         $(this).mousemove(function (event) {
-            var offset = $(this).offset();
-            var left = event.pageX - offset.left;
-            var top = event.pageY - offset.top;
+            const offset = $(this).offset();
+            const left = event.pageX - offset.left;
+            const top = event.pageY - offset.top;
 
             $(this).find(".zoom").css({
                 width: "200%",
