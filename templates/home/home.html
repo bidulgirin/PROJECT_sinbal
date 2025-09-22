@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이런신발</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            background-color: #f8f9fa;  /* Bootstrap 색상 이름 사용 */
+        }
+        
+        .price {
+            color: #0d6efd;  /* Bootstrap primary 색상 */
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- 네비게이션 바 (Bootstrap 문서에서 복사) -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <span class="navbar-brand mx-auto">이런신발</span>
+            <button class="btn btn-outline-light">로그인</button>
+        </div>
+    </nav>
+
+    <!-- 메인 컨테이너 -->
+    <div class="container mt-4">
+        <!-- 메인 이미지 (Bootstrap 이미지 클래스 활용) -->
+        <div class="text-center mb-4">
+            <img src="" class="img-fluid rounded shadow" alt="메인 배너">
+        </div>
+
+        <!-- 공지사항 (Alert 컴포넌트 활용) -->
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            <i class="bi bi-megaphone-fill"></i>
+            <strong>공지:</strong> 김효훈에게 맛있는 먹이(커피 및 에너지드링크)를 주세요
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <!-- 메인 콘텐츠 영역 -->
+        <div class="row">
+
+            <!-- 왼쪽 사이드바 - 카테고리 -->
+            <div class="col-md-3 mb-4">
+                <div class="card shadow-sm">
+
+                    <!-- 카테고리 맨 위 글자 -->
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">
+                            <i class="bi bi-list"></i> 카테고리
+                        </h5>
+                    </div>
+
+                    <!-- 카테고리 내 리스트 -->
+                    <div class="card-body">
+                        <div class="list-group list-group-flush">
+                            <a href="" class="list-group-item list-group-item-action">
+                                <i class="bi bi-chevron-right"></i> 러닝화
+                            </a>
+                            <a href="" class="list-group-item list-group-item-action">
+                                <i class="bi bi-chevron-right"></i> 트레일화
+                            </a>
+                            <a href="" class="list-group-item list-group-item-action">
+                                <i class="bi bi-chevron-right"></i> 워킹화
+                            </a>
+                            <a href="" class="list-group-item list-group-item-action">
+                                <i class="bi bi-chevron-right"></i> 레이싱화
+                            </a>
+                            <a href="" class="list-group-item list-group-item-action">
+                                <i class="bi bi-chevron-right"></i> 브랜드별
+                            </a>
+                        </div>
+                        <button class="btn btn-primary btn-sm mt-3 w-100">전체 카테고리</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 가운데 메인 콘텐츠 -->
+            <div class="col-md-7">
+
+                <!-- 커뮤니티 인기글 섹션 -->
+                <div class="card shadow-sm mb-4">
+                    
+                    <!-- 커뮤니티 맨 위 부분 -->
+                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <i class="bi bi-fire text-danger"></i> 커뮤니티 인기글
+                        </h5>
+                        <a href="{% url 'community' %}" class="btn btn-sm btn-primary">
+                            더보기 <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+
+                    <!-- 커뮤니티 게시글 3개 -->
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <i class="bi bi-chat-dots text-primary"></i>
+                            김효훈 수면시간 보장 시급
+                            <span class="badge bg-danger float-end">HOT</span>
+                        </li>
+                        <li class="list-group-item">
+                            <i class="bi bi-question-circle text-warning"></i>
+                            질문) 최정후 학생 팀 술 회식 안여는지?
+                        </li>
+                        <li class="list-group-item">
+                            <i class="bi bi-trophy text-success"></i>
+                            런린이 첫 하프마라톤 완주했습니다
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 쇼핑몰 섹션 -->
+                <div class="card shadow-sm mb-4">
+
+                    <!-- 쇼핑몰 섹션 맨 위 부분 -->
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">
+                            <i class="bi bi-star-fill text-warning"></i> 인기 러닝화
+                        </h5>
+                    </div>
+
+                    <!-- 신발 상품 종류 -->
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <!-- 신발 카드 1 -->
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card h-100">
+                                    <img src="" class="card-img-top" alt="신발">
+                                    <div class="card-body">
+                                        <h6 class="card-title">나이키 페가수스 41</h6>
+                                        <p class="price">₩159,000</p>
+                                        <button class="btn btn-primary btn-sm w-100">상세보기</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 신발 카드 2 -->
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card h-100">
+                                    <img src="" class="card-img-top" alt="신발">
+                                    <div class="card-body">
+                                        <h6 class="card-title">아식스 젤님버스 26</h6>
+                                        <p class="price">₩189,000</p>
+                                        <button class="btn btn-primary btn-sm w-100">상세보기</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 신발 카드 3 -->
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card h-100">
+                                    <img src="" class="card-img-top" alt="신발">
+                                    <div class="card-body">
+                                        <h6 class="card-title">호카 클리프톤 9</h6>
+                                        <p class="price">₩179,000</p>
+                                        <button class="btn btn-primary btn-sm w-100">상세보기</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 신발 카드 4 -->
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card h-100">
+                                    <img src="" class="card-img-top" alt="신발">
+                                    <div class="card-body">
+                                        <h6 class="card-title">뉴발란스 1080</h6>
+                                        <p class="price">₩199,000</p>
+                                        <button class="btn btn-primary btn-sm w-100">상세보기</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 신발 카드 5 -->
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card h-100">
+                                    <img src="" class="card-img-top" alt="신발">
+                                    <div class="card-body">
+                                        <h6 class="card-title">아디다스 울트라부스트</h6>
+                                        <p class="price">₩239,000</p>
+                                        <button class="btn btn-primary btn-sm w-100">상세보기</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 신발 카드 6 -->
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card h-100">
+                                    <img src="" class="card-img-top" alt="신발">
+                                    <div class="card-body">
+                                        <h6 class="card-title">브룩스 고스트 15</h6>
+                                        <p class="price">₩169,000</p>
+                                        <button class="btn btn-primary btn-sm w-100">상세보기</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 마라톤 일정 섹션 -->
+                <div class="card shadow-sm">
+
+                    <!-- 마라톤 섹션 맨 위 부분-->
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">
+                            <i class="bi bi-calendar-event"></i> 마라톤 대회 일정
+                        </h5>
+                    </div>
+
+                    <!-- 마라톤 일정 리스트 -->
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item">
+                            <div class="d-flex justify-content-between">
+                                <strong>한강마라톤</strong>
+                                <span class="text-muted">2025년 9월 20일</span>
+                            </div>
+                        </div>
+                        <div class="list-group-item">
+                            <div class="d-flex justify-content-between">
+                                <strong>혈압마라톤</strong>
+                                <span class="text-muted">2025년 9월 21일</span>
+                            </div>
+                        </div>
+                        <div class="list-group-item">
+                            <div class="d-flex justify-content-between">
+                                <strong>신촌IT마라톤</strong>
+                                <span class="text-muted">2025년 9월 22일</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 오른쪽 사이드바 - 광고 -->
+            <div class="col-md-2">
+                <div class="card shadow-sm">
+
+                    <!-- 광고인걸 알리는 부분 -->
+                    <div class="card-header bg-secondary text-white text-center">
+                        <small>SPONSORED</small>
+                    </div>
+
+                    <!-- 배너 영역 -->
+                    <div class="card-body p-2">
+                        <div class="bg-light rounded p-5 text-center" style="height: 400px;">
+                            <i class="bi bi-megaphone display-1 text-secondary"></i>
+                            <p class="mt-3">광고 영역</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
