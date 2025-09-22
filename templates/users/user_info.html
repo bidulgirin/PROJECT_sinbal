@@ -1,0 +1,20 @@
+{% extends 'base/base.html' %}
+{% block content %}
+<div id="per-info">
+    <div id="user-info">
+        {{ user.image }}
+        이름  : {{ user.name }}
+        소개 : {{ user.description }}
+    </div>
+    <div id="user-comment">
+        {% for comment in comments %}
+            {{ comment }}
+        {% endfor %}
+    </div>
+    <div id="user-review">
+        {% for review in reviews %}
+            {{ review }}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

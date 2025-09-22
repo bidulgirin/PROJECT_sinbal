@@ -1,15 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
-    <div id="order-list">
-        <div id="order_list_row">주문 Id | 사진 | 제품이름 | 가격 | 상세정보(사이즈) | 개수</div>
-        {% for shoe in shoes %}
-            <p>{{ shoe.id }} {{ shoe.image_url }} {{ shoe.name }} {{ shoe.price }} {{ shoe.상세정보 }}({{ shoe.size }})  {{ shoe.갯수 }}</p>
-        {% endfor %}
+{% extends 'base/base.html' %}
+{% block content %}
+    <div id="order_list_row">
+        주문 Id | 사진 | 제품이름 | 가격 | 상세정보(사이즈) | 개수
     </div>
-</body>
-</html>
+{% for item in items %}
+    <p>
+        {{ item.order.id }} {{ item.shoe.image_url }} {{ item.order.name }} {{ item.price }} 
+        {{ item.shoe.description }}({{ item.size }}) {{ item.quantity }}
+    </p>
+{% endfor %}
+{% endblock %}
