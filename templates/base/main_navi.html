@@ -1,49 +1,96 @@
-{% load static %}
-{% block main_navi %}
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+{% load static %} {% block main_navi %}
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css"
+/>
 <nav class="navbar navbar-expand-md bg-body-tertiary">
     <div class="container-xl">
         <a class="navbar-brand" href="#">
-            <img src="https://codingyaar.com/wp-content/uploads/coding-yaar-logo.png" alt="">
+            <img
+                src="https://codingyaar.com/wp-content/uploads/coding-yaar-logo.png"
+                alt=""
+            />
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+        >
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    <a class="nav-link active" aria-current="page" href="#"
+                        >Home</a
+                    >
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Community</a>
+                    <a class="nav-link active" aria-current="page" href="#"
+                        >Community</a
+                    >
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="{% url 'mall_main' %}" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
+                    <a
+                        class="nav-link dropdown-toggle"
+                        href="{% url 'mall_main' %}"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                    >
                         Mall
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/mall/product/example/">slug</a></li>
+                        <li>
+                            <a
+                                class="dropdown-item"
+                                href="/mall/product/example/"
+                                >slug</a
+                            >
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="{% url 'mall_main' %}" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
+                    <a
+                        class="nav-link dropdown-toggle"
+                        href="{% url 'mall_main' %}"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                    >
                         Mypage
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#">장바구니</a></li>
-                        <li><a class="dropdown-item" href="#">나의주문목록</a></li>
-                        <li><a class="dropdown-item" href="#">위시리스트</a></li>
+                        <li>
+                            <a class="dropdown-item" href="#">나의주문목록</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#">위시리스트</a>
+                        </li>
                         <li><a class="dropdown-item" href="#">내글관리</a></li>
                         <li><a class="dropdown-item" href="#">정보수정</a></li>
                     </ul>
                 </li>
             </ul>
             <div class="search-and-icons">
-                <form class="d-flex mb-2 me-2" role="search">
-                    <input class="form-control me-2" type="search" aria-label="Search">
+                <form
+                    class="d-flex mb-2 me-2"
+                    role="search"
+                    method="GET"
+                    action="{% url 'product' %}"
+                >
+                    <input
+                        class="form-control me-2"
+                        type="search"
+                        aria-label="Search"
+                        name="keyword"
+                    />
+                    <button type="submit" hidden>검색</button>
                 </form>
                 <div class="user-icons d-flex mb-2">
                     <div class="profile"><i class="bi bi-person"></i></div>

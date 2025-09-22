@@ -5,6 +5,7 @@ from io import BytesIO
 from urllib.request import urlopen
 from django.shortcuts import redirect, render
 from home.models import Brand, Category, Shoe, Review
+from django.db.models import Q # 모델의 데이터를 불러올때 조건값을 붙이기 위함 
 from bs4 import BeautifulSoup
 import requests
 
@@ -13,7 +14,7 @@ import requests
 def mall_main(request):
     return render(request, "mall/index.html")
 
-# 상품(모두보기,런닝화,구두...)
+# 상품 (검색 결과 표기)
 def mall_product(request):
     if request.method == "POST" :
         pass
@@ -21,10 +22,10 @@ def mall_product(request):
         # 검색했을때 
         if request.GET.get("keyword"):
             keyword = request.GET.get("keyword")
-            datas = Shoe.objects.filter(title__contains = keyword )
+            # 제목 또는 브랜드로 검색이 되야함
+            datas = Shoe.objects.filter( Q(name__contains = keyword) | Q(brand__name__contains = keyword) ).order_by("-pk")
             # 검색안했을때
         else:
-
             datas = Shoe.objects.all()
     context = {
         "datas" : datas,
