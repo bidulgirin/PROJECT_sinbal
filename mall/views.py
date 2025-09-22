@@ -4,7 +4,7 @@ from PIL import Image
 from io import BytesIO
 from urllib.request import urlopen
 from django.shortcuts import redirect, render
-from mall.models import Example, ExampleProduct
+from home.models import Brand, Category, Shoe, Review
 from bs4 import BeautifulSoup
 import requests
 
@@ -14,17 +14,26 @@ def mall_main(request):
     return render(request, "mall/index.html")
 
 # 상품(모두보기,런닝화,구두...)
-def mall_product(request, slug):
-    datas = Example.objects.filter(slug=slug)
+def mall_product(request):
+    if request.method == "POST" :
+        pass
+    else : # get 으로 뭐 받아왔을때
+        # 검색했을때 
+        if request.GET.get("keyword"):
+            keyword = request.GET.get("keyword")
+            datas = Shoe.objects.filter(title__contains = keyword )
+            # 검색안했을때
+        else:
+
+            datas = Shoe.objects.all()
     context = {
         "datas" : datas,
-        "category" : slug,
     }
     return render(request, "mall/product.html", context)
 
 # 상품상세
 def mall_product_detail(request, id):
-    data = Example.objects.get(id=id)
+    data = Shoe.objects.get(id=id)
     context = {
         "data" : data,
     }
@@ -35,6 +44,23 @@ def mall_parchase(request):
 # 삼품구매완료
 def mall_parchase_completed(request):
     return render(request, "mall/parchase_completed.html")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # 슈마커에서 데이터 크롤링해오기
@@ -111,13 +137,10 @@ def crawling_shoes_page(request):
             # print(price.get_text())
             # name
             name_arr.append(name.get_text().split("|")[0].strip())
-
-            
             # new_shoes_datas.append(ExampleProduct(
             #                         name = name.text,
             #                         brand = brand.text,
             #                         ))
-        
         
         # 이미지를 직접 저장할경우
         # 코드 가져온곳 : (https://dev-guardy.tistory.com/102)
@@ -134,15 +157,16 @@ def crawling_shoes_page(request):
         #     img.save(img_name)
         #     print(f"Saved image: {img_name} (Height: {img.height})")
         
-        save_folder = "./images"
-        if not os.path.exists(save_folder):
-            os.makedirs(save_folder)
-        print("image_url_arr")
-        print(image_url_arr)
-        for idx, i in enumerate(image_url_arr):
-            # 이미지 요청 및 다운로드
-            file_name = save_folder + "/" + str(idx) + ".jpg"
-            urllib.request.urlretrieve(i, file_name)
+        # 이 기능을 필요없다~! # 이미지 직접저장시 그 파일을 어디에 처리할것인가
+        # save_folder = "./images"
+        # if not os.path.exists(save_folder):
+        #     os.makedirs(save_folder)
+        # print("image_url_arr")
+        # print(image_url_arr)
+        # for idx, i in enumerate(image_url_arr):
+        #     # 이미지 요청 및 다운로드
+        #     file_name = save_folder + "/" + str(idx) + ".jpg"
+        #     urllib.request.urlretrieve(i, file_name)
         
         
 

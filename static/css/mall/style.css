@@ -1,7 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap");
+
 .l_slide {
     width: 100%;
     min-height: 300px;
-    background-color: rgb(228, 228, 228);
 }
 ul.cards {
     list-style: none;
@@ -50,5 +51,94 @@ ul.cards {
         width: 100%;
         height: 100%;
         display: block;
+    }
+}
+
+/* 탭 style */
+.tabs-container {
+    max-width: 750px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+.l_pr {
+    max-width: 500px;
+    .l_pr_sumnail img {
+        width: 100%;
+    }
+}
+.content {
+    display: none;
+}
+.product_detail img {
+    width: 100%;
+}
+.content .cards li {
+    max-width: 47%;
+}
+.btn.active {
+    background-color: rgb(37, 37, 37);
+    color: #eee;
+    box-shadow: none;
+}
+
+.content.active {
+    display: block;
+}
+
+.l_product_option {
+    top: 50px;
+}
+
+.heart {
+    height: 30px;
+    position: relative;
+    display: flex;
+    /*사용자정의: var 함수로 핸들링*/
+    --c: #ff6b81;
+}
+.heart svg {
+    width: 30px;
+    position: relative;
+}
+.heart .heart2 {
+    fill: #eee;
+    stroke: var(--c);
+    stroke-width: 40px;
+    stroke-dasharray: 3000;
+    stroke-dashoffset: 3000;
+}
+.heart #checkbox:checked + svg .heart2 {
+    animation: drawHeart 0.5s linear forwards;
+}
+.heart #checkbox:checked + svg {
+    animation: beat 0.6s linear forwards;
+}
+/* 찜 애니메이션 효과 */
+@keyframes drawHeart {
+    0% {
+        stroke-dashoffset: 2600;
+    }
+    80% {
+        fill: #eee;
+        stroke-dashoffset: 0;
+    }
+    100% {
+        fill: var(--c);
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes beat {
+    0% {
+        transform: scale(1);
+    }
+    70% {
+        transform: scale(1);
+    }
+    80% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
     }
 }
