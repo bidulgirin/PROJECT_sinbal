@@ -1,21 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <div id="wish-list">
-        {% for shoe in shoes %}
-            <button></button>{{ shoe.image_url }} {{ shoe.name }} {{ shoe.price }} {{ shoe.size }}  {{ shoe.개수 }}
-            {{ shoe.price }}*{{ shoe.개수 }}원
-            {% if url=wish_list %}
-                <button><a href="{% url '장바구니 url 이름' %}">장바구니</a></button>
-            {% else %}
-                <button><a href="{% url '구매하기 view redirect url' %}">구매하기</a></button>
-            {% endif %}
-        {% endfor %}
-    </div>
-</body>
-</html>
+<!-- base.html 기본 틀 사용 -->
+{% extends 'base/base.html' %}
+<!-- content 안에 아래 내용 쑤셔 넣을 예정 -->
+{% block content %}
+<div id="wish-cart-list">
+    {% for shoe in shoes %}
+        <!-- 체크박스를 누르면 정보를 보내는 폼 작성 -->
+        <form method="POST">
+        {% csrf_token %}
+        <!-- 체크박스 된 것들만 가격 계산 -->
+        <input type="checkbox" name="order_list">
+        {{ shoe.image_url }} {{ shoe.name }} {{ shoe.price }}
+        {{ shoe.size }} {{ shoe.개수 }} {{ shoe.price }}*{{ shoe.개수 }}원
+        <!-- 체크박스당 삭제 버튼 추가 -->
+        <a href="{% url 'wish_delete' %}" type="button">삭제</a>
+    {% endfor %}
+    <!-- 장바구니 사이트로 이동하는 버튼 -->
+    <a type="button" href="{% url '장바구니 url 이름' %}">장바구니</a>
+</div>
+{% endblock %}
