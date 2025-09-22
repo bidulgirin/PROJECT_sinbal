@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="wish-list">
+        {% for shoe in shoes %}
+            <button></button>{{ shoe.image_url }} {{ shoe.name }} {{ shoe.price }} {{ shoe.size }}  {{ shoe.개수 }}
+            {{ shoe.price }}*{{ shoe.개수 }}원
+            {% if url=wish_list %}
+                <button><a href="{% url '장바구니 url 이름' %}">장바구니</a></button>
+            {% else %}
+                <button><a href="{% url '구매하기 view redirect url' %}">구매하기</a></button>
+            {% endif %}
+        {% endfor %}
+    </div>
+</body>
+</html>
