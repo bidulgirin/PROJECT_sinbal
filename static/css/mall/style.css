@@ -142,3 +142,57 @@ ul.cards {
         transform: scale(1);
     }
 }
+
+/* 썸네일 css */
+.l_pr_sumbnail {
+    position: relative;
+    margin: 0 auto;
+    width: 100%;
+    padding-left: 150px;
+}
+.img-selection {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100px;
+}
+
+.img-thumbnail:first-of-type {
+    margin-top: 0;
+}
+
+.img-thumbnail {
+    margin-top: 10px;
+    width: 80px;
+    height: 80px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    transition: 0.3s ease;
+    opacity: 0.5;
+}
+
+.img-thumbnail:hover {
+    opacity: 1;
+}
+
+.img-thumbnail.selected {
+    opacity: 1;
+}
+
+.big-img {
+    position: relative;
+    width: 345px;
+    height: 345px;
+    border: 1px solid #ddd;
+    cursor: zoom-in;
+    overflow: hidden;
+}
+
+.big-img img.zoom {
+    position: absolute;
+    transition: width 0.2s ease-out, opacity 0.2s ease-out 0.2s;
+}
+
+.display-img {
+    width: 100%;
+}
