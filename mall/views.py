@@ -4,7 +4,8 @@ from PIL import Image
 from io import BytesIO
 from urllib.request import urlopen
 from django.shortcuts import redirect, render
-from mall.models import Example, ExampleProduct
+from home.models import Brand, Category, Order, Shoe, Review, Cart
+from django.db.models import Q # 모델의 데이터를 불러올때 조건값을 붙이기 위함 
 from bs4 import BeautifulSoup
 import requests
 
@@ -13,28 +14,156 @@ import requests
 def mall_main(request):
     return render(request, "mall/index.html")
 
-# 상품(모두보기,런닝화,구두...)
-def mall_product(request, slug):
-    datas = Example.objects.filter(slug=slug)
+# 상품 (검색 결과 표기)
+def mall_product(request):
+    if request.method == "POST" :
+        pass
+    else : # get 으로 뭐 받아왔을때
+        # 검색했을때 
+        if request.GET.get("keyword"):
+            keyword = request.GET.get("keyword")
+            # 제목 또는 브랜드로 검색이 되야함
+            datas = Shoe.objects.filter( Q(name__contains = keyword) | Q(brand__name__contains = keyword) ).order_by("-pk")
+            # 검색안했을때
+        else:
+            datas = Shoe.objects.all()
     context = {
         "datas" : datas,
-        "category" : slug,
     }
     return render(request, "mall/product.html", context)
 
 # 상품상세
 def mall_product_detail(request, id):
-    data = Example.objects.get(id=id)
+    data = Shoe.objects.get(id=id)
     context = {
         "data" : data,
     }
     return render(request, "mall/product_detail.html", context)
+
 # 상품결제
+#def mall_parchase(request, ids):
 def mall_parchase(request):
-    return render(request, "mall/parchase.html")
+     # 선택한 상품의 id값의 배열을 가져온다
+    ids = [1,2,3] # 예를들어 상품번호가 1, 2, 3 이다혀면
+    print(ids)
+
+    # 로그인한 계정의 장바구니에서 선택한 값을 가져온다
+    # class Cart(models.Model): 
+    # user = models.ForeignKey(User, on_delete=models.CASCADE) 
+    # shoe = models.ForeignKey(Shoe, on_delete=models.CASCADE) 
+    # size = models.CharField(max_length=10) 
+    # quantity = models.IntegerField(default=1) 
+    # created_at = models.DateTimeField(auto_now_add=True) 
+
+    # user 가 가지고 있는 장바구니 목록 중
+    # 체크 박스해서 가져온 id(장바구니 id )를 가져온다
+    # 자신의 장바구니 라고 안해도
+    # 장바구니에 담긴 녀석들은 본인꺼일것임. 
+    # 이건 장바구니 페이지에서 장바구니 데이터 불러올때 고민해야하는 거고
+    cart_datas = Cart.objects.filter(id__in = ids)
+
+
+    # 가져온 card_data 를 뿌려준다. 
+    context = {
+        "cart_datas" : cart_datas,
+    }
+    # 만약 ids 라는 값을 찾는데 Shoe 모델에 값이 없다면
+    # 장바구니에서부터 뜨면 안됨 
+
+    # 넣을 데이터 예시
+
+    
+
+
+    # 결제를 요청
+    if request.method == "POST":
+        # 받을것 
+        print(request.POST)
+        result = request.POST
+        # user 정보 user 없으면 날려버리는 거 안함
+        conn_user = request.user
+        # 이게 한 주문 
+        #     <QueryDict: {
+        # 'name': ['itsc'], 
+        # 'addr_num': [''], 
+        # 'address': [''], 
+        # 'detail_address': [''], 
+        # 'phone': [''], 
+        # 'order_message': [''], 
+        # 'shoe_id[]': ['1', '2'], 
+        # 'cart_id[]': ['1', '2'], 
+        # 'shoe_name[]': ['나이키 V2K 런', '멋진신발'], 
+        # 'price[]': ['126000', '3'], 
+        # 'shoe_size[]': ['220', '250'], 
+        # 'quantity[]': ['3', '5']}>
+        # 'total_price': ['126003']
+
+        name = result["name"]
+        addr_num = result["addr_num"] or ""
+        address = result["address"] or ""
+        detail_address = result["detail_address"] or ""
+        phone = result["phone"] or ""
+        order_message = result["order_message"] or ""
+        # 배열값으로 나올것이여
+        shoe_id = result["shoe_id[]"] or ""
+        cart_id = result["cart_id[]"] or ""
+        shoe_name = result["shoe_name[]"] or ""
+        price = result["price[]"] or ""
+        shoe_size = result["shoe_size[]"] or ""
+        quantity = result["quantity[]"] or ""
+        total_price = result["total_price"] or ""
+
+        # Order model 에는 주문만 들어가게하기 => 한개 들어감 =======================
+
+        # order = Order.objects.create(
+        #     user = conn_user, # 내정보
+        #     total_price = total_price,
+        #     name = name, 
+        #     phone = , 
+        #     addr_num =,
+        #     address =,
+        #     detail_address = ,
+        #     order_message = ,
+        #     pay_method = ,
+
+        # )
+
+
+
+        # OrderItem model 에는 상품별로 들어가게하기 => 여러개 들어감 =======================
+
+
+        # class OrderItem(models.Model): 
+        # order = models.ForeignKey(Order, on_delete=models.CASCADE) 
+        # shoe = models.ForeignKey(Shoe, on_delete=models.CASCADE) 
+        # size = models.CharField(max_length=10) 
+        # quantity = models.IntegerField() 
+        # price = models.IntegerField() 
+        
+
+        # Order 의 id 를 넘겨야함 # 구매정보를 알수있도록
+        #return redirect("parchase_completed") # 구매완료페이지로 넘기기 
+    return render(request, "mall/parchase.html", context)
 # 삼품구매완료
 def mall_parchase_completed(request):
     return render(request, "mall/parchase_completed.html")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # 슈마커에서 데이터 크롤링해오기
@@ -111,13 +240,10 @@ def crawling_shoes_page(request):
             # print(price.get_text())
             # name
             name_arr.append(name.get_text().split("|")[0].strip())
-
-            
             # new_shoes_datas.append(ExampleProduct(
             #                         name = name.text,
             #                         brand = brand.text,
             #                         ))
-        
         
         # 이미지를 직접 저장할경우
         # 코드 가져온곳 : (https://dev-guardy.tistory.com/102)
@@ -134,15 +260,16 @@ def crawling_shoes_page(request):
         #     img.save(img_name)
         #     print(f"Saved image: {img_name} (Height: {img.height})")
         
-        save_folder = "./images"
-        if not os.path.exists(save_folder):
-            os.makedirs(save_folder)
-        print("image_url_arr")
-        print(image_url_arr)
-        for idx, i in enumerate(image_url_arr):
-            # 이미지 요청 및 다운로드
-            file_name = save_folder + "/" + str(idx) + ".jpg"
-            urllib.request.urlretrieve(i, file_name)
+        # 이 기능을 필요없다~! # 이미지 직접저장시 그 파일을 어디에 처리할것인가
+        # save_folder = "./images"
+        # if not os.path.exists(save_folder):
+        #     os.makedirs(save_folder)
+        # print("image_url_arr")
+        # print(image_url_arr)
+        # for idx, i in enumerate(image_url_arr):
+        #     # 이미지 요청 및 다운로드
+        #     file_name = save_folder + "/" + str(idx) + ".jpg"
+        #     urllib.request.urlretrieve(i, file_name)
         
         
 

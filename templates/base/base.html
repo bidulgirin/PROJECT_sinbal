@@ -2,33 +2,38 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!-- 검색 키워드 -->
+        <meta name="Keywords" content="런닝화, 신발, 런닝" />
+        <!-- 검색 결과에 표시되는 문자 지정 -->
+        <meta name="Description" content="런닝전문 쇼핑몰 커뮤니티 이런신발" />
+        <!-- 부트스트랩 css -->
+        <link
+            rel="stylesheet"
+            href="{% static 'css/bootstrap/bootstrap.min.css'%}"
+        />
+        <!-- jQuery js 연결 -->
+        <script src="{% static 'js/jquery/jquery-3.7.1.min.js' %}"></script>
+        <!-- 공통 css -->
+        <link rel="stylesheet" href="{% static 'css/common/common.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/common/main_navi.css' %}" />
+        <link
+            rel="stylesheet"
+            href="{% static 'css/common/star_rating.css' %}"
+        />
+        <title>{% block head_name %}Sinbal{% endblock %}</title>
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 검색 키워드 -->
-    <meta name="Keywords" content="런닝화, 신발, 런닝" />
-    <!-- 검색 결과에 표시되는 문자 지정 -->
-    <meta name="Description" content="런닝전문 쇼핑몰 커뮤니티 이런신발" />
-    <!-- 부트스트랩 css -->
-    <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css'%}">
-    <!-- jQuery js 연결 -->
-    <script src="{% static 'js/jquery/jquery-3.7.1.min.js' %}"></script>
-    <!-- 공통 css -->
-    <link rel="stylesheet" href="{% static 'css/common/main_navi.css' %}">
-    <link rel="stylesheet" href="{% static 'css/common/star_rating.css' %}">
-    <title>{% block head_name %}Sinbal{% endblock %}</title>
-</head>
-
-<body>
-    <!-- 메인 네비 영역 -->
-    {% include 'base/main_navi.html' %}
-    <!-- 컨텐츠 영역 -->
-    {% block content %}{% endblock %}
-    <!-- 푸터 영역 -->
-    {% block footer %}{% endblock %}
-</body>
-<!-- 부트스트랩 js 연결 -->
-<script src="{% static 'js/bootstrap/bootstrap.min.js'%}"></script>
-
+    <body>
+        <!-- 메인 네비 영역 -->
+        {% include 'base/main_navi.html' %}
+        <!-- 컨텐츠 영역 -->
+        {% block content %}{% endblock %}
+        <!-- 푸터 영역 -->
+        {% block footer %}{% endblock %}
+    </body>
+    <!-- 부트스트랩 js 연결 -->
+    <script src="{% static 'js/bootstrap/bootstrap.min.js'%}"></script>
 </html>

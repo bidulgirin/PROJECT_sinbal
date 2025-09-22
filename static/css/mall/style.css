@@ -1,7 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap");
+
 .l_slide {
     width: 100%;
     min-height: 300px;
-    background-color: rgb(228, 228, 228);
 }
 ul.cards {
     list-style: none;
@@ -51,4 +52,145 @@ ul.cards {
         height: 100%;
         display: block;
     }
+}
+/* 탭 style */
+
+.l_pr {
+    max-width: 550px;
+    min-width: 550px;
+    .l_pr_sumnail img {
+        width: 100%;
+    }
+}
+.content {
+    display: none;
+}
+.product_detail img {
+    width: 100%;
+}
+.content .cards li {
+    max-width: 47%;
+}
+.btn.active {
+    background-color: rgb(37, 37, 37);
+    color: #eee;
+    box-shadow: none;
+}
+
+.content.active {
+    display: block;
+}
+
+.l_product_option {
+    top: 50px;
+}
+
+.heart {
+    height: 30px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    gap: 3px;
+    /*사용자정의: var 함수로 핸들링*/
+    --c: #ff6b81;
+}
+.heart svg {
+    width: 30px;
+    position: relative;
+}
+.heart .heart2 {
+    fill: #eee;
+    stroke: var(--c);
+    stroke-width: 40px;
+    stroke-dasharray: 3000;
+    stroke-dashoffset: 3000;
+}
+.heart #checkbox:checked + svg .heart2 {
+    animation: drawHeart 0.5s linear forwards;
+}
+.heart #checkbox:checked + svg {
+    animation: beat 0.6s linear forwards;
+}
+/* 찜 애니메이션 효과 */
+@keyframes drawHeart {
+    0% {
+        stroke-dashoffset: 2600;
+    }
+    80% {
+        fill: #eee;
+        stroke-dashoffset: 0;
+    }
+    100% {
+        fill: var(--c);
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes beat {
+    0% {
+        transform: scale(1);
+    }
+    70% {
+        transform: scale(1);
+    }
+    80% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* 썸네일 css */
+.l_pr_sumbnail {
+    position: relative;
+    margin: 0 auto;
+    width: 100%;
+    padding-left: 120px;
+}
+.img-selection {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100px;
+}
+
+.img-thumbnail:first-of-type {
+    margin-top: 0;
+}
+
+.img-thumbnail {
+    margin-top: 10px;
+    width: 80px;
+    height: 80px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    transition: 0.3s ease;
+    opacity: 0.5;
+}
+
+.img-thumbnail:hover {
+    opacity: 1;
+}
+
+.img-thumbnail.selected {
+    opacity: 1;
+}
+
+.big-img {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    border: 1px solid #ddd;
+    cursor: zoom-in;
+    overflow: hidden;
+}
+
+.big-img img.zoom {
+    position: absolute;
+    transition: width 0.2s ease-out, opacity 0.2s ease-out 0.2s;
+}
+
+.display-img {
+    width: 100%;
 }

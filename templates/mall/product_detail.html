@@ -1,77 +1,148 @@
 <!-- 상품 상세 페이지 -->
-{% extends 'base/base.html' %}
-{% load static %}
-{% block content %}
-<link rel="stylesheet" href="{% static 'css/splide/splide.min.css'%}">
-<link rel="stylesheet" href="{% static 'css/mall/style.css' %}">
+{% extends 'base/base.html' %} {% load static %} {% block content %}
+<link rel="stylesheet" href="{% static 'css/splide/splide.min.css'%}" />
+<link rel="stylesheet" href="{% static 'css/mall/style.css' %}" />
 <!-- 콘텐츠 영억 -->
-
-현재 상품 id : {{ data.id }} <br>
-현재 상품 이름 : {{ data.title }} <br>
-현재 상품 카테고리 : {{ data.slug }} <br>
-
-
-<div class="l_product">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col">
-                <div class="l_product_preview">
-                    <img class="img-thumbnail" src="" alt="">
-                </div>
-                <div>
-                    <div class="row">
-                        <div class="col tab_1">설명</div>
-                        <div class="col tab_2">후기</div>
+<div class="container l_product bg-light">
+    <div class="d-flex">
+        <div class="flex-fill l_pr">
+            <div class="l_pr_sumbnail">
+                <div class="wrapper">
+                    <!-- 썸네일이 여러개일때 표기 -->
+                    <div class="img-selection">
+                        <div class="img-thumbnail selected">
+                            <img
+                                src="https://cdn.shoemarker.co.kr/Upload/ProductImage/030402/48772_1_0500_0500.gif"
+                                alt=""
+                                width="100%"
+                            />
+                        </div>
+                        <div class="img-thumbnail">
+                            <img
+                                src="http://vignette2.wikia.nocookie.net/overwatch/images/8/85/CuteSprayAvatars-Mercy.png/revision/latest?cb=20160511194928"
+                                width="100%"
+                            />
+                        </div>
+                        <div class="img-thumbnail">
+                            <img
+                                src="http://vignette2.wikia.nocookie.net/overwatch/images/e/e0/CuteSprayAvatars-Pharah.png/revision/latest?cb=20160511194928"
+                                width="100%"
+                            />
+                        </div>
+                    </div>
+                    <!-- 썸네일이 여러개일때 표기 end -->
+                    <div class="big-img">
+                        <img
+                            src="http://vignette1.wikia.nocookie.net/overwatch/images/b/b7/CuteSprayAvatars-Tracer.png/revision/latest?cb=20160511194930"
+                            class="display-img"
+                        />
                     </div>
                 </div>
-                <div>
-                    <ul>
-                        <li class="col tab_1">설명</li>
-                        <li class="col tab_2">후기</li>
-                    </ul>
+            </div>
+            <div id="tab_container">
+                <div class="d-flex tabs-container">
+                    <button class="btn active flex-fill" data-id="detail">
+                        상세보기
+                    </button>
+                    <button class="btn flex-fill" data-id="reviews">
+                        후기 (0) 개
+                    </button>
+                </div>
+                <div class="tabs-content">
+                    <!-- item 1 -->
+                    <div class="content active" id="detail">
+                        <div class="product_detail">
+                            <img
+                                src="https://cdn.shoemarker.co.kr/Upload/Shoemarker/PBdetail/whever/WV25311/common.jpg"
+                                alt=""
+                            />
+                        </div>
+                    </div>
+                    <!-- item 1 -->
+                    <div class="content" id="reviews">
+                        <!-- 지금은 main_review 지만 나중에 해당 id 에 맞는 리뷰를 가지고 오는것을 views.py 에 추가 -->
+                        {% include 'mall/components/main_review.html' %}
+                    </div>
                 </div>
             </div>
-            <div class="col l_product_option">
+        </div>
+        <div class="flex-fill bg-white p-5 l_pr">
+            <div>
                 <div class="l_brand">
-                    <div class="l_brand_img"><img
+                    <div class="l_brand_img">
+                        <img
                             src="https://image.msscdn.net/thumbnails/images/goods_img/20250304/4851552/4851552_17412521434733_500.jpg"
-                            alt=""></div>
+                            alt=""
+                        />
+                    </div>
                     <div class="l_brand_name">얼게이트</div>
                 </div>
                 <div class="l_category">스포츠/레저 > 잡화</div>
-                <div class="l_name">[2PACK] 심리스 스포츠 헤어밴드 러닝 헤드밴드</div>
+                <div class="l_name">
+                    [2PACK] 심리스 스포츠 헤어밴드 러닝 헤드밴드
+                </div>
                 <div class="l_star">별점</div>
-                <div class="l_price">63,660</div>
+                <div class="l_price fw-bold fs-3">63,660</div>
                 <div class="l_options">
-                    <select name="" id="">
+                    <select name="" id="" class="form-select" aria-label="">
                         <option value="220">220</option>
                         <option value="220">225</option>
                         <option value="220">230</option>
                     </select>
+
+                    <div class="count">
+                        <!--버튼-->
+                        <input id="count" type="text" name="count" hidden />
+                        <div
+                            class="center d-flex justify-content-center align-items-center"
+                        >
+                            <button id="decr" class="btn btn-dark">-</button>
+                            <span id="print" class="flex-fill text-center">
+                                0
+                            </span>
+                            <button id="incr" class="btn btn-dark">+</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="l_options">
-                    <div>찜</div>
-                    <div>장바구니</div>
-                    <div>구매하기</div>
+                    <div
+                        class="d-flex justify-content-center align-items-center"
+                    >
+                        <div class="flex-fill">
+                            <div class="heart">
+                                찜
+                                <label for="checkbox">
+                                    <input
+                                        type="checkbox"
+                                        id="checkbox"
+                                        hidden
+                                    />
+                                    <svg class="icon" viewBox="0 0 1024 1024">
+                                        <path
+                                            d="M742.4 101.12A249.6 249.6 0 0 0 512 256a249.6 249.6 0 0 0-230.72-154.88C143.68 101.12 32 238.4 32 376.32c0 301.44 416 546.56 480 546.56s480-245.12 480-546.56c0-137.92-111.68-275.2-249.6-275.2z"
+                                            fill="#231F20"
+                                            class="heart2"
+                                        ></path>
+                                    </svg>
+                                </label>
+                            </div>
+                        </div>
+                        <button class="btn text-center flex-fill btn-light">
+                            장바구니
+                        </button>
+                        <button class="btn btn-primary text-center flex-fill">
+                            구매하기
+                        </button>
+                    </div>
                 </div>
-
                 <div class="l_tag">
                     <a href="">#태그</a>
                 </div>
-
             </div>
         </div>
     </div>
 </div>
 <!-- splide 슬라이더 기능  -->
 <script src="{% static 'js/splide/splide.min.js'%}"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const elms = document.getElementsByClassName('splide');
-
-        for (let i = 0; i < elms.length; i++) {
-            new Splide(elms[i]).mount();
-        }
-    });
-</script>
+<script src="{% static 'js/mall/script.js' %}"></script>
 {% endblock %}

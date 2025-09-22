@@ -1,58 +1,48 @@
 <!-- 상품페이지 -->
-{% extends 'base/base.html' %}
-{% load static %}
-{% block content %}
-<link rel="stylesheet" href="{% static 'css/mall/style.css' %}">
+{% extends 'base/base.html' %} {% load static %} {% block content %}
+<link rel="stylesheet" href="{% static 'css/mall/style.css' %}" />
 <!-- 콘텐츠 영억 -->
 <div class="container">
-    카테고리별 상품 페이지
-    <br />
-    예를 들어 카본런닝화 카테고리 안에 있는 상품들만 좍~ 보여줌
-    <div>
-        현재 카테고리 : {{category}}<br />
-        {% if datas %}
-        {% for data in datas %}
-        카테고리 종류들 : {{ data }}
-        {% endfor %}
-        {% endif %}
-    </div>
-    <h2 class="fw-bold">{{category}}</h2>
+    <h2 class="fw-bold">검색전/후 나타나는 페이지</h2>
     <ul class="d-flex cards flex-wrap">
+        {% for data in datas %}
         <li class="product_info">
             <div class="product-list">
                 <!-- LSH START -->
                 <div class="ly-img">
-                    <a href="/ASP/Product/ProductDetail.asp?ProductCode=48964">
-                        <img src="https://cdn.shoemarker.co.kr/Upload/ProductImage/020102/48964_1_0320_0320.jpg"
-                            alt="네오 런닝화 | 화이트">
+                    <a href="{% url 'product_detail' id=data.id %}">
+                        <img src="{{data.image_url}}" alt="{{data.name}}" />
                     </a>
                 </div>
                 <div class="ly-content p-1">
                     <div class="ly-brand">
-                        <div class="fw-bold">LECAF</div>
+                        <div class="fw-bold">{{data.brand}}</div>
                     </div>
                     <div class="ly-name">
                         <div class="">
-                            <a href="/ASP/Product/ProductDetail.asp?ProductCode=48964">네오 런닝화 </a>
+                            <a href="#!">{{data.name}}</a>
                         </div>
                     </div>
                     <div class="ly-price">
-                        <span class="fw-bold fs-6">
-                            63,660
-                        </span>
+                        <span class="fw-bold fs-6">{{data.price}} 원</span>
                     </div>
                 </div>
                 <!-- LSH END -->
             </div>
         </li>
-
+        {% endfor %}
     </ul>
+    <!-- 페이지 네이션 -->
     <nav aria-label="...">
         <ul class="pagination justify-content-center">
             <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true"
+                    >Previous</a
+                >
             </li>
-            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+            <li class="page-item active">
+                <a class="page-link" href="#">1</a>
+            </li>
             <li class="page-item" aria-current="page">
                 <a class="page-link" href="#">2</a>
             </li>
