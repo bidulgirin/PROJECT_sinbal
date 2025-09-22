@@ -4,7 +4,7 @@ from PIL import Image
 from io import BytesIO
 from urllib.request import urlopen
 from django.shortcuts import redirect, render
-from home.models import Brand, Category, Shoe, Review
+from home.models import Brand, Category, Shoe, Review, Cart
 from django.db.models import Q # 모델의 데이터를 불러올때 조건값을 붙이기 위함 
 from bs4 import BeautifulSoup
 import requests
@@ -39,9 +39,43 @@ def mall_product_detail(request, id):
         "data" : data,
     }
     return render(request, "mall/product_detail.html", context)
+
 # 상품결제
+#def mall_parchase(request, ids):
 def mall_parchase(request):
-    return render(request, "mall/parchase.html")
+     # 선택한 상품의 id값의 배열을 가져온다
+    ids = [1,2,3] # 예를들어 상품번호가 1, 2, 3 이다혀면
+    print(ids)
+
+    # 로그인한 계정의 장바구니에서 선택한 값을 가져온다
+    # class Cart(models.Model): 
+    # user = models.ForeignKey(User, on_delete=models.CASCADE) 
+    # shoe = models.ForeignKey(Shoe, on_delete=models.CASCADE) 
+    # size = models.CharField(max_length=10) 
+    # quantity = models.IntegerField(default=1) 
+    # created_at = models.DateTimeField(auto_now_add=True) 
+
+    # user 가 가지고 있는 장바구니 목록 중
+    # 체크 박스해서 가져온 id(장바구니 id )를 가져온다
+    # 자신의 장바구니 라고 안해도
+    # 장바구니에 담긴 녀석들은 본인꺼일것임. 
+    # 이건 장바구니 페이지에서 장바구니 데이터 불러올때 고민해야하는 거고
+    cart_datas = Cart.objects.filter(id__in = ids)
+
+
+    # 가져온 card_data 를 뿌려준다. 
+    context = {
+        "cart_datas" : cart_datas,
+    }
+    # 만약 ids 라는 값을 찾는데 Shoe 모델에 값이 없다면
+    # 장바구니에서부터 뜨면 안됨 
+
+    # 결제를 요청
+    if request.method == "POST":
+        # 받을것 
+        pass
+
+    return render(request, "mall/parchase.html", context)
 # 삼품구매완료
 def mall_parchase_completed(request):
     return render(request, "mall/parchase_completed.html")

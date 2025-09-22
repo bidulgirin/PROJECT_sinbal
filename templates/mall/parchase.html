@@ -1,19 +1,344 @@
 <!-- 구매 완료 페이지 -->
-{% extends 'base/base.html' %}
-{% load static %}
-{% block content %}
-<!-- 콘텐츠 영억 -->
+{% extends 'base/base.html' %} {% load static %}
+<!-- 콤마를위함 -->
+{% load humanize %} {% block content %}
+<!-- 콘텐츠 영역 -->
 <div class="container">
-    <div class="row">
-        <div class="col">
-            <h1>구매하는 상품 목록</h1>
-            <h1>결제수단</h1>
+    <form method="POST" action="{% url 'parchase' %}">
+        <div class="row">
+            <div class="col">
+                <!-- 
+                결제 시 필요한 필드
+                user = models.ForeignKey(User, on_delete=models.CASCADE) 
+                total_price = models.IntegerField() 
+                name = models.CharField(max_length=50) 
+                phone = models.CharField(max_length=20) 
+                address = models.TextField() 
+                status = models.CharField(max_length=20, default='주문완료') 
+                created_at = models.DateTimeField(auto_now_add=True) 
+                
+                -->
+                <h1>배송지(유저정보자동으로불러오기)</h1>
+                <div>
+                    <!-- 아이디 말고 실제 이름 -->
+                    <label for="">이름</label>
+                    <input
+                        type="text"
+                        name="name"
+                        placeholder="이름"
+                        value="{{user}}"
+                        autofocus
+                        required
+                    />
+                </div>
+                <div>
+                    <label for="">주소</label>
+                    <input
+                        type="text"
+                        id="sample6_postcode"
+                        placeholder="우편번호"
+                        name="addr_num"
+                        required
+                    />
+                    <input
+                        type="button"
+                        onclick="DaumPostcode()"
+                        value="우편번호 찾기"
+                    /><br />
+                    <input
+                        type="text"
+                        id="address"
+                        placeholder="주소"
+                        name="address"
+                    /><br />
+                    <input
+                        type="text"
+                        id="detailAddress"
+                        placeholder="상세주소"
+                        name="detail_address"
+                    />
+                </div>
+
+                <div>
+                    <label for="phone">전화번호</label>
+                    <input
+                        type="text"
+                        name="phone"
+                        id="phone"
+                        placeholder="010-1234-5678"
+                    />
+                </div>
+                <div>
+                    <label for="">요청사항</label>
+                    <input
+                        type="text"
+                        name="order_message"
+                        placeholder="ex)문 앞에 놔두세요."
+                    />
+                </div>
+
+                <h1>결제수단</h1>
+                <div>
+                    <label for="naver">
+                        <input
+                            id="naver"
+                            type="checkbox"
+                            name="pay_method"
+                            value="1"
+                            onclick="checkOnlyOne(this)"
+                        />
+                        네이버페이
+                    </label>
+                    <br />
+                    <label for="cash">
+                        <input
+                            id="cash"
+                            type="checkbox"
+                            name="pay_method"
+                            value="2"
+                            onclick="checkOnlyOne(this)"
+                        />
+                        무통장입금
+                    </label>
+                </div>
+
+                <h1>구매하는 상품 목록</h1>
+                <table>
+                    <tr>
+                        <td>상품번호</td>
+                        <td>상품주문번호</td>
+                        <td>이미지</td>
+                        <td>발 사이즈</td>
+                        <td>가격</td>
+                        <td>사이즈</td>
+                        <td>수량</td>
+                    </tr>
+                    <!-- 
+                        배열값으로 받은것들 편집해서 
+                        Order 모델에 주문넣은거 1개 넣고 
+                        OrderItem은 제품 id
+                    -->
+                    {% for data in cart_datas %}
+                    <tr>
+                        <td>
+                            <!-- 여기서 나오는 shoe_id 값들있잖아 이거 -->
+                            {{data.shoe.id}}
+                            <input
+                                type="text"
+                                value="{{data.shoe.id}}"
+                                name="shoe_id[]"
+                                hidden
+                            />
+                        </td>
+                        <td>
+                            <!-- 사고 난 다음에 
+                             cart_id 에 해당하는것을 
+                             Cart 모델에서 삭제처리해야함 
+                             -->
+                            {{data.id}}
+                            <input
+                                type="text"
+                                value="{{data.id}}"
+                                name="cart_id[]"
+                                hidden
+                            />
+                        </td>
+                        <td>
+                            <img
+                                src="{{data.shoe.image_url}}"
+                                alt="{{data.shoe.name}}"
+                                width="60px"
+                                heihgt="60px"
+                            />
+                        </td>
+
+                        <td>
+                            {{data.shoe.name}}
+                            <input
+                                type="text"
+                                name="shoe_name[]"
+                                value="{{data.shoe.name}}"
+                                hidden
+                            />
+                        </td>
+                        <td>
+                            {{data.shoe.price|intcomma}}
+                            <input
+                                type="text"
+                                name="price[]"
+                                value="{{data.shoe.price}}"
+                                hidden
+                            />
+                        </td>
+                        <td>
+                            {{data.size}}
+                            <input
+                                type="text"
+                                name="shoe_size[]"
+                                value="{{data.size}}"
+                                hidden
+                            />
+                        </td>
+                        <td>
+                            {{data.quantity}}
+                            <input
+                                type="text"
+                                name="quantity[]"
+                                value="{{data.quantity}}"
+                                hidden
+                            />
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="col">
+                <h1>최종 결제 금액</h1>
+                <table>
+                    <tr>
+                        <td>총 가격</td>
+                        <td>
+                            <input
+                                id="total_price"
+                                name="total_price"
+                                type="text"
+                                hidden
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>배송비</td>
+                        <td>0 원</td>
+                    </tr>
+                </table>
+                <!-- 결제하기 누르기 전에 
+                    1. 배송지를 입력하였는지
+                    2. 결제수단을 입력하였는지 확인하는 js 코드 필요
+                    3. 모두 입력했으면 결제하기 버튼 활성화시키기
+                -->
+                <button class="btn btn-primary">결제하기</button>
+            </div>
         </div>
-        <div class="col">
-            <form method="POST" action="">
-                <button>구매하기</button>
-            </form>
-        </div>
-    </div>
+    </form>
 </div>
+<!-- 주소 api -->
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+    function DaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function (data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var addr = ""; // 주소 변수
+                var extraAddr = ""; // 참고항목 변수
+
+                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === "R") {
+                    // 사용자가 도로명 주소를 선택했을 경우
+                    addr = data.roadAddress;
+                } else {
+                    // 사용자가 지번 주소를 선택했을 경우(J)
+                    addr = data.jibunAddress;
+                }
+
+                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                if (data.userSelectedType === "R") {
+                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                    if (data.bname !== "" && /[동|로|가]$/g.test(data.bname)) {
+                        extraAddr += data.bname;
+                    }
+                    // 건물명이 있고, 공동주택일 경우 추가한다.
+                    if (data.buildingName !== "" && data.apartment === "Y") {
+                        extraAddr +=
+                            extraAddr !== ""
+                                ? ", " + data.buildingName
+                                : data.buildingName;
+                    }
+                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                    if (extraAddr !== "") {
+                        extraAddr = " (" + extraAddr + ")";
+                    }
+                    // 조합된 참고항목을 해당 필드에 넣는다.
+                    // document.getElementById("sample6_extraAddress").value =
+                    //     extraAddr;
+                } else {
+                    // document.getElementById("sample6_extraAddress").value = "";
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById("sample6_postcode").value =
+                    data.zonecode;
+                document.getElementById("address").value = addr;
+                // 커서를 상세주소 필드로 이동한다.
+                document.getElementById("detailAddress").focus();
+            },
+        }).open();
+    }
+
+    // total_price //구하기
+    // price[] 으로 된 value 를 모두 더하기
+    let total_price = 0;
+    let price_input = document.getElementsByName("price[]");
+
+    price_input.forEach((e) => {
+        let price_value = Number(e.value);
+        total_price += price_value;
+        // 나온값 모두 더하기
+    });
+    // 나온값 form input 입력
+    const total_price_input = document.querySelector("#total_price");
+    total_price_input.value = total_price;
+    // html 에도 입력
+    total_price_input.parentElement.innerText += `${addComma(total_price)} 원`;
+
+    // 체크 박스 하나만
+
+    function checkOnlyOne(element) {
+        const checkboxes = document.getElementsByName("pay_method");
+
+        checkboxes.forEach((cb) => {
+            cb.checked = false;
+        });
+
+        element.checked = true;
+    }
+    // 전화번호 포멧
+    function addHyphenToPhoneNumber(phoneNumberInput) {
+        const phoneNumber = phoneNumberInput.value;
+        const length = phoneNumber.length;
+
+        if (length >= 9) {
+            let numbers = phoneNumber
+                .replace(/[^0-9]/g, "")
+                .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
+            phoneNumberInput.value = numbers;
+        }
+    }
+
+    const phoneInput = document.getElementById("phone");
+    phoneInput.addEventListener("input", () => {
+        addHyphenToPhoneNumber(phoneInput);
+    });
+
+    // 콤마 포멧
+    function addComma(num) {
+        let len, point, str;
+
+        num = num + "";
+        point = num.length % 3;
+        len = num.length;
+
+        str = num.substring(0, point);
+        while (point < len) {
+            if (str != "") str += ",";
+            str += num.substring(point, point + 3);
+            point += 3;
+        }
+
+        return str;
+    }
+</script>
 {% endblock %}
