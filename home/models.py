@@ -77,11 +77,11 @@ class Order(models.Model):
     total_price = models.IntegerField() 
     name = models.CharField(max_length=50) 
     phone = models.CharField(max_length=20) 
-    addr_num = models.TextField() # 우편번호 필드 
-    address = models.TextField()
-    detail_address = models.TextField() # 상세 주소 필드 
-    order_message = models.TextField() # 요청사항
-    pay_method = models.IntegerField() # 결제수단
+    addr_num = models.IntegerField(null=True, blank=True) # 우편번호 필드 
+    address = models.TextField(null=True, blank=True)
+    detail_address = models.TextField(null=True, blank=True) # 상세 주소 필드 
+    order_message = models.TextField(null=True, blank=True) # 요청사항
+    pay_method = models.IntegerField(null=True, blank=True) # 결제수단
     status = models.CharField(max_length=20, default='주문완료') 
     created_at = models.DateTimeField(auto_now_add=True) 
     
