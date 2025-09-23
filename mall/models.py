@@ -25,7 +25,7 @@ class ExampleCategory(models.Model):
 class ExampleProduct(models.Model):
         brand = models.ForeignKey(ExampleBrand, on_delete=models.CASCADE) 
         name = models.CharField(max_length=200) 
-        price = models.IntegerField() 
+        price = models.IntegerField(default=0) 
         image_url = models.TextField(blank=True) 
         description = models.TextField(blank=True) 
         source_url = models.TextField() 
