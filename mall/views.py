@@ -4,6 +4,7 @@ from PIL import Image
 from io import BytesIO
 from urllib.request import urlopen
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from home.models import Brand, Category, Order, Shoe, Review, Cart, OrderItem, User
 from django.db.models import Q # 모델의 데이터를 불러올때 조건값을 붙이기 위함 
 from bs4 import BeautifulSoup
@@ -12,7 +13,13 @@ import requests
 # Create your views here.
 # 몰 메인
 def mall_main(request):
-    return render(request, "mall/index.html")
+    products = Shoe.objects.all()[:5] # 5개만 보여주기
+    reviews = Review.objects.all()[:5]
+    context = {
+        "products" : products,
+        "reviews" : reviews
+    }
+    return render(request, "mall/index.html", context)
 
 # 상품 (검색 결과 표기)
 def mall_product(request):
@@ -31,27 +38,6 @@ def mall_product(request):
         "datas" : datas,
     }
     return render(request, "mall/product.html", context)
-# 상품장바구니
-def mall_cart(request):
-    # user 정보를 불러온다.
-    conn_user = request.user
-    # user 의 장바구니 정보를 불러온다.
-    # 유저아이디를 유저이름으로 찾는 행위가 맞는가...?
-    user_id = User.objects.get(username=conn_user).id
-    # created_at = models.DateTimeField(auto_now_add=True)
-    cart_datas = Cart.objects.filter(user_id=user_id)
-
-    context = {
-        "cart_datas" : cart_datas,
-    }
-
-    if request.method == "POST" :
-        # 여기서는 저장할꺼 따로 없고 구매페이지에 구매 상품 id 만 보내면 된다!!!!
-        # 살 shoe_id 의 배열을 같이 보낸다.
-        return redirect("parchase")
-
-    return render(request, "mall/cart.html", context)
-
 # 상품상세
 def mall_product_detail(request, id):
     data = Shoe.objects.get(id=id)
@@ -59,19 +45,41 @@ def mall_product_detail(request, id):
         "data" : data,
     }
     return render(request, "mall/product_detail.html", context)
-
-# 상품결제
-#def mall_parchase(request, ids): (장바구니 개발중)
-def mall_parchase(request):
-     # 선택한 상품의 id값의 배열을 가져온다
-    ids = [1,2] # 예를들어 상품번호가 1, 2 이다라고 함 (장바구니 개발중)
-    print(ids)
-    # 로그인한 계정의 장바구니에서 선택한 값을 가져온다
-    cart_datas = Cart.objects.filter(id__in = ids)
+# 상품장바구니 홈
+def mall_cart(request):
+    # user 정보를 불러온다.
+    conn_user = request.user
+    # user 의 장바구니 정보를 불러온다.
+    # 유저아이디를 유저이름으로 찾는 행위가 맞는가...?
+    user_id = User.objects.get(username=conn_user).id
+    cart_datas = Cart.objects.filter(user_id=user_id)
 
     context = {
         "cart_datas" : cart_datas,
     }
+
+    if request.method == "POST" :
+        # 살 shoe_id 의 배열을 같이 보낸다.
+        ids = request.POST.getlist("shoe_id[]")
+        # 장바구니에 담았던 shoe_id 중 선택한 애들만 결제페이지로 보냄
+        # get 으로 받으렴
+        return redirect(reverse('parchase') + f'?id[]={ids}')
+
+    return render(request, "mall/cart.html", context)
+
+# 장바구니 추가
+def mall_cart_add(request):
+    if request.method == "POST":
+        pass
+    #return redirect ('')
+    pass
+
+# 장바구니 삭제
+def mall_cart_remove(request):
+    pass
+
+# 상품결제
+def mall_parchase(request):
     # 결제를 요청
     if request.method == "POST":
         # 받을것 
@@ -129,11 +137,22 @@ def mall_parchase(request):
         order.save()
         # Order 의 id 를 넘겨야함 # 구매정보를 알수있도록
         return redirect("parchase_completed") # 구매완료페이지로 넘기기 
+    
+    ids = eval(request.GET["id[]"]) # 아 개웃기다
+    # 로그인한 계정의 장바구니에서 선택한 값을 가져온다
+    cart_datas = Cart.objects.filter(id__in = ids)
+
+    context = {
+        "cart_datas" : cart_datas,
+    }
     return render(request, "mall/parchase.html", context)
+
+# 상품결제 취소 (실제 삭제할것인가...)
+def mall_parchase_cancle(request):
+    pass
 # 삼품구매완료
 def mall_parchase_completed(request):
     return render(request, "mall/parchase_completed.html")
-
 
 
 

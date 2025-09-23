@@ -11,6 +11,10 @@ urlpatterns = [
     path("product_detail/<int:id>/", views.mall_product_detail, name="product_detail"),
     # 장바구니
     path("cart/", views.mall_cart, name="cart"),
+    # 장바구니 추가
+    path("cart/add/", views.mall_cart_add, name="cart_add"),
+    # 장바구니 삭제
+    path("cart/remove/", views.mall_cart_remove, name="cart_remove"),
     # 상품결제
     path("parchase/", views.mall_parchase, name="parchase"),
     # 상품구매완료
