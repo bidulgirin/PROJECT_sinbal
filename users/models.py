@@ -12,7 +12,6 @@ class User(AbstractUser):
     created_at = models.DateTimeField(default=timezone.now)
     size = models.IntegerField(blank=True, null = True, default = 0)
     
-
 class UserBio(models.Model):
     CATEGORY = (
         ('XN', '매우좁음'),
@@ -25,3 +24,4 @@ class UserBio(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE, related_name = "foot_info")
     ball_foot = models.CharField("발볼 크기", max_length = 5, choices = CATEGORY, default="R")
     favorite_brand = models.CharField(max_length=10, blank=True, null=True)
+    
