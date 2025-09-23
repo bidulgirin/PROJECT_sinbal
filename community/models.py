@@ -29,11 +29,9 @@ class Post(models.Model):
         verbose_name = "게시글"
         verbose_name_plural = "게시글"
         
+        
     def __str__(self):
         return self.title
-    
-    #*  def get_absolute_url(self):
-    #*     return reverse("", kwargs={"pk": self.pk})
     
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete = models.CASCADE, related_name = "comments")
