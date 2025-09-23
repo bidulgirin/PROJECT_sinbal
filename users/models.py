@@ -1,6 +1,7 @@
 # users/models.py
 
 from django.db import models
+#
 from django.contrib.auth.models import AbstractUser
 
 # models.py에서 마이그레이션할 때 기본값 설정
@@ -24,4 +25,3 @@ class UserBio(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE, related_name = "foot_info")
     ball_foot = models.CharField("발볼 크기", max_length = 5, choices = CATEGORY, default="R")
     favorite_brand = models.CharField(max_length=10, blank=True, null=True)
-    

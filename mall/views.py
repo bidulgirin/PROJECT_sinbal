@@ -4,7 +4,8 @@ from PIL import Image
 from io import BytesIO
 from urllib.request import urlopen
 from django.shortcuts import redirect, render
-from home.models import Brand, Category, Order, Shoe, Review, Cart
+from django.urls import reverse
+from home.models import Brand, Category, Order, Shoe, Review, Cart, OrderItem, User
 from django.db.models import Q # 모델의 데이터를 불러올때 조건값을 붙이기 위함 
 from bs4 import BeautifulSoup
 import requests
@@ -12,7 +13,13 @@ import requests
 # Create your views here.
 # 몰 메인
 def mall_main(request):
-    return render(request, "mall/index.html")
+    products = Shoe.objects.all()[:5] # 5개만 보여주기
+    reviews = Review.objects.all()[:5]
+    context = {
+        "products" : products,
+        "reviews" : reviews
+    }
+    return render(request, "mall/index.html", context)
 
 # 상품 (검색 결과 표기)
 def mall_product(request):
@@ -31,7 +38,6 @@ def mall_product(request):
         "datas" : datas,
     }
     return render(request, "mall/product.html", context)
-
 # 상품상세
 def mall_product_detail(request, id):
     data = Shoe.objects.get(id=id)
@@ -39,42 +45,41 @@ def mall_product_detail(request, id):
         "data" : data,
     }
     return render(request, "mall/product_detail.html", context)
+# 상품장바구니 홈
+def mall_cart(request):
+    # user 정보를 불러온다.
+    conn_user = request.user
+    # user 의 장바구니 정보를 불러온다.
+    # 유저아이디를 유저이름으로 찾는 행위가 맞는가...?
+    user_id = User.objects.get(username=conn_user).id
+    cart_datas = Cart.objects.filter(user_id=user_id)
 
-# 상품결제
-#def mall_parchase(request, ids):
-def mall_parchase(request):
-     # 선택한 상품의 id값의 배열을 가져온다
-    ids = [1,2,3] # 예를들어 상품번호가 1, 2, 3 이다혀면
-    print(ids)
-
-    # 로그인한 계정의 장바구니에서 선택한 값을 가져온다
-    # class Cart(models.Model): 
-    # user = models.ForeignKey(User, on_delete=models.CASCADE) 
-    # shoe = models.ForeignKey(Shoe, on_delete=models.CASCADE) 
-    # size = models.CharField(max_length=10) 
-    # quantity = models.IntegerField(default=1) 
-    # created_at = models.DateTimeField(auto_now_add=True) 
-
-    # user 가 가지고 있는 장바구니 목록 중
-    # 체크 박스해서 가져온 id(장바구니 id )를 가져온다
-    # 자신의 장바구니 라고 안해도
-    # 장바구니에 담긴 녀석들은 본인꺼일것임. 
-    # 이건 장바구니 페이지에서 장바구니 데이터 불러올때 고민해야하는 거고
-    cart_datas = Cart.objects.filter(id__in = ids)
-
-
-    # 가져온 card_data 를 뿌려준다. 
     context = {
         "cart_datas" : cart_datas,
     }
-    # 만약 ids 라는 값을 찾는데 Shoe 모델에 값이 없다면
-    # 장바구니에서부터 뜨면 안됨 
 
-    # 넣을 데이터 예시
+    if request.method == "POST" :
+        # 살 shoe_id 의 배열을 같이 보낸다.
+        ids = request.POST.getlist("shoe_id[]")
+        # 장바구니에 담았던 shoe_id 중 선택한 애들만 결제페이지로 보냄
+        # get 으로 받으렴
+        return redirect(reverse('parchase') + f'?id[]={ids}')
 
-    
+    return render(request, "mall/cart.html", context)
 
+# 장바구니 추가
+def mall_cart_add(request):
+    if request.method == "POST":
+        pass
+    #return redirect ('')
+    pass
 
+# 장바구니 삭제
+def mall_cart_remove(request):
+    pass
+
+# 상품결제
+def mall_parchase(request):
     # 결제를 요청
     if request.method == "POST":
         # 받을것 
@@ -82,72 +87,72 @@ def mall_parchase(request):
         result = request.POST
         # user 정보 user 없으면 날려버리는 거 안함
         conn_user = request.user
-        # 이게 한 주문 
-        #     <QueryDict: {
-        # 'name': ['itsc'], 
-        # 'addr_num': [''], 
-        # 'address': [''], 
-        # 'detail_address': [''], 
-        # 'phone': [''], 
-        # 'order_message': [''], 
-        # 'shoe_id[]': ['1', '2'], 
-        # 'cart_id[]': ['1', '2'], 
-        # 'shoe_name[]': ['나이키 V2K 런', '멋진신발'], 
-        # 'price[]': ['126000', '3'], 
-        # 'shoe_size[]': ['220', '250'], 
-        # 'quantity[]': ['3', '5']}>
-        # 'total_price': ['126003']
-
+        
         name = result["name"]
-        addr_num = result["addr_num"] or ""
-        address = result["address"] or ""
-        detail_address = result["detail_address"] or ""
-        phone = result["phone"] or ""
-        order_message = result["order_message"] or ""
+        addr_num = result["addr_num"]
+        address = result["address"]
+        detail_address = result["detail_address"]
+        phone = result["phone"]
+        order_message = result["order_message"]
         # 배열값으로 나올것이여
-        shoe_id = result["shoe_id[]"] or ""
-        cart_id = result["cart_id[]"] or ""
-        shoe_name = result["shoe_name[]"] or ""
-        price = result["price[]"] or ""
-        shoe_size = result["shoe_size[]"] or ""
-        quantity = result["quantity[]"] or ""
-        total_price = result["total_price"] or ""
-
+        shoe_ids = result.getlist("shoe_id[]")
+        prices = result.getlist("price[]") 
+        shoe_sizes = result.getlist("shoe_size[]")
+        quantitys = result.getlist("quantity[]")
+        total_price = result["total_price"]
+        pay_method = result["pay_method"]
         # Order model 에는 주문만 들어가게하기 => 한개 들어감 =======================
 
-        # order = Order.objects.create(
-        #     user = conn_user, # 내정보
-        #     total_price = total_price,
-        #     name = name, 
-        #     phone = , 
-        #     addr_num =,
-        #     address =,
-        #     detail_address = ,
-        #     order_message = ,
-        #     pay_method = ,
-
-        # )
-
-
+        order =  Order.objects.create(
+            user = conn_user, # 내정보
+            total_price = total_price,
+            name = name, 
+            phone = phone, 
+            addr_num = addr_num,
+            address = address,
+            detail_address = detail_address,
+            order_message = order_message,
+            pay_method = pay_method, # 1번 무통장입금 2번 네이버페이
+        )
 
         # OrderItem model 에는 상품별로 들어가게하기 => 여러개 들어감 =======================
-
-
-        # class OrderItem(models.Model): 
-        # order = models.ForeignKey(Order, on_delete=models.CASCADE) 
-        # shoe = models.ForeignKey(Shoe, on_delete=models.CASCADE) 
-        # size = models.CharField(max_length=10) 
-        # quantity = models.IntegerField() 
-        # price = models.IntegerField() 
+        # 방금 주문한 Order 데이터 중 로그인한 사람의 id 와 가지고 맨 나중에 추가된 1개만
+        order_id = Order.objects.filter(user = conn_user).last()
+       
+        # zip 을 이용해서 데이터를 엮어보자 
+        orderItem = []
+        for idx in range(len(shoe_ids)):
+            orderItem.append(OrderItem(
+                                order = Order(id=order_id.id),
+                                shoe = Shoe(id=int(shoe_ids[idx])),
+                                size = shoe_sizes[idx],
+                                quantity = int(quantitys[idx]),
+                                price = int(prices[idx]),
+                            ))
+        # 주문내역 저장
+        if orderItem:
+            OrderItem.objects.bulk_create(orderItem , batch_size=None, ignore_conflicts=False)
         
-
+        # 주문서 1개 저장
+        order.save()
         # Order 의 id 를 넘겨야함 # 구매정보를 알수있도록
-        #return redirect("parchase_completed") # 구매완료페이지로 넘기기 
+        return redirect("parchase_completed") # 구매완료페이지로 넘기기 
+    
+    ids = eval(request.GET["id[]"]) # 아 개웃기다
+    # 로그인한 계정의 장바구니에서 선택한 값을 가져온다
+    cart_datas = Cart.objects.filter(id__in = ids)
+
+    context = {
+        "cart_datas" : cart_datas,
+    }
     return render(request, "mall/parchase.html", context)
+
+# 상품결제 취소 (실제 삭제할것인가...)
+def mall_parchase_cancle(request):
+    pass
 # 삼품구매완료
 def mall_parchase_completed(request):
     return render(request, "mall/parchase_completed.html")
-
 
 
 
