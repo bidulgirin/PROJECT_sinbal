@@ -3,19 +3,6 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from users.models import User
 
-# Register your models here.
-class FollowersInline(admin.TabularInline):
-    model = User.following.through
-    fk_name = "from_user"
-    verbose_name = "내가 팔로우하고 있는 사용자"
-    vwebose_name_plural = f"{verbose_name} 목록"
-
-class FollowingInline(admin.TabularInline):
-    model = User.following.through
-    fk_name = "to_user"
-    verbose_name = "나를 팔로우하고 있는 사용자"
-    verbose_name_plural = f"{verbose_name} 목록"
-
 @admin.register(User)
 class CustomUserAdmin(UserAdmin):
     fieldsets = [
@@ -25,9 +12,5 @@ class CustomUserAdmin(UserAdmin):
         ("연관객체", {"fields": ("likes",)}),
         ("권한", {"fields": ("is_active", "is_staff", "is_superuser")}),
         ("중요한 일정", {"fields": ("last_login", "date_joined")}),
-    ]
-    inlines = [
-        FollowersInline,
-        FollowingInline,
     ]
 

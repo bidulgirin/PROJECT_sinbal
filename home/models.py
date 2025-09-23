@@ -1,13 +1,11 @@
 # home/models.py
-
 from django.db import models
 from users.models import User
-from django.db import models
 
 
 class Brand(models.Model): 
     name = models.CharField(max_length=100)
-    brand_img = models.ImageField()
+    brand_img = models.ImageField(upload_to="brand/", blank = True)
     
     def __str__(self): return self.name
     
