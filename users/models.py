@@ -2,13 +2,14 @@
 
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.utils import timezone
 
 # models.py에서 마이그레이션할 때 기본값 설정
 class User(AbstractUser):
     profile_image = models.ImageField("프로필 이미지", blank=True, null=True)
     short_description = models.TextField("소개글", blank=True, default='')
     nickname = models.CharField(max_length=10, blank=True, default='')
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(default=timezone.now)
     size = models.IntegerField(blank=True, null = True, default = 0)
     
 
