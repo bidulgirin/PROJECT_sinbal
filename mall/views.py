@@ -2,6 +2,7 @@ import os
 import urllib
 from PIL import Image
 from io import BytesIO
+from django.contrib import messages
 from urllib.request import urlopen
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -38,6 +39,7 @@ def mall_product(request):
         "datas" : datas,
     }
     return render(request, "mall/product.html", context)
+
 # 상품상세
 def mall_product_detail(request, id):
     data = Shoe.objects.get(id=id)
@@ -45,7 +47,8 @@ def mall_product_detail(request, id):
         "data" : data,
     }
     return render(request, "mall/product_detail.html", context)
-# 상품장바구니 홈
+
+# 상품장바구니
 def mall_cart(request):
     # user 정보를 불러온다.
     conn_user = request.user
@@ -70,9 +73,32 @@ def mall_cart(request):
 # 장바구니 추가
 def mall_cart_add(request):
     if request.method == "POST":
-        pass
-    #return redirect ('')
-    pass
+
+        user = request.user # user 모델 변경시 변경해야함!!!!
+        shoe_id = request.POST["shoe_id"]
+        size = request.POST["size"]
+        quantity = request.POST["quantity"]
+
+        # 같은 유저에 같은 상품에 같은 
+        exist_data = Cart.objects.filter(shoe_id=shoe_id, size=size, user_id=user)
+      
+        if exist_data.exists():
+            print("장바구니에 넣을것이다")
+            messages.warning(request, '이미 장바구니에 있습니다.')
+            return redirect("product_detail", id=shoe_id)
+        else: 
+            print("장바구니에 넣을것이다")
+            add_cart_data = Cart.objects.create(
+                user = user,
+                shoe = Shoe(id=shoe_id),
+                size = size,
+                quantity = quantity, 
+            )
+
+            print(user,shoe_id,size,quantity)
+            add_cart_data.save()
+            return redirect("cart") # 일단 장바구니로 가게함 
+        #return redirect("product_detail", id=shoe_id ) # 계속보던 상품디테일 페이지로 다시 돌림
 
 # 장바구니 삭제
 def mall_cart_remove(request):

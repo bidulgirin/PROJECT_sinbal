@@ -38,6 +38,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const decr = document.querySelector("#decr"); // 감소버튼
     const incr = document.querySelector("#incr"); // 증가버튼
     const quantity = document.querySelector("#quantity"); // 실제 form 에 사용할 값
+    const cart = document.getElementById("cart");
+    const parchase = document.getElementById("parchase");
 
     let result = 0; // 초기 숫자
 
@@ -46,6 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (result > 0) {
             let dec = (result -= 1);
         }
+
         num();
     }
 

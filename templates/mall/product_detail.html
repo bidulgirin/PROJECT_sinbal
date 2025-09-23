@@ -72,6 +72,7 @@
             <form id="form" method="POST">
                 {% csrf_token %}
                 <div>
+                    <input type="text" value="{{data.id}}" name="shoe_id" />
                     <div class="l_brand">
                         <div class="l_brand_img">
                             <img
@@ -95,18 +96,18 @@
                             aria-label=""
                         >
                             <option value="220">220</option>
-                            <option value="220">225</option>
-                            <option value="220">230</option>
-                            <option value="220">235</option>
-                            <option value="220">240</option>
-                            <option value="220">245</option>
-                            <option value="220">250</option>
-                            <option value="220">255</option>
-                            <option value="220">260</option>
-                            <option value="220">265</option>
-                            <option value="220">270</option>
-                            <option value="220">275</option>
-                            <option value="220">280</option>
+                            <option value="225">225</option>
+                            <option value="230">230</option>
+                            <option value="235">235</option>
+                            <option value="240">240</option>
+                            <option value="245">245</option>
+                            <option value="250">250</option>
+                            <option value="255">255</option>
+                            <option value="260">260</option>
+                            <option value="265">265</option>
+                            <option value="270">270</option>
+                            <option value="275">275</option>
+                            <option value="280">280</option>
                         </select>
 
                         <div class="count">
@@ -145,7 +146,7 @@
                         <div
                             class="d-flex justify-content-center align-items-center"
                         >
-                            <div class="flex-fill">
+                            <!-- <div class="flex-fill">
                                 <div class="heart">
                                     찜
                                     <label for="checkbox">
@@ -166,20 +167,13 @@
                                         </svg>
                                     </label>
                                 </div>
-                            </div>
-                            <!-- Cart 모델에 추가된다. -->
+                            </div> -->
 
-                            <!-- 
-                                user = models.ForeignKey(User, on_delete=models.CASCADE) 
-                                shoe = models.ForeignKey(Shoe, on_delete=models.CASCADE) 
-                                size = models.CharField(max_length=10) 
-                                quantity = models.IntegerField(default=1) 
-                                created_at = models.DateTimeField(auto_now_add=True) 
-                            -->
                             <button
                                 id="cart"
                                 class="btn text-center flex-fill btn-light"
                                 type="button"
+                                disable
                             >
                                 장바구니
                             </button>
@@ -192,6 +186,7 @@
                                 id="parchase"
                                 class="btn btn-primary text-center flex-fill"
                                 type="button"
+                                disable
                             >
                                 구매하기
                             </button>
@@ -200,6 +195,18 @@
                     <!-- <div class="l_tag">
                         <a href="">#태그</a>
                     </div> -->
+                </div>
+                <!-- 이미 장바구니에 추가되었으면 -->
+                {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                    <div
+                        class="alert alert-{% if message.tag %}{{ message.tags }}{% endif %}"
+                        role="alert"
+                    >
+                        {{ message }}
+                    </div>
+                    {% endfor %} {% endif %}
                 </div>
             </form>
         </div>
