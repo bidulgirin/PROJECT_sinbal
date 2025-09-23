@@ -1,8 +1,9 @@
+# Register your models here.
 from django.contrib import admin
-# 새로운 유저 로그인을 쓸 떄 임포트 방법
 from django.contrib.auth.admin import UserAdmin
 from users.models import User
 
+# Register your models here.
 @admin.register(User)
 class CustomUserAdmin(UserAdmin):
     fieldsets = [
@@ -12,5 +13,5 @@ class CustomUserAdmin(UserAdmin):
         ("연관객체", {"fields": ("likes",)}),
         ("권한", {"fields": ("is_active", "is_staff", "is_superuser")}),
         ("중요한 일정", {"fields": ("last_login", "date_joined")}),
-    ]
 
+    ]
