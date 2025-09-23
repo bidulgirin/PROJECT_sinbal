@@ -4,7 +4,7 @@ from PIL import Image
 from io import BytesIO
 from urllib.request import urlopen
 from django.shortcuts import redirect, render
-from home.models import Brand, Category, Order, Shoe, Review, Cart, OrderItem
+from home.models import Brand, Category, Order, Shoe, Review, Cart, OrderItem, User
 from django.db.models import Q # 모델의 데이터를 불러올때 조건값을 붙이기 위함 
 from bs4 import BeautifulSoup
 import requests
@@ -31,6 +31,26 @@ def mall_product(request):
         "datas" : datas,
     }
     return render(request, "mall/product.html", context)
+# 상품장바구니
+def mall_cart(request):
+    # user 정보를 불러온다.
+    conn_user = request.user
+    # user 의 장바구니 정보를 불러온다.
+    # 유저아이디를 유저이름으로 찾는 행위가 맞는가...?
+    user_id = User.objects.get(username=conn_user).id
+    # created_at = models.DateTimeField(auto_now_add=True)
+    cart_datas = Cart.objects.filter(user_id=user_id)
+
+    context = {
+        "cart_datas" : cart_datas,
+    }
+
+    if request.method == "POST" :
+        # 여기서는 저장할꺼 따로 없고 구매페이지에 구매 상품 id 만 보내면 된다!!!!
+        # 살 shoe_id 의 배열을 같이 보낸다.
+        return redirect("parchase")
+
+    return render(request, "mall/cart.html", context)
 
 # 상품상세
 def mall_product_detail(request, id):
@@ -41,21 +61,17 @@ def mall_product_detail(request, id):
     return render(request, "mall/product_detail.html", context)
 
 # 상품결제
-#def mall_parchase(request, ids):
+#def mall_parchase(request, ids): (장바구니 개발중)
 def mall_parchase(request):
      # 선택한 상품의 id값의 배열을 가져온다
-    ids = [1,2] # 예를들어 상품번호가 1, 2 이다혀면
+    ids = [1,2] # 예를들어 상품번호가 1, 2 이다라고 함 (장바구니 개발중)
     print(ids)
     # 로그인한 계정의 장바구니에서 선택한 값을 가져온다
     cart_datas = Cart.objects.filter(id__in = ids)
-    # 가져온 card_data 를 뿌려준다. 
+
     context = {
         "cart_datas" : cart_datas,
     }
-    # 만약 ids 라는 값을 찾는데 Shoe 모델에 값이 없다면
-    # 장바구니에서부터 뜨면 안됨 
-
-    # 넣을 데이터 예시
     # 결제를 요청
     if request.method == "POST":
         # 받을것 
@@ -76,7 +92,7 @@ def mall_parchase(request):
         shoe_sizes = result.getlist("shoe_size[]")
         quantitys = result.getlist("quantity[]")
         total_price = result["total_price"]
-
+        pay_method = result["pay_method"]
         # Order model 에는 주문만 들어가게하기 => 한개 들어감 =======================
 
         order =  Order.objects.create(
@@ -88,7 +104,7 @@ def mall_parchase(request):
             address = address,
             detail_address = detail_address,
             order_message = order_message,
-            pay_method = 1, # 1번 무통장입금 2번 네이버페이
+            pay_method = pay_method, # 1번 무통장입금 2번 네이버페이
         )
 
         # OrderItem model 에는 상품별로 들어가게하기 => 여러개 들어감 =======================
@@ -105,11 +121,11 @@ def mall_parchase(request):
                                 quantity = int(quantitys[idx]),
                                 price = int(prices[idx]),
                             ))
+        # 주문내역 저장
         if orderItem:
-            # 여러개의 데이터값을..넣으려고...해봤다...
             OrderItem.objects.bulk_create(orderItem , batch_size=None, ignore_conflicts=False)
         
-        # 저장하기 전에 order_id 를 가지고 오기위해 잠시
+        # 주문서 1개 저장
         order.save()
         # Order 의 id 를 넘겨야함 # 구매정보를 알수있도록
         return redirect("parchase_completed") # 구매완료페이지로 넘기기 
