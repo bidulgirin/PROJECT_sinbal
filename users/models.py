@@ -1,7 +1,6 @@
 # users/models.py
 
 from django.db import models
-#
 from django.contrib.auth.models import AbstractUser
 
 # models.py에서 마이그레이션할 때 기본값 설정
