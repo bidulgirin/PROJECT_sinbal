@@ -29,6 +29,7 @@ class Post(models.Model):
         verbose_name = "게시글"
         verbose_name_plural = "게시글"
         
+        
     def __str__(self):
         return self.title
     
