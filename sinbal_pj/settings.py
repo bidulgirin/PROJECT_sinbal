@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 
+# 커스텀 유저 모델
+AUTH_USER_MODEL = "users.User"
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATES_DIR = BASE_DIR / "templates"
@@ -44,6 +47,7 @@ INSTALLED_APPS = [
     "community",
     "mall",
     "mypage",
+    "users",
 ]
 
 MIDDLEWARE = [
