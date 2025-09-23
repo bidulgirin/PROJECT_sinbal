@@ -20,6 +20,10 @@ ul.cards {
     margin: 5px;
 }
 .ly-img {
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    background-color: #0c0c0c;
     img {
         width: 100%;
         display: block;

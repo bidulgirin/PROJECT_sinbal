@@ -42,7 +42,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const parchase = document.getElementById("parchase");
 
     let result = 0; // 초기 숫자
-
+    function buttonState() {
+        // 수량셈
+        const quantity_val = Number(quantity.value);
+        // cart 누르면
+        cart.disable = quantity_val <= 0;
+    }
     function decrease() {
         // 감소 result 가 0보다 클경우에만 -1 되시오
         if (result > 0) {
@@ -50,12 +55,14 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         num();
+        buttonState();
     }
 
     function increase() {
         // 증가
         let inc = (result += 1);
         num();
+        buttonState();
     }
 
     function num() {
