@@ -37,8 +37,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const decr = document.querySelector("#decr"); // 감소버튼
     const incr = document.querySelector("#incr"); // 증가버튼
-    const count = document.querySelector("#count"); // 실제 form 에 사용할 값
-    console.log(count);
+    const quantity = document.querySelector("#quantity"); // 실제 form 에 사용할 값
+
     let result = 0; // 초기 숫자
 
     function decrease() {
@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function num() {
         // 출력
         document.getElementById("print").innerHTML = result;
-        count.value = result;
+        quantity.value = result;
     }
 
     decr.addEventListener("click", decrease);

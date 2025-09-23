@@ -10,55 +10,55 @@
             <div class="col">
                 <h1>장바구니 목록</h1>
                 <table>
-                    <tr>
-                        <td>
-                            <input type="checkbox" id="all_check" />
-                        </td>
-                        <td>상품번호</td>
-                        <td>상품주문번호</td>
-                        <td>이미지</td>
-                        <td>발 사이즈</td>
-                        <td>가격</td>
-                        <td>사이즈</td>
-                        <td>수량</td>
-                    </tr>
-                    <!-- 
-                        배열값으로 받은것들 편집해서 
-                        Order 모델에 주문넣은거 1개 넣고 
-                        OrderItem은 제품 id
-                    -->
-                    {% for data in cart_datas %}
-                    <tr>
-                        <td>
-                            <input
-                                type="checkbox"
-                                name="shoe_id[]"
-                                id="{{data.shoe.id}}"
-                                value="{{data.shoe.id}}"
-                                data-price="{{data.shoe.price}}"
-                            />
-                        </td>
-                        <td>{{data.shoe.id}}</td>
-                        <td>{{data.id}}</td>
-                        <td>
-                            <img
-                                src="{{data.shoe.image_url}}"
-                                alt="{{data.shoe.name}}"
-                                width="60px"
-                                heihgt="60px"
-                            />
-                        </td>
+                    <thead>
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="all_check" />
+                            </td>
+                            <td>상품번호</td>
+                            <td>상품주문번호</td>
+                            <td>이미지</td>
+                            <td>발 사이즈</td>
+                            <td>가격</td>
+                            <td>사이즈</td>
+                            <td>수량</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for data in cart_datas %}
+                        <tr>
+                            <td>
+                                <input
+                                    type="checkbox"
+                                    name="shoe_id[]"
+                                    id="{{data.shoe.id}}"
+                                    value="{{data.shoe.id}}"
+                                    data-price="{{data.shoe.price}}"
+                                    data-count="{{data.quantity}}"
+                                />
+                            </td>
+                            <td>{{data.shoe.id}}</td>
+                            <td>{{data.id}}</td>
+                            <td>
+                                <img
+                                    src="{{data.shoe.image_url}}"
+                                    alt="{{data.shoe.name}}"
+                                    width="60px"
+                                    heihgt="60px"
+                                />
+                            </td>
 
-                        <td>{{data.shoe.name}}</td>
-                        <td>{{data.shoe.price|intcomma}}</td>
-                        <td>{{data.size}}</td>
-                        <td>{{data.quantity}}</td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td>장바구니가 텅 비었습니다</td>
-                    </tr>
-                    {% endfor %}
+                            <td>{{data.shoe.name}}</td>
+                            <td>{{data.shoe.price|intcomma}}</td>
+                            <td>{{data.size}}</td>
+                            <td>{{data.quantity}}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td>장바구니가 텅 비었습니다</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
                 </table>
             </div>
             <div class="col">
@@ -67,13 +67,8 @@
                     <tr>
                         <td>총 가격</td>
                         <td>
-                            <input
-                                id="total_price"
-                                name="total_price"
-                                type="text"
-                                hidden
-                            />
-                            <p id="total_price_p"></p>
+                            <span id="total_price_p">0</span>
+                            원
                         </td>
                     </tr>
                     <tr>
@@ -94,24 +89,38 @@
     function checkbox_all_check() {
         if (checkboxs.length > 0) {
             checkboxs.forEach((e) => {
-                if (e.checked == true) {
-                    e.checked = false;
-                } else {
-                    e.checked = true;
-                }
+                e.checked = true;
             });
+            if (all_check.checked == false) {
+                checkboxs.forEach((e) => {
+                    e.checked = false;
+                });
+            }
         }
+        calculator();
     }
     all_check.addEventListener("click", checkbox_all_check);
 
-    // 체크한 상품 총 가격 계산하기
-    let total_price = 0;
-    checkboxs.forEach((e) => {
-        if (e.checked == true) {
-            total_price += parseInt(e.dataset["price"]);
-        }
+    // 체크한 상품 총 가격 계산하기 ( jquery code )
+    let totalCost = 0;
+
+    $(function () {
+        $("#total").text(totalCost);
     });
 
-    print(total_price);
+    $("input[name='shoe_id[]']").change(function () {
+        calculator();
+    });
+    // 계산해줌
+    function calculator() {
+        totalCost = 0;
+        $("#total_price_p").text(totalCost);
+        $("tbody input:checked").each(function () {
+            totalCost +=
+                parseInt($(this).attr("data-price")) *
+                parseInt($(this).attr("data-count"));
+            $("#total_price_p").text(totalCost);
+        });
+    }
 </script>
 {% endblock %}

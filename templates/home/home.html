@@ -25,15 +25,36 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <span class="navbar-brand mx-auto">이런신발</span>
-            <button class="btn btn-outline-light">로그인</button>
+            <a href = "{% url 'login' %}">
+                <button class="btn btn-outline-light">로그인</button>
+            </a>
         </div>
     </nav>
 
     <!-- 메인 컨테이너 -->
     <div class="container mt-4">
         <!-- 메인 이미지 (Bootstrap 이미지 클래스 활용) -->
-        <div class="text-center mb-4">
-            <img src="" class="img-fluid rounded shadow" alt="메인 배너">
+        <div class="mb-5">
+            <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner" style = "width:1300px; height:487px;">
+                <div class="carousel-item active">
+                    <img src="https://img.gqkorea.co.kr/gq/2024/11/style_673bca64215ac.jpg" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://the-edit.co.kr/wp-content/uploads/2022/09/1400_adidas2.0.jpg" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://the-edit.co.kr/wp-content/uploads/2022/09/1400_2_under.jpg" class="d-block w-100" alt="...">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
 
         <!-- 공지사항 (Alert 컴포넌트 활용) -->

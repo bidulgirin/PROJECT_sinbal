@@ -272,10 +272,12 @@
     // price[] 으로 된 value 를 모두 더하기
     let total_price = 0;
     let price_input = document.getElementsByName("price[]");
+    let quantity_input = document.getElementsByName("quantity[]");
 
-    price_input.forEach((e) => {
+    price_input.forEach((e, idx) => {
         let price_value = Number(e.value);
-        total_price += price_value;
+        let quantity_value = Number(quantity_input[idx].value);
+        total_price += price_value * quantity_value; // 값 * 개수
         // 나온값 모두 더하기
     });
     // 나온값 form input 입력
