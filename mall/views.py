@@ -74,7 +74,6 @@ def mall_cart(request):
 # 장바구니 추가
 def mall_cart_add(request):
     if request.method == "POST":
-
         user = request.user # user 모델 변경시 변경해야함!!!!
         shoe_id = request.POST["shoe_id"]
         size = request.POST["size"]
@@ -102,8 +101,11 @@ def mall_cart_add(request):
         #return redirect("product_detail", id=shoe_id ) # 계속보던 상품디테일 페이지로 다시 돌림
 
 # 장바구니 삭제
-def mall_cart_remove(request):
-    pass
+def mall_cart_remove(request, id):
+    # Cart 에서 등록된 상품 id 를 가져온다
+    delete_data = Cart.objects.get(id = id)
+    delete_data.delete()
+    return redirect('cart') # 본인 장바구니로 돌려보냄
 
 # 상품결제
 def mall_parchase(request):

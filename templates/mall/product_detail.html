@@ -8,7 +8,7 @@
 <div class="container l_product bg-light">
     <div class="d-flex">
         <div class="flex-fill l_pr">
-            {% if data.image_url.count > 1 %}
+            {% if data.images.count > 1 %}
             <div class="l_pr_sumbnail">
                 <div class="wrapper">
                     <!-- 썸네일이 여러개일때 표기 -->
@@ -40,10 +40,10 @@
                 </div>
             </div>
             {% else %}
-            <div class="l_pr_sumbnail" style="padding-left: 0px">
-                <div class="wrapper g_square">
-                    <div class="big-img g_inner">
-                        <img src="{{ data.image_url }}" class="display-img" />
+            <div class="l_pr_sumbnail g_square" style="padding-left: 0px">
+                <div class="wrapper g_inner">
+                    <div class="big-img">
+                        <img src="{{data.images.url}}" class="display-img" />
                     </div>
                 </div>
             </div>
