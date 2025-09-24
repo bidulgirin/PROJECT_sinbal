@@ -40,10 +40,18 @@
                 </div>
             </div>
             {% else %}
-            <div class="l_pr_sumbnail g_square" style="padding-left: 0px">
-                <div class="wrapper g_inner">
+            <div class="l_pr_sumbnail" style="padding-left: 0px">
+                <div class="wrapper">
                     <div class="big-img">
+                        {% if data.images %}
                         <img src="{{data.images.url}}" class="display-img" />
+                        {% else %}
+                        <img
+                            src="{% static 'img/NO_IMG_600x600.png'%}"
+                            class="display-img"
+                        />
+
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -54,7 +62,7 @@
                         상세보기
                     </button>
                     <button class="btn flex-fill" data-id="reviews">
-                        후기 (0) 개
+                        후기 ({{reviews.count}}) 개
                     </button>
                 </div>
                 <div class="tabs-content">
@@ -70,7 +78,17 @@
                     <!-- item 1 -->
                     <div class="content" id="reviews">
                         <!-- 지금은 main_review 지만 나중에 해당 id 에 맞는 리뷰를 가지고 오는것을 views.py 에 추가 -->
-                        {% include 'mall/components/main_review.html' %}
+                        {% for review in reviews %}
+                        <div class="l_review_img">
+                            {% for i in review.mallreviewimage_set.all %}
+                            <img src="{{i.images.url}}" alt="" />
+                            {% empty %}
+                            <img src="" alt="" />
+                            {% endfor %}
+                        </div>
+                        <div>{{ review.title }}</div>
+                        <div>{{ review.content }}</div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
