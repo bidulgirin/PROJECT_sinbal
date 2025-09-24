@@ -233,7 +233,9 @@
                         class="alert alert-{% if message.tag %}{{ message.tags }}{% endif %}"
                         role="alert"
                     >
-                        {{ message }}
+                        {% if message.tag == "success" %}
+                        <a href="{% url 'cart/' %}">장바구니로 가기</a>
+                        {% else %} {% endif %} {{ message }}
                     </div>
                     {% endfor %} {% endif %}
                 </div>

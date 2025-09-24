@@ -93,18 +93,17 @@ def mall_cart_add(request):
             messages.warning(request, '이미 장바구니에 있습니다.')
             return redirect("product_detail", id=shoe_id)
         else: 
-            print("장바구니에 넣을것이다")
+           
             add_cart_data = Cart.objects.create(
                 user = user,
                 shoe = Shoe(id=shoe_id),
                 size = size,
                 quantity = quantity, 
             )
-
-            print(user,shoe_id,size,quantity)
             add_cart_data.save()
-            return redirect("cart") # 일단 장바구니로 가게함 
-        #return redirect("product_detail", id=shoe_id ) # 계속보던 상품디테일 페이지로 다시 돌림
+            messages.success(request, '장바구니에 추가되었습니다', tag="success")
+            #return redirect("cart") # 일단 장바구니로 가게함 
+        return redirect("product_detail", id=shoe_id ) # 계속보던 상품디테일 페이지로 다시 돌림
 
 # 장바구니 삭제
 def mall_cart_remove(request, id):
