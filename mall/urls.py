@@ -14,7 +14,7 @@ urlpatterns = [
     # 장바구니 추가
     path("cart/add/", views.mall_cart_add, name="cart_add"),
     # 장바구니 삭제
-    path("cart/remove/", views.mall_cart_remove, name="cart_remove"),
+    path("cart/remove/<int:id>/", views.mall_cart_remove, name="cart_remove"),
     # 상품결제
     path("parchase/", views.mall_parchase, name="parchase"),
     # 상품구매완료
