@@ -33,7 +33,7 @@
                                     type="checkbox"
                                     name="shoe_id[]"
                                     id="{{data.shoe.id}}"
-                                    value="{{data.shoe.id}}"
+                                    value="{{data.id}}"
                                     data-price="{{data.shoe.price}}"
                                     data-count="{{data.quantity}}"
                                 />
@@ -94,7 +94,6 @@
 </div>
 <script>
     // all_check 체크하면 모두 체크 아니면 모두 체크 아님
-    // 기본 값 모두 체크
 
     const all_check = document.querySelector("#all_check");
     let checkboxs = document.getElementsByName("shoe_id[]");
@@ -152,5 +151,7 @@
         form.method = "GET";
         form.submit();
     }
+    // 기본 값 모두 체크
+    $("#all_check").trigger("click");
 </script>
 {% endblock %}

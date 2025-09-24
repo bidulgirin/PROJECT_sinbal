@@ -18,7 +18,7 @@ urlpatterns = [
     # 상품결제
     path("parchase/", views.mall_parchase, name="parchase"),
     # 상품구매완료
-    path("parchase_completed/", views.mall_parchase_completed, name="parchase_completed"),
+    path("parchase_completed/<int:order_id>", views.mall_parchase_completed, name="parchase_completed"),
     # 슈마커 크롤링 요청
     path("c/", views.crawling_shoes_page),
     # 쇼핑몰 후기 쓰기/수정

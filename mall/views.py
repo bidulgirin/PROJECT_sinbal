@@ -70,6 +70,8 @@ def mall_cart(request):
         # 살 shoe_id 의 배열을 같이 보낸다.
         ids = request.POST.getlist("shoe_id[]")
         # 장바구니에 담았던 shoe_id 중 선택한 애들만 결제페이지로 보냄
+        print("ids!!!!!!!!!!!!!!!!!")
+        print(ids)
         # get 으로 받으렴
         return redirect(reverse('parchase') + f'?id[]={ids}')
 
@@ -116,7 +118,6 @@ def mall_parchase(request):
     # 결제를 요청
     if request.method == "POST":
         # 받을것 
-        print(request.POST)
         result = request.POST
         # user 정보 user 없으면 날려버리는 거 안함
         conn_user = request.user
@@ -128,6 +129,7 @@ def mall_parchase(request):
         phone = result["phone"]
         order_message = result["order_message"]
         # 배열값으로 나올것이여
+        cart_ids = result.getlist("cart_id[]")
         shoe_ids = result.getlist("shoe_id[]")
         prices = result.getlist("price[]") 
         shoe_sizes = result.getlist("shoe_size[]")
@@ -152,7 +154,7 @@ def mall_parchase(request):
         # 방금 주문한 Order 데이터 중 로그인한 사람의 id 와 가지고 맨 나중에 추가된 1개만
         order_id = Order.objects.filter(user = conn_user).last()
        
-        # zip 을 이용해서 데이터를 엮어보자 
+        # bulk_create 을 이용해서 데이터를 한번에 추가
         orderItem = []
         for idx in range(len(shoe_ids)):
             orderItem.append(OrderItem(
@@ -168,8 +170,13 @@ def mall_parchase(request):
         
         # 주문서 1개 저장
         order.save()
+        # 산것들은 장바구니에서 delete 처리
+        print(cart_ids)
+        for cart_i in cart_ids:
+            Cart.objects.get(id=cart_i).delete()
+
         # Order 의 id 를 넘겨야함 # 구매정보를 알수있도록
-        return redirect("parchase_completed") # 구매완료페이지로 넘기기 
+        return redirect("parchase_completed", order_id=order_id.id) # 구매완료페이지로 넘기기 
     
     ids = eval(request.GET["id[]"]) # 아 개웃기다
     # 로그인한 계정의 장바구니에서 선택한 값을 가져온다
@@ -195,21 +202,25 @@ def mall_parchase_completed(request, order_id):
 
 # 쇼핑몰 후기 쓰기/수정
 def mall_review(request, shoe_id):
-    # 해당 유저가 산 물건만 후기를 달수있게 하기 위함
-    conn_user_id = request.user.id # 지금 로그인한 유저 id 를 가지고 옴
-    # 현재 유저가 산 것 목록을 불러와야함!
-    # ========================================
+    writed_review = 0
+    conn_user_id = request.user.id 
     shoe = Shoe.objects.get(id = shoe_id)
+
     # 해당 상품 id 의 리뷰가 있으면 
     try:
         writed_review = MallReview.objects.filter( user_id = conn_user_id, shoe_id = shoe_id).latest('pk')
     except:
         writed_review = 0
 
-    # 폼을 불러와함요!
     if request.method == "POST":
-       
-        form = MallReviewForm(request.POST)
+        # 후기를 수정할때
+        if writed_review:
+            print("수정입니다!!!!")
+            form = MallReviewForm(request.POST, instance = writed_review)
+        # 처음 후기를 쓸때
+        else: 
+            form = MallReviewForm(request.POST)
+
         if form.is_valid():
             review = form.save(commit=False)
             review.user_id = conn_user_id # 니 누고
@@ -221,16 +232,13 @@ def mall_review(request, shoe_id):
                 MallReviewImage.objects.create(
                     review = review,
                     images = image_file
-                )
-
-        return redirect('product_detail', id=shoe_id )
-    else : 
-        if writed_review: 
-            print("이미썼어")
-            print(writed_review)
+            )
+            return redirect('product_detail', id=shoe_id )
+    else:
+        # GET 했을때 
+        if writed_review:
             form = MallReviewForm(instance = writed_review)
-        else :
-            # create 할때 
+        else:  
             form = MallReviewForm()
 
     context = {
@@ -253,7 +261,7 @@ def mall_review_delete(request, id):
     delete_data = MallReview.objects.get(id = id)
     delete_data.delete()
     # 그 이전페이지로 돌아가면 좋을텐디~
-    return redirect('mall')
+    return redirect('mall_main')
 # 슈마커에서 데이터 크롤링해오기
 
 # 1. https://www.shoemarker.co.kr/ASP/Product/SearchProductList.asp?SearchWord=%EB%9F%B0%EB%8B%9D%ED%99%94'
