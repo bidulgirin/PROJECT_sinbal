@@ -18,7 +18,7 @@ from mall.forms import MallReviewForm # 후기 폼
 # 몰 메인
 def mall_main(request):
     products = Shoe.objects.all()[:5] # 5개만 보여주기
-    reviews = Review.objects.all()[:5]
+    reviews = MallReview.objects.all()[:5]
     context = {
         "products" : products,
         "reviews" : reviews
