@@ -11,7 +11,14 @@
                 <!-- LSH START -->
                 <div class="ly-img">
                     <a href="{% url 'product_detail' id=data.id %}">
-                        <img src="{{data.images.url}}" alt="{{data.name}}" />
+                        {% if data.images %}
+                        <img src="{{data.images.url}}" class="display-img" />
+                        {% else %}
+                        <img
+                            src="{% static 'img/NO_IMG_600x600.png'%}"
+                            class="display-img"
+                        />
+                        {% endif %}
                     </a>
                 </div>
                 <div class="ly-content p-1">
