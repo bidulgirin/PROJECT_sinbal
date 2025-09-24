@@ -1,0 +1,16 @@
+.g_square {
+    width: 100%;
+    position: relative;
+}
+
+.g_square:after {
+    content: "";
+    display: block;
+    padding-bottom: 100%;
+}
+
+.g_square .inner {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
