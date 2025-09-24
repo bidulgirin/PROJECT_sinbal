@@ -4,13 +4,15 @@ from PIL import Image
 from io import BytesIO
 from django.contrib import messages
 from urllib.request import urlopen
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from users.models import User
 from home.models import Order, Shoe, Review, Cart, OrderItem
+from mall.models import MallReview, MallReviewImage
 from django.db.models import Q # 모델의 데이터를 불러올때 조건값을 붙이기 위함 
 from bs4 import BeautifulSoup
 import requests
+from mall.forms import MallReviewForm # 후기 폼
 
 # Create your views here.
 # 몰 메인
@@ -44,8 +46,10 @@ def mall_product(request):
 # 상품상세
 def mall_product_detail(request, id):
     data = Shoe.objects.get(id=id)
+    reviews = MallReview.objects.filter(shoe_id=id)
     context = {
         "data" : data,
+        "reviews" : reviews,
     }
     return render(request, "mall/product_detail.html", context)
 
@@ -320,4 +324,53 @@ def crawling_shoes_page(request):
         #                                        ignore_conflicts=False)
         
     return redirect("mall_main")
-    
+
+
+# 쇼핑몰 후기 쓰기/수정
+def mall_review(request, shoe_id):
+    # 해당 유저가 산 물건만 후기를 달수있게 하기 위함
+    conn_user_id = request.user.id # 지금 로그인한 유저 id 를 가지고 옴
+    # 현재 유저가 산 것 목록을 불러와야함!
+    # ========================================
+
+
+    shoe = Shoe.objects.get(id = shoe_id)
+    # 해당 상품 id 의 리뷰가 있으면 
+    try:
+        writed_review = MallReview.objects.filter( user_id = conn_user_id, shoe_id = shoe_id).latest('pk')
+    except:
+        writed_review = 0
+
+    # 폼을 불러와함요!
+    if request.method == "POST":
+       
+        form = MallReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.user_id = conn_user_id # 니 누고
+            review.shoe_id = shoe_id # 니 뭐 샀누? 
+            review.save() 
+
+            # 다중 이미지 넣기 
+            for image_file in request.FILES.getlist("images"):
+                MallReviewImage.objects.create(
+                    review = review,
+                    images = image_file
+                )
+
+        return redirect('product_detail', id=shoe_id )
+    else : 
+        if writed_review: 
+            print("이미썼어")
+            print(writed_review)
+            form = MallReviewForm(instance = writed_review)
+        else :
+            # create 할때 
+            form = MallReviewForm()
+
+    context = {
+        "form" : form,
+        "shoe" : shoe
+    }
+    return render(request, "mall/mall_review.html", context)
+

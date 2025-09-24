@@ -22,6 +22,7 @@
                             <td>가격</td>
                             <td>사이즈</td>
                             <td>수량</td>
+                            <td>삭제</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -52,7 +53,17 @@
                             <td>{{data.shoe.price|intcomma}}</td>
                             <td>{{data.size}}</td>
                             <td>{{data.quantity}}</td>
+                            <td>
+                                <button
+                                    class="btn btn-danger delete_btn"
+                                    type="button"
+                                    data-id="{{data.id}}"
+                                >
+                                    삭제
+                                </button>
+                            </td>
                         </tr>
+
                         {% empty %}
                         <tr>
                             <td>장바구니가 텅 비었습니다</td>
@@ -84,6 +95,7 @@
 <script>
     // all_check 체크하면 모두 체크 아니면 모두 체크 아님
     // 기본 값 모두 체크
+
     const all_check = document.querySelector("#all_check");
     let checkboxs = document.getElementsByName("shoe_id[]");
     function checkbox_all_check() {
@@ -121,6 +133,24 @@
                 parseInt($(this).attr("data-count"));
             $("#total_price_p").text(totalCost);
         });
+    }
+
+    // 삭제 버튼 누르면 해당 id 값과 action 슥~ 보내기
+    const delete_btns = document.querySelectorAll(".delete_btn");
+    delete_btns.forEach((e) => {
+        e.addEventListener("click", () => {
+            const delete_row_id = e.getAttribute("data-id");
+            if (confirm("삭제하시겠습니까?")) {
+                delete_cart_data(delete_row_id);
+            }
+        });
+    });
+    // 함수가 작동할때만 form 의 내용을 변경해주는 방식을 사용합니다.
+    function delete_cart_data(id) {
+        const form = document.querySelector("#cart_form");
+        form.action = `/mall/cart/remove/${id}/`;
+        form.method = "GET";
+        form.submit();
     }
 </script>
 {% endblock %}
