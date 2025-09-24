@@ -16,7 +16,7 @@
                         type="text"
                         name="name"
                         placeholder="이름"
-                        value="{{user}}"
+                        value="{{user.username}}"
                         required
                         autofocus
                     />
@@ -117,6 +117,13 @@
                         <td>
                             <!-- 여기서 나오는 shoe_id 값들있잖아 이거 -->
                             {{data.shoe.id}}
+                            <!-- 카트아이디 -->
+                            <input
+                                type="text"
+                                name="cart_id[]"
+                                value="{{data.id}}"
+                                hidden
+                            />
                             <input
                                 type="text"
                                 value="{{data.shoe.id}}"
@@ -124,19 +131,7 @@
                                 hidden
                             />
                         </td>
-                        <td>
-                            <!-- 사고 난 다음에 
-                             cart_id 에 해당하는것을 
-                             Cart 모델에서 삭제처리해야함 
-                             -->
-                            {{data.id}}
-                            <input
-                                type="text"
-                                value="{{data.id}}"
-                                name="cart_id[]"
-                                hidden
-                            />
-                        </td>
+                        <td>{{data.id}}</td>
                         <td>
                             <img
                                 src="{{data.shoe.image_url}}"
