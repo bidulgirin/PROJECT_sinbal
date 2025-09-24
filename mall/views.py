@@ -247,6 +247,13 @@ def mall_review_detail(request, review_id):
     }
     return render(request, "mall/review_detail.html", context)
 
+def mall_review_delete(request, id):
+    referer = request.META.get('HTTP_REFERER', '/')
+    print(referer)
+    delete_data = MallReview.objects.get(id = id)
+    delete_data.delete()
+    # 그 이전페이지로 돌아가면 좋을텐디~
+    return redirect('mall')
 # 슈마커에서 데이터 크롤링해오기
 
 # 1. https://www.shoemarker.co.kr/ASP/Product/SearchProductList.asp?SearchWord=%EB%9F%B0%EB%8B%9D%ED%99%94'

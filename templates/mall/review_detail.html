@@ -10,6 +10,7 @@
     <div>
         {% if data.user_id == user.id %}
         <a href="{% url 'mall_review' shoe_id=data.shoe_id %}">수정</a>
+        <a href="{% url 'mall_review_delete' id=data.id %}">삭제</a>
         {% endif %}
     </div>
     <div>{{data.title}}</div>
