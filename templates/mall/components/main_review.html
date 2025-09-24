@@ -4,7 +4,7 @@
         {% for review in reviews %}
         <li>
             <div class="ly-img">
-                <a href="#!">
+                <a href="{% url 'mall_review_detail' review_id=review.id %}">
                     <img
                         src="https://cdn.shoemarker.co.kr/Upload/ProductImage/020102/48964_1_0320_0320.jpg"
                         alt="{{review.title}}"

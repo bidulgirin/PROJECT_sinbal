@@ -1,0 +1,21 @@
+<!-- 리뷰 디테일 페이지 -->
+<!-- 상품 상세 페이지 -->
+{% extends 'base/base.html' %} {% load static %}
+<!-- 콤마사용 -->
+{% load humanize %} {% block content %}
+
+<!-- 콘텐츠 영억 -->
+<div class="container">
+    <div>{{data.title}}</div>
+    <div>
+        {% if data.mallreviewimage_set.all %}
+        <!--  -->
+        {% for i in data.mallreviewimage_set.all %}
+        <img src="{{i.images.url}}" alt="" />
+        {% endfor %}
+        <!--  -->
+        {% endif %}
+    </div>
+    <div>{{data.content}}</div>
+</div>
+{% endblock %}

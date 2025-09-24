@@ -23,4 +23,7 @@ urlpatterns = [
     path("c/", views.crawling_shoes_page),
     # 쇼핑몰 후기 쓰기/수정
     path("mall_review/<int:shoe_id>/", views.mall_review, name="mall_review"),
+    # 쇼핑몰 후기 상세 페이지
+    path("mall_review_detail/<int:review_id>/", views.mall_review_detail, name="mall_review_detail"),
+
 ]

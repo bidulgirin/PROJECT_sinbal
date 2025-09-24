@@ -183,26 +183,69 @@ def mall_parchase(request):
 # 상품결제 취소 (실제 삭제할것인가...)
 def mall_parchase_cancle(request):
     pass
-# 삼품구매완료
-def mall_parchase_completed(request):
-    return render(request, "mall/parchase_completed.html")
 
+# 상품구매완료
+def mall_parchase_completed(request, order_id):
+    # 상품 구매한것을 알려줌
+    data = Order.objects.get(id = order_id)
+    context = {
+        "data" : data
+    }
+    return render(request, "mall/parchase_completed.html", context)
 
+# 쇼핑몰 후기 쓰기/수정
+def mall_review(request, shoe_id):
+    # 해당 유저가 산 물건만 후기를 달수있게 하기 위함
+    conn_user_id = request.user.id # 지금 로그인한 유저 id 를 가지고 옴
+    # 현재 유저가 산 것 목록을 불러와야함!
+    # ========================================
+    shoe = Shoe.objects.get(id = shoe_id)
+    # 해당 상품 id 의 리뷰가 있으면 
+    try:
+        writed_review = MallReview.objects.filter( user_id = conn_user_id, shoe_id = shoe_id).latest('pk')
+    except:
+        writed_review = 0
 
+    # 폼을 불러와함요!
+    if request.method == "POST":
+       
+        form = MallReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.user_id = conn_user_id # 니 누고
+            review.shoe_id = shoe_id # 니 뭐 샀누? 
+            review.save() 
 
+            # 다중 이미지 넣기 
+            for image_file in request.FILES.getlist("images"):
+                MallReviewImage.objects.create(
+                    review = review,
+                    images = image_file
+                )
 
+        return redirect('product_detail', id=shoe_id )
+    else : 
+        if writed_review: 
+            print("이미썼어")
+            print(writed_review)
+            form = MallReviewForm(instance = writed_review)
+        else :
+            # create 할때 
+            form = MallReviewForm()
 
+    context = {
+        "form" : form,
+        "shoe" : shoe
+    }
+    return render(request, "mall/mall_review.html", context)
 
-
-
-
-
-
-
-
-
-
-
+# 리뷰 상세페이지
+def mall_review_detail(request, review_id):
+    data = MallReview.objects.get(id = review_id)
+    context = {
+        "data" : data
+    }
+    return render(request, "mall/review_detail.html", context)
 
 # 슈마커에서 데이터 크롤링해오기
 
@@ -324,53 +367,4 @@ def crawling_shoes_page(request):
         #                                        ignore_conflicts=False)
         
     return redirect("mall_main")
-
-
-# 쇼핑몰 후기 쓰기/수정
-def mall_review(request, shoe_id):
-    # 해당 유저가 산 물건만 후기를 달수있게 하기 위함
-    conn_user_id = request.user.id # 지금 로그인한 유저 id 를 가지고 옴
-    # 현재 유저가 산 것 목록을 불러와야함!
-    # ========================================
-
-
-    shoe = Shoe.objects.get(id = shoe_id)
-    # 해당 상품 id 의 리뷰가 있으면 
-    try:
-        writed_review = MallReview.objects.filter( user_id = conn_user_id, shoe_id = shoe_id).latest('pk')
-    except:
-        writed_review = 0
-
-    # 폼을 불러와함요!
-    if request.method == "POST":
-       
-        form = MallReviewForm(request.POST)
-        if form.is_valid():
-            review = form.save(commit=False)
-            review.user_id = conn_user_id # 니 누고
-            review.shoe_id = shoe_id # 니 뭐 샀누? 
-            review.save() 
-
-            # 다중 이미지 넣기 
-            for image_file in request.FILES.getlist("images"):
-                MallReviewImage.objects.create(
-                    review = review,
-                    images = image_file
-                )
-
-        return redirect('product_detail', id=shoe_id )
-    else : 
-        if writed_review: 
-            print("이미썼어")
-            print(writed_review)
-            form = MallReviewForm(instance = writed_review)
-        else :
-            # create 할때 
-            form = MallReviewForm()
-
-    context = {
-        "form" : form,
-        "shoe" : shoe
-    }
-    return render(request, "mall/mall_review.html", context)
 
