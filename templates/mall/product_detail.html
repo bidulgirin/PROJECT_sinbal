@@ -8,6 +8,7 @@
 <div class="container l_product bg-light">
     <div class="d-flex">
         <div class="flex-fill l_pr">
+            {% if data.image_url.count > 1 %}
             <div class="l_pr_sumbnail">
                 <div class="wrapper">
                     <!-- 썸네일이 여러개일때 표기 -->
@@ -34,13 +35,19 @@
                     </div>
                     <!-- 썸네일이 여러개일때 표기 end -->
                     <div class="big-img">
-                        <img
-                            src="http://vignette1.wikia.nocookie.net/overwatch/images/b/b7/CuteSprayAvatars-Tracer.png/revision/latest?cb=20160511194930"
-                            class="display-img"
-                        />
+                        <img src="#!" class="display-img" />
                     </div>
                 </div>
             </div>
+            {% else %}
+            <div class="l_pr_sumbnail" style="padding-left: 0px">
+                <div class="wrapper g_square">
+                    <div class="big-img g_inner">
+                        <img src="{{ data.image_url }}" class="display-img" />
+                    </div>
+                </div>
+            </div>
+            {% endif %}
             <div id="tab_container">
                 <div class="d-flex tabs-container">
                     <button class="btn active flex-fill" data-id="detail">
@@ -72,6 +79,12 @@
             <form id="form" method="POST">
                 {% csrf_token %}
                 <div>
+                    <input
+                        type="text"
+                        value="{{data.id}}"
+                        name="shoe_id"
+                        hidden
+                    />
                     <div class="l_brand">
                         <div class="l_brand_img">
                             <img
@@ -81,35 +94,35 @@
                         </div>
                         <div class="l_brand_name">{{data.brand}}</div>
                     </div>
+                    <hr />
                     <div class="l_category">{{data.category}}</div>
-                    <div class="l_name">{{data.name}}</div>
-                    <div class="l_star">별점 {{data.rating}}</div>
-                    <div class="l_price fw-bold fs-3">
+                    <div class="l_name fs-2 fw-bold pb-1">{{data.name}}</div>
+                    <div class="l_star pb-1">별점 {{data.rating}}</div>
+                    <div class="l_price fw-bold fs-3 pb-1">
                         {{data.price|intcomma}} 원
                     </div>
                     <div class="l_options">
                         <select
                             name="size"
                             id=""
-                            class="form-select"
+                            class="form-select mb-3"
                             aria-label=""
                         >
                             <option value="220">220</option>
-                            <option value="220">225</option>
-                            <option value="220">230</option>
-                            <option value="220">235</option>
-                            <option value="220">240</option>
-                            <option value="220">245</option>
-                            <option value="220">250</option>
-                            <option value="220">255</option>
-                            <option value="220">260</option>
-                            <option value="220">265</option>
-                            <option value="220">270</option>
-                            <option value="220">275</option>
-                            <option value="220">280</option>
+                            <option value="225">225</option>
+                            <option value="230">230</option>
+                            <option value="235">235</option>
+                            <option value="240">240</option>
+                            <option value="245">245</option>
+                            <option value="250">250</option>
+                            <option value="255">255</option>
+                            <option value="260">260</option>
+                            <option value="265">265</option>
+                            <option value="270">270</option>
+                            <option value="275">275</option>
+                            <option value="280">280</option>
                         </select>
-
-                        <div class="count">
+                        <div class="count mb-3">
                             <!-- 개수입력 quantity -->
                             <input
                                 id="quantity"
@@ -145,7 +158,7 @@
                         <div
                             class="d-flex justify-content-center align-items-center"
                         >
-                            <div class="flex-fill">
+                            <!-- <div class="flex-fill">
                                 <div class="heart">
                                     찜
                                     <label for="checkbox">
@@ -166,20 +179,13 @@
                                         </svg>
                                     </label>
                                 </div>
-                            </div>
-                            <!-- Cart 모델에 추가된다. -->
+                            </div> -->
 
-                            <!-- 
-                                user = models.ForeignKey(User, on_delete=models.CASCADE) 
-                                shoe = models.ForeignKey(Shoe, on_delete=models.CASCADE) 
-                                size = models.CharField(max_length=10) 
-                                quantity = models.IntegerField(default=1) 
-                                created_at = models.DateTimeField(auto_now_add=True) 
-                            -->
                             <button
                                 id="cart"
                                 class="btn text-center flex-fill btn-light"
                                 type="button"
+                                disable
                             >
                                 장바구니
                             </button>
@@ -192,6 +198,7 @@
                                 id="parchase"
                                 class="btn btn-primary text-center flex-fill"
                                 type="button"
+                                disable
                             >
                                 구매하기
                             </button>
@@ -200,6 +207,18 @@
                     <!-- <div class="l_tag">
                         <a href="">#태그</a>
                     </div> -->
+                </div>
+                <!-- 이미 장바구니에 추가되었으면 -->
+                {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                    <div
+                        class="alert alert-{% if message.tag %}{{ message.tags }}{% endif %}"
+                        role="alert"
+                    >
+                        {{ message }}
+                    </div>
+                    {% endfor %} {% endif %}
                 </div>
             </form>
         </div>
