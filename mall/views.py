@@ -6,7 +6,8 @@ from django.contrib import messages
 from urllib.request import urlopen
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from home.models import Brand, Category, Order, Shoe, Review, Cart, OrderItem, User
+from users.models import User
+from home.models import Order, Shoe, Review, Cart, OrderItem
 from django.db.models import Q # 모델의 데이터를 불러올때 조건값을 붙이기 위함 
 from bs4 import BeautifulSoup
 import requests
