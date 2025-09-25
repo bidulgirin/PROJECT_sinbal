@@ -42,16 +42,18 @@
             {% else %}
             <div class="l_pr_sumbnail" style="padding-left: 0px">
                 <div class="wrapper">
+                    {% if data.images %}
                     <div class="big-img">
-                        {% if data.images %}
                         <img src="{{data.images.url}}" class="display-img" />
-                        {% else %}
+                    </div>
+                    {% else %}
+                    <div>
                         <img
                             src="{% static 'img/NO_IMG_600x600.png'%}"
                             class="display-img"
                         />
-                        {% endif %}
                     </div>
+                    {% endif %}
                 </div>
             </div>
             {% endif %}
@@ -61,22 +63,28 @@
                         상세보기
                     </button>
                     <button class="btn flex-fill" data-id="reviews">
-                        후기 ({{reviews.count}}) 개
+                        후기 ({{reviews.count|default:0 }}) 개
                     </button>
                 </div>
                 <div class="tabs-content">
                     <!-- item 1 -->
                     <div class="content active" id="detail">
                         <div class="product_detail">
+                            <!-- 크롤링 해올수있으면 해오기 -->
                             <img
                                 src="https://cdn.shoemarker.co.kr/Upload/Shoemarker/PBdetail/whever/WV25311/common.jpg"
                                 alt=""
                             />
                         </div>
                     </div>
-                    <!-- item 1 -->
+                    <!-- 후기컨텐츠 -->
                     <div class="content" id="reviews">
-                        <!-- 지금은 main_review 지만 나중에 해당 id 에 맞는 리뷰를 가지고 오는것을 views.py 에 추가 -->
+                        <!-- 만약 이 상품의 후기글을 쓰려면 -->
+                        <div class="d-flex">
+                            <a href="{% url 'mall_review' shoe_id=data.id %}">
+                                후기글쓰러가기
+                            </a>
+                        </div>
                         {% for review in reviews %}
                         <div class="l_review_img">
                             {% for i in review.mallreviewimage_set.all %}
@@ -93,7 +101,7 @@
             </div>
         </div>
         <div class="flex-fill bg-white p-5 l_pr">
-            <form id="form" method="POST">
+            <form id="form">
                 {% csrf_token %}
                 <div>
                     <input
@@ -121,7 +129,7 @@
                     <div class="l_options">
                         <select
                             name="size"
-                            id=""
+                            id="size"
                             class="form-select mb-3"
                             aria-label=""
                         >
@@ -145,7 +153,7 @@
                                 id="quantity"
                                 type="text"
                                 name="quantity"
-                                value=""
+                                value="0"
                                 hidden
                             />
                             <div
@@ -233,9 +241,12 @@
                         class="alert alert-{% if message.tag %}{{ message.tags }}{% endif %}"
                         role="alert"
                     >
-                        {% if message.tag == "success" %}
-                        <a href="{% url 'cart/' %}">장바구니로 가기</a>
-                        {% else %} {% endif %} {{ message }}
+                        {{ message }}
+                        <div>
+                            <a href="{% url 'cart' %}" class="btn btn-primary">
+                                장바구니로 가기
+                            </a>
+                        </div>
                     </div>
                     {% endfor %} {% endif %}
                 </div>
@@ -249,20 +260,26 @@
 <script>
     // 장바구니 버튼을 눌렀을때
     let form = document.getElementById("form");
+    let csrf_token = document.getElementById("csrf_token");
     const cart = document.getElementById("cart");
     const parchase = document.getElementById("parchase");
 
-    form.mothod = "POST";
     // 장바구니를 클릭할경우
     cart.addEventListener("click", (e) => {
         e.preventDefault();
+
+        form.method = "POST";
         form.action = "{% url 'cart_add' %}";
         form.submit();
     });
-    // 구매하기 클릭한경우
+    // 구매하기 클릭한경우 : 결제하기
     parchase.addEventListener("click", (e) => {
         e.preventDefault();
-        form.action = "{% url 'parchase' %}";
+        const shoe_id = Number("{{data.id}}");
+        const size = Number(document.getElementById("size").value);
+        const quantity = Number(document.getElementById("quantity").value);
+        form.method = "GET";
+        form.action = `/mall/quick_parchase/?shoe_id=${shoe_id}&size=${size}&quantity=${quantity}`;
         form.submit();
     });
 

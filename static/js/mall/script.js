@@ -1,13 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // 스플라이드 쓸 생각 있니? 없음~
-    // 이미지가 여러장이면 쓸 의향있음
-    // 크롤링 데이터를 생성할때 이미지가 1개만 불러올거기때문에 일단 이렇게 처리
-    // const elms = document.getElementsByClassName("splide");
-
-    // for (let i = 0; i < elms.length; i++) {
-    //     new Splide(elms[i]).mount();
-    // }
-
     // 탭기능 ==========================================
     const mainContent = document.querySelector("#tab_container");
     const tabs = document.querySelectorAll(".btn");
@@ -70,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("print").innerHTML = result;
         quantity.value = result;
     }
-
+    // 이벤트 리스너
     decr.addEventListener("click", decrease);
     incr.addEventListener("click", increase);
 
