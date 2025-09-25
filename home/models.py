@@ -79,8 +79,8 @@ class Order(models.Model):
     total_price = models.IntegerField(default=0) 
     name = models.CharField(max_length=50) 
     phone = models.CharField(max_length=20) 
-    addr_num = models.TextField() # 우편번호 필드 
-    address = models.TextField()
+    addr_num = models.TextField(null=True, blank = True) # 우편번호 필드 
+    address = models.TextField(null = True, blank = True)
     detail_address = models.TextField() # 상세 주소 필드 
     order_message = models.TextField(default='', blank=True) # 요청사항
     pay_method = models.IntegerField(default=0)

@@ -10,25 +10,26 @@
     
     <style>
         body {
-            background-color: #f8f9fa;  /* Bootstrap 색상 이름 사용 */
+            background-color: #f8f9fa;  
         }
         
         .price {
-            color: #0d6efd;  /* Bootstrap primary 색상 */
+            color: #0d6efd;  
             font-size: 18px;
             font-weight: bold;
+        }
+
+        .a {
+            text-decoration-line: none
         }
     </style>
 </head>
 <body>
-    <!-- 네비게이션 바 (Bootstrap 문서에서 복사) -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <span class="navbar-brand mx-auto">이런신발</span>
-            <a href = "{% url 'login' %}">
-                <button class="btn btn-outline-light">로그인</button>
-            </a>
+        <div class="container d-flex justify-content-center">
+            <a href = "/" style="text-decoration: none;"><span class="navbar-brand" style="margin-left:150px;">이런신발</span></a>
         </div>
+            <a href = "/login/" ><button class ="btn btn-outline-light" style="margin-right:100px;">로그인</button></a>
     </nav>
 
     <!-- 메인 컨테이너 -->
@@ -57,19 +58,12 @@
             </button>
         </div>
 
-        <!-- 공지사항 (Alert 컴포넌트 활용) -->
-        <div class="alert alert-info alert-dismissible fade show" role="alert">
-            <i class="bi bi-megaphone-fill"></i>
-            <strong>공지:</strong> 김효훈에게 맛있는 먹이(커피 및 에너지드링크)를 주세요
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-
         <!-- 메인 콘텐츠 영역 -->
-        <div class="row">
+        <div class="row mt-4">
 
             <!-- 왼쪽 사이드바 - 카테고리 -->
             <div class="col-md-3 mb-4">
-                <div class="card shadow-sm">
+                <div class="card">
 
                     <!-- 카테고리 맨 위 글자 -->
                     <div class="card-header bg-primary text-white">
@@ -106,7 +100,7 @@
             <div class="col-md-7">
 
                 <!-- 커뮤니티 인기글 섹션 -->
-                <div class="card shadow-sm mb-4">
+                <div class="card mb-4">
                     
                     <!-- 커뮤니티 맨 위 부분 -->
                     <div class="card-header bg-light d-flex justify-content-between align-items-center">
@@ -137,7 +131,7 @@
                 </div>
 
                 <!-- 쇼핑몰 섹션 -->
-                <div class="card shadow-sm mb-4">
+                <div class="card  mb-4">
 
                     <!-- 쇼핑몰 섹션 맨 위 부분 -->
                     <div class="card-header bg-light">
@@ -220,7 +214,7 @@
                 </div>
 
                 <!-- 마라톤 일정 섹션 -->
-                <div class="card shadow-sm">
+                <div class="card">
 
                     <!-- 마라톤 섹션 맨 위 부분-->
                     <div class="card-header bg-light">
@@ -255,7 +249,7 @@
 
             <!-- 오른쪽 사이드바 - 광고 -->
             <div class="col-md-2">
-                <div class="card shadow-sm">
+                <div class="card">
 
                     <!-- 광고인걸 알리는 부분 -->
                     <div class="card-header bg-secondary text-white text-center">
