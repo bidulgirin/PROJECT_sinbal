@@ -9,11 +9,11 @@ from django.urls import reverse
 from users.models import User
 from home.models import Order, Shoe, Review, Cart, OrderItem
 from mall.models import MallReview, MallReviewImage
+from mypage.models import WishList
 from django.db.models import Q # 모델의 데이터를 불러올때 조건값을 붙이기 위함 
 from bs4 import BeautifulSoup
 import requests
 from mall.forms import MallReviewForm # 후기 폼
-
 # Create your views here.
 # 몰 메인
 def mall_main(request):
@@ -47,11 +47,30 @@ def mall_product(request):
 def mall_product_detail(request, id):
     data = Shoe.objects.get(id=id)
     reviews = MallReview.objects.filter(shoe_id=id)
+    wish = WishList.objects.filter(shoe_id=id).exists()
+   
     context = {
         "data" : data,
         "reviews" : reviews,
+        "wish" : wish,
     }
     return render(request, "mall/product_detail.html", context)
+# 찜 등록
+def mall_wishlist_add(request, shoe_id):
+   
+    conn_user = request.user
+    wishlist = WishList.objects.create(
+        shoe_id = shoe_id,
+        user_id = conn_user.id,
+    )
+    wishlist.save()
+
+    return redirect("product_detail", id=shoe_id)
+
+# 찜 삭제
+def mall_wishlist_remove(request, shoe_id):
+    WishList.objects.get(shoe_id=shoe_id).delete()
+    return redirect("product_detail", id=shoe_id)
 
 # 상품장바구니
 def mall_cart(request):

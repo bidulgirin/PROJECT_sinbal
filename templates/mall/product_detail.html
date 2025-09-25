@@ -183,15 +183,27 @@
                         <div
                             class="d-flex justify-content-center align-items-center"
                         >
-                            <!-- <div class="flex-fill">
+                            <div class="flex-fill">
                                 <div class="heart">
                                     찜
                                     <label for="checkbox">
+                                        <!-- if 너의 찜목록에 shoe_id 가 잇으면? -->
+                                        {% if wish %}
                                         <input
                                             type="checkbox"
                                             id="checkbox"
                                             hidden
+                                            checked
+                                            data-shoe="{{data.id}}"
                                         />
+                                        {% else %}
+                                        <input
+                                            type="checkbox"
+                                            id="checkbox"
+                                            hidden
+                                            data-shoe="{{data.id}}"
+                                        />
+                                        {% endif %}
                                         <svg
                                             class="icon"
                                             viewBox="0 0 1024 1024"
@@ -204,7 +216,7 @@
                                         </svg>
                                     </label>
                                 </div>
-                            </div> -->
+                            </div>
 
                             <button
                                 id="cart"
@@ -214,11 +226,6 @@
                             >
                                 장바구니
                             </button>
-                            <!-- 구매하기 누르면 구매하기 페이지로 넘길것임 
-                                id[] 값에 ["1"] 이런식으로 배열값을 넘겨야함 
-                                parchase/["1"]
-                            
-                            -->
                             <button
                                 id="parchase"
                                 class="btn btn-primary text-center flex-fill"
@@ -283,6 +290,41 @@
         form.submit();
     });
 
-    // 구매하기 버튼을 눌렀을때
+    // 찜
+    // 찜을 눌렀을때
+    const wishBtn = document.getElementById("checkbox"); // 찜버튼
+    // 작은 폼을 만들어서
+    // action 을 조작하게 하는거죵
+
+    function wishListSubmit() {
+        const form = document.createElement("form");
+        form.setAttribute("method", "GET"); //Post 방식
+
+        if (wishBtn.checked) {
+            // 위시리스트에서 빼는 작업
+            form.setAttribute(
+                "action",
+                "{% url 'mall_wishlist_add' shoe_id=data.id %}"
+            ); //요청 보낼 주소
+        } else {
+            form.setAttribute(
+                "action",
+                "{% url 'mall_wishlist_remove' shoe_id=data.id %}"
+            ); //요청 보낼 주소
+        }
+
+        // 신발 아이디
+        hiddenField = document.createElement("input");
+
+        hiddenField.setAttribute("type", "hidden");
+        hiddenField.setAttribute("name", "shoe_id");
+        hiddenField.setAttribute("value", "{{data.id}}");
+        form.appendChild(hiddenField);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+    wishBtn.addEventListener("click", wishListSubmit);
 </script>
 {% endblock %}
