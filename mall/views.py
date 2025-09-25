@@ -9,11 +9,11 @@ from django.urls import reverse
 from users.models import User
 from home.models import Order, Shoe, Review, Cart, OrderItem
 from mall.models import MallReview, MallReviewImage
+from mypage.models import WishList
 from django.db.models import Q # 모델의 데이터를 불러올때 조건값을 붙이기 위함 
 from bs4 import BeautifulSoup
 import requests
 from mall.forms import MallReviewForm # 후기 폼
-
 # Create your views here.
 # 몰 메인
 def mall_main(request):
@@ -47,11 +47,30 @@ def mall_product(request):
 def mall_product_detail(request, id):
     data = Shoe.objects.get(id=id)
     reviews = MallReview.objects.filter(shoe_id=id)
+    wish = WishList.objects.filter(shoe_id=id).exists()
+   
     context = {
         "data" : data,
         "reviews" : reviews,
+        "wish" : wish,
     }
     return render(request, "mall/product_detail.html", context)
+# 찜 등록
+def mall_wishlist_add(request, shoe_id):
+   
+    conn_user = request.user
+    wishlist = WishList.objects.create(
+        shoe_id = shoe_id,
+        user_id = conn_user.id,
+    )
+    wishlist.save()
+
+    return redirect("product_detail", id=shoe_id)
+
+# 찜 삭제
+def mall_wishlist_remove(request, shoe_id):
+    WishList.objects.get(shoe_id=shoe_id).delete()
+    return redirect("product_detail", id=shoe_id)
 
 # 상품장바구니
 def mall_cart(request):
@@ -91,20 +110,17 @@ def mall_cart_add(request):
         if exist_data.exists():
             print("장바구니에 넣을것이다")
             messages.warning(request, '이미 장바구니에 있습니다.')
-            return redirect("product_detail", id=shoe_id)
         else: 
-            print("장바구니에 넣을것이다")
+           
             add_cart_data = Cart.objects.create(
                 user = user,
                 shoe = Shoe(id=shoe_id),
                 size = size,
                 quantity = quantity, 
             )
-
-            print(user,shoe_id,size,quantity)
             add_cart_data.save()
-            return redirect("cart") # 일단 장바구니로 가게함 
-        #return redirect("product_detail", id=shoe_id ) # 계속보던 상품디테일 페이지로 다시 돌림
+            messages.success(request, '장바구니에 추가되었습니다')
+        return redirect("product_detail", id=shoe_id ) # 계속보던 상품디테일 페이지로 다시 돌림
 
 # 장바구니 삭제
 def mall_cart_remove(request, id):
@@ -113,70 +129,44 @@ def mall_cart_remove(request, id):
     delete_data.delete()
     return redirect('cart') # 본인 장바구니로 돌려보냄
 
+# 바로 구매하기
+def mall_quick_parchase(request):
+    if request.method == "POST": # 결제하려고 하면
+        result = request.POST
+        conn_user = request.user
+        order = mall_order_orderitem_create(result, conn_user)
+        # 장바구니에 담지 않아서 삭제 처리 필요없음
+        return redirect("parchase_completed", order_id=order["order_id"]) # 구매완료페이지로 넘기기
+
+    else:
+        shoe_id = int(request.GET["shoe_id"])
+        size = int(request.GET["size"])
+        quantity = int(request.GET["quantity"])
+
+        data = Shoe.objects.get(id=shoe_id) 
+        context = {
+            "data" : data, 
+            "shoe_id" : shoe_id,
+            "size" : size,
+            "quantity" : quantity,
+        }
+        return render(request, "mall/parchase_quick.html", context)
+
 # 상품결제
 def mall_parchase(request):
     # 결제를 요청
     if request.method == "POST":
         # 받을것 
         result = request.POST
-        # user 정보 user 없으면 날려버리는 거 안함
         conn_user = request.user
-        
-        name = result["name"]
-        addr_num = result["addr_num"]
-        address = result["address"]
-        detail_address = result["detail_address"]
-        phone = result["phone"]
-        order_message = result["order_message"]
-        # 배열값으로 나올것이여
-        cart_ids = result.getlist("cart_id[]")
-        shoe_ids = result.getlist("shoe_id[]")
-        prices = result.getlist("price[]") 
-        shoe_sizes = result.getlist("shoe_size[]")
-        quantitys = result.getlist("quantity[]")
-        total_price = result["total_price"]
-        pay_method = result["pay_method"]
-        # Order model 에는 주문만 들어가게하기 => 한개 들어감 =======================
+        order = mall_order_orderitem_create(result, conn_user)
 
-        order =  Order.objects.create(
-            user = conn_user, # 내정보
-            total_price = total_price,
-            name = name, 
-            phone = phone, 
-            addr_num = addr_num,
-            address = address,
-            detail_address = detail_address,
-            order_message = order_message,
-            pay_method = pay_method, # 1번 무통장입금 2번 네이버페이
-        )
-
-        # OrderItem model 에는 상품별로 들어가게하기 => 여러개 들어감 =======================
-        # 방금 주문한 Order 데이터 중 로그인한 사람의 id 와 가지고 맨 나중에 추가된 1개만
-        order_id = Order.objects.filter(user = conn_user).last()
-       
-        # bulk_create 을 이용해서 데이터를 한번에 추가
-        orderItem = []
-        for idx in range(len(shoe_ids)):
-            orderItem.append(OrderItem(
-                                order = Order(id=order_id.id),
-                                shoe = Shoe(id=int(shoe_ids[idx])),
-                                size = shoe_sizes[idx],
-                                quantity = int(quantitys[idx]),
-                                price = int(prices[idx]),
-                            ))
-        # 주문내역 저장
-        if orderItem:
-            OrderItem.objects.bulk_create(orderItem , batch_size=None, ignore_conflicts=False)
-        
-        # 주문서 1개 저장
-        order.save()
         # 산것들은 장바구니에서 delete 처리
-        print(cart_ids)
-        for cart_i in cart_ids:
+        for cart_i in order["cart_ids"]:
             Cart.objects.get(id=cart_i).delete()
 
         # Order 의 id 를 넘겨야함 # 구매정보를 알수있도록
-        return redirect("parchase_completed", order_id=order_id.id) # 구매완료페이지로 넘기기 
+        return redirect("parchase_completed", order_id=order["order_id"]) # 구매완료페이지로 넘기기 
     
     ids = eval(request.GET["id[]"]) # 아 개웃기다
     # 로그인한 계정의 장바구니에서 선택한 값을 가져온다
@@ -186,6 +176,61 @@ def mall_parchase(request):
         "cart_datas" : cart_datas,
     }
     return render(request, "mall/parchase.html", context)
+
+
+# 결제정보를 입력하기 위한 함수
+def mall_order_orderitem_create(result, conn_user):
+    name = result["name"]
+    addr_num = result["addr_num"]
+    address = result["address"]
+    detail_address = result["detail_address"]
+    phone = result["phone"]
+    order_message = result["order_message"]
+    # 배열값으로 나올것이여
+    cart_ids = result.getlist("cart_id[]")
+    shoe_ids = result.getlist("shoe_id[]")
+    prices = result.getlist("price[]") 
+    shoe_sizes = result.getlist("shoe_size[]")
+    quantitys = result.getlist("quantity[]")
+    total_price = result["total_price"]
+    pay_method = result["pay_method"]
+    # Order model 에는 주문만 들어가게하기 => 한개 들어감 =======================
+
+    order =  Order.objects.create(
+        user = conn_user, # 내정보
+        total_price = total_price,
+        name = name, 
+        phone = phone, 
+        addr_num = addr_num,
+        address = address,
+        detail_address = detail_address,
+        order_message = order_message,
+        pay_method = pay_method, # 1번 무통장입금 2번 네이버페이
+    )
+
+    # OrderItem model 에는 상품별로 들어가게하기 => 여러개 들어감 =======================
+    # 방금 주문한 Order 데이터 중 로그인한 사람의 id 와 가지고 맨 나중에 추가된 1개만
+    order_id = Order.objects.filter(user = conn_user).last()
+    
+    # bulk_create 을 이용해서 데이터를 한번에 추가
+    orderItem = []
+    for idx in range(len(shoe_ids)):
+        orderItem.append(OrderItem(
+                            order = Order(id=order_id.id),
+                            shoe = Shoe(id=int(shoe_ids[idx])),
+                            size = shoe_sizes[idx],
+                            quantity = int(quantitys[idx]),
+                            price = int(prices[idx]),
+                        ))
+    # 주문내역 저장
+    if orderItem:
+        OrderItem.objects.bulk_create(orderItem , batch_size=None, ignore_conflicts=False)
+    
+    # 주문서 1개 저장
+    order.save()
+    # 리턴값으로 order_id 와 cart_id 를 return 해줌
+    return {"order_id": order_id.id , "cart_ids": cart_ids }
+    
 
 # 상품결제 취소 (실제 삭제할것인가...)
 def mall_parchase_cancle(request):

@@ -1,46 +1,48 @@
 {% load static %}
+<!-- humanize -->
+{% load humanize %}
 <div class="container-fluid">
-    <h2 class="fw-bold">PRODUCT</h2>
-    <ul class="d-flex cards flex-wrap">
+    <h2 class="pt-3 pb-3 fw-bold">PRODUCT</h2>
+    <div class="row start">
         {% for product in products %}
-        <li class="product_info">
-            <div class="product-list">
+        <div class="pb-3 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <div class="card h-100">
                 <!-- LSH START -->
-                <div class="ly-img">
-                    <a href="{% url 'product_detail' id=product.id %}">
-                        {% if product.images %}
-                        <img
-                            src="{{product.images.url}}"
-                            alt="{{product.name}}"
-                        />
-                        {% else %}
-                        <img
-                            src="{% static 'img/NO_IMG_600x600.png' %}"
-                            alt="{{product.name}}"
-                        />
-                        {% endif %}
-                    </a>
-                </div>
-                <div class="ly-content p-1">
+                <a href="{% url 'product_detail' id=product.id %}">
+                    {% if product.images %}
+                    <img
+                        class="card-img-top"
+                        src="{{product.images.url}}"
+                        alt="{{product.name}}"
+                    />
+                    {% else %}
+                    <img
+                        class="card-img-top"
+                        src="{% static 'img/NO_IMG_600x600.png' %}"
+                        alt="{{product.name}}"
+                    />
+                    {% endif %}
+                </a>
+                <div class="card-body">
                     <div class="ly-brand">
                         <div class="fw-bold">{{product.brand}}</div>
                     </div>
-                    <div class="ly-name">
-                        <div class="">
-                            <a href="{% url 'product_detail' id=product.id %}"
-                                >{{product.name}}
-                            </a>
-                        </div>
-                    </div>
+                    <a
+                        class="card-title"
+                        href="{% url 'product_detail' id=product.id %}"
+                        >{{product.name|truncatechars:10}}
+                    </a>
                     <div class="ly-price">
-                        <span class="fw-bold fs-6">{{product.price}}</span>
+                        <span class="fw-bold fs-3"
+                            >{{product.price|intcomma}}원</span
+                        >
                     </div>
                 </div>
                 <!-- LSH END -->
             </div>
-        </li>
+        </div>
         {% empty %}
-        <li>아직 상품이 등록되지 않았습니다</li>
+        <li class="col h-100">아직 상품이 등록되지 않았습니다</li>
         {% endfor %}
-    </ul>
+    </div>
 </div>

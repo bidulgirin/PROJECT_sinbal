@@ -15,6 +15,8 @@ urlpatterns = [
     path("cart/add/", views.mall_cart_add, name="cart_add"),
     # 장바구니 삭제
     path("cart/remove/<int:id>/", views.mall_cart_remove, name="cart_remove"),
+    # 바로 구매하기
+    path("quick_parchase/", views.mall_quick_parchase, name="quick_parchase"),
     # 상품결제
     path("parchase/", views.mall_parchase, name="parchase"),
     # 상품구매완료
@@ -27,4 +29,8 @@ urlpatterns = [
     path("mall_review_detail/<int:review_id>/", views.mall_review_detail, name="mall_review_detail"),
     # 쇼핑몰 후기 삭제 
     path("mall_review_delete/<int:id>/", views.mall_review_delete, name="mall_review_delete"),
+    # 찜 추가
+    path("mall_wishlist_add/<int:shoe_id>/", views.mall_wishlist_add, name="mall_wishlist_add"),
+    # 찜 삭제
+    path("mall_wishlist_remove/<int:shoe_id>/", views.mall_wishlist_remove, name="mall_wishlist_remove"),
 ]
