@@ -21,7 +21,8 @@ def login(request):
             
             # username, password에 해당하는 사용자가 있는지 검사
             user = authenticate(username = username, password = password)
-            
+        else:
+            print(form.error)
             # 해당 사용자가 존재한다면
             if user:
                 # 로그인 처리 후, 피드 페이지로 redirect
@@ -45,7 +46,6 @@ def signup(request):
     
     if request.method == 'POST':
         form = SignupForm(data = request.POST)
-        print("아니")
         
         if form.is_valid():
             print("테스트2")
@@ -53,6 +53,8 @@ def signup(request):
             login(request, user)
             # 홈으로
             return redirect("home")
+        else:
+            print(form.errors)
     
     form = SignupForm()
     context = {"form" : form}

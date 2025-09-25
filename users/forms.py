@@ -7,14 +7,18 @@ from users.models import User, UserBio
 
 class SignupForm(forms.Form):
     print("사인업테스트")
-    profile_image = forms.ImageField(label = "프로필 이미지")
+    profile_image = forms.ImageField(
+        label = "프로필 이미지", 
+        required = False
+    )
     short_description = forms.CharField(
         label = "자기소개",
         max_length = 100,
         widget = forms.TextInput(
             attrs = {"class" : "form-control",
                      "placeholder" : "자신에 대해 알려주세요"}
-        )
+        ),
+        required = False
     )
     
     username = forms.CharField(
@@ -75,16 +79,18 @@ class SignupForm(forms.Form):
         widget = forms.NumberInput(
             attrs={"class" : "form-control",
                    "placeholder" : "ex)260"}
-        )
+        ),
+        required = False
     )
     
     ball_foot = forms.ChoiceField(
         label = "발볼 크기",
         choices = UserBio.CATEGORY,
-        widget = forms.CheckboxInput(
+        widget = forms.RadioSelect(
             attrs = {"class" : "form-control",
                      "placeholder" : "선택"}
-        )
+        ),
+        required = False
     )
     
     favorite_brand = forms.CharField(
@@ -93,7 +99,8 @@ class SignupForm(forms.Form):
         widget = forms.TextInput(
             attrs = {"class" : "form-control",
                      "placeholder" : "ex) 나이키, 아이다스"}
-        )
+        ),
+        required = False
     )
     
     address = forms.CharField(
@@ -110,7 +117,8 @@ class SignupForm(forms.Form):
         choices = User.GENDER,
         widget = forms.RadioSelect(
             attrs = {"class" : "form-control"}
-        )
+        ),
+        required = False
     )
     
     def clean_username(self):
@@ -140,7 +148,7 @@ class SignupForm(forms.Form):
         
     #     return size
     
-    def clean_password(self):
+    def clean(self):
         print("테스트6")
         password = self.cleaned_data.get("password", None)
         password2 = self.cleaned_data.get("password2", None)
@@ -149,6 +157,8 @@ class SignupForm(forms.Form):
             # password2 필드에 오류를 추가
             # 위에 함수는 누구 오류인지 명확하니 add_error 를 따로 하지 않아도 됨
             self.add_error("password2", "비밀번호화 비밀번호 확인란의 값이 다릅니다")
+            
+        return self.cleaned_data
 
     def save(self):
         print("너가문제지?")
@@ -168,7 +178,7 @@ class SignupForm(forms.Form):
             email=email,
             password=password,
             nickname=nickname,
-            size=shoe_size,
+            #size=shoe_size, # 이거 에러떠서 삭제함
             # profile_image = profile_image,
             # short_description = short_description
         )
@@ -179,6 +189,7 @@ class SignupForm(forms.Form):
             ball_foot=ball_foot,
             # favorite_brand=favorite_brand
         )
+        user_bio.save() #이거 없었음 
 
         return user
 
