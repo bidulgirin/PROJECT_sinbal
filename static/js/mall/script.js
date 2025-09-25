@@ -25,35 +25,24 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // 개수===================================================
-
     const decr = document.querySelector("#decr"); // 감소버튼
     const incr = document.querySelector("#incr"); // 증가버튼
     const quantity = document.querySelector("#quantity"); // 실제 form 에 사용할 값
     const cart = document.getElementById("cart");
-    const parchase = document.getElementById("parchase");
-
     let result = 0; // 초기 숫자
-    function buttonState() {
-        // 수량셈
-        const quantity_val = Number(quantity.value);
-        // cart 누르면
-        cart.disable = quantity_val <= 0;
-    }
+
     function decrease() {
         // 감소 result 가 0보다 클경우에만 -1 되시오
         if (result > 0) {
             let dec = (result -= 1);
         }
-
         num();
-        buttonState();
     }
 
     function increase() {
         // 증가
         let inc = (result += 1);
         num();
-        buttonState();
     }
 
     function num() {
@@ -106,4 +95,67 @@ document.addEventListener("DOMContentLoaded", function () {
             top: 0,
         });
     });
+
+    //
+
+    // 장바구니 버튼을 눌렀을때
+    let form = document.getElementById("form");
+    const parchase = document.getElementById("parchase");
+
+    // 장바구니를 클릭할경우
+    cart.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        if (quantity.value == 0) {
+            alert("수량을 선택해주세요");
+            return false;
+        }
+
+        form.method = "POST";
+        form.action = cart_add_url;
+        form.submit();
+    });
+    // 구매하기 클릭한경우 : 결제하기기능동작
+    parchase.addEventListener("click", (e) => {
+        e.preventDefault();
+        const size = Number(document.getElementById("size").value);
+        const quantity_ = Number(document.getElementById("quantity").value);
+
+        if (quantity_ == 0) {
+            alert("수량을 선택해주세요");
+            return false;
+        }
+
+        form.method = "GET";
+        form.action = `/mall/quick_parchase/?shoe_id=${shoe_id}&size=${size}&quantity=${quantity_}`;
+        form.submit();
+    });
+
+    // 찜 ========================================================
+    // 찜을 눌렀을때
+    const wishBtn = document.getElementById("checkbox"); // 찜버튼
+    function wishListSubmit() {
+        const form = document.createElement("form");
+        form.setAttribute("method", "GET"); //Post 방식
+
+        if (wishBtn.checked) {
+            // 위시리스트에서 빼는 작업
+            form.setAttribute("action", mall_wishlist_add); //요청 보낼 주소
+        } else {
+            form.setAttribute("action", mall_wishlist_remove); //요청 보낼 주소
+        }
+
+        // 신발 아이디
+        hiddenField = document.createElement("input");
+
+        hiddenField.setAttribute("type", "hidden");
+        hiddenField.setAttribute("name", "shoe_id");
+        hiddenField.setAttribute("value", "{{data.id}}");
+        form.appendChild(hiddenField);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+    wishBtn.addEventListener("click", wishListSubmit);
 });

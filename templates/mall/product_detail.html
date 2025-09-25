@@ -222,7 +222,6 @@
                                 id="cart"
                                 class="btn text-center flex-fill btn-light"
                                 type="button"
-                                disable
                             >
                                 장바구니
                             </button>
@@ -230,7 +229,6 @@
                                 id="parchase"
                                 class="btn btn-primary text-center flex-fill"
                                 type="button"
-                                disable
                             >
                                 구매하기
                             </button>
@@ -262,69 +260,14 @@
     </div>
 </div>
 <!-- splide 슬라이더 기능  -->
-<script src="{% static 'js/splide/splide.min.js'%}"></script>
-<script src="{% static 'js/mall/script.js' %}"></script>
 <script>
-    // 장바구니 버튼을 눌렀을때
-    let form = document.getElementById("form");
-    let csrf_token = document.getElementById("csrf_token");
-    const cart = document.getElementById("cart");
-    const parchase = document.getElementById("parchase");
-
-    // 장바구니를 클릭할경우
-    cart.addEventListener("click", (e) => {
-        e.preventDefault();
-
-        form.method = "POST";
-        form.action = "{% url 'cart_add' %}";
-        form.submit();
-    });
-    // 구매하기 클릭한경우 : 결제하기
-    parchase.addEventListener("click", (e) => {
-        e.preventDefault();
-        const shoe_id = Number("{{data.id}}");
-        const size = Number(document.getElementById("size").value);
-        const quantity = Number(document.getElementById("quantity").value);
-        form.method = "GET";
-        form.action = `/mall/quick_parchase/?shoe_id=${shoe_id}&size=${size}&quantity=${quantity}`;
-        form.submit();
-    });
-
-    // 찜
-    // 찜을 눌렀을때
-    const wishBtn = document.getElementById("checkbox"); // 찜버튼
-    // 작은 폼을 만들어서
-    // action 을 조작하게 하는거죵
-
-    function wishListSubmit() {
-        const form = document.createElement("form");
-        form.setAttribute("method", "GET"); //Post 방식
-
-        if (wishBtn.checked) {
-            // 위시리스트에서 빼는 작업
-            form.setAttribute(
-                "action",
-                "{% url 'mall_wishlist_add' shoe_id=data.id %}"
-            ); //요청 보낼 주소
-        } else {
-            form.setAttribute(
-                "action",
-                "{% url 'mall_wishlist_remove' shoe_id=data.id %}"
-            ); //요청 보낼 주소
-        }
-
-        // 신발 아이디
-        hiddenField = document.createElement("input");
-
-        hiddenField.setAttribute("type", "hidden");
-        hiddenField.setAttribute("name", "shoe_id");
-        hiddenField.setAttribute("value", "{{data.id}}");
-        form.appendChild(hiddenField);
-
-        document.body.appendChild(form);
-        form.submit();
-    }
-
-    wishBtn.addEventListener("click", wishListSubmit);
+    // 변수로 쓸것들
+    const cart_add_url = "{% url 'cart_add' %}";
+    const shoe_id = "{{data.id}}";
+    const mall_wishlist_add = "{% url 'mall_wishlist_add' shoe_id=data.id %}";
+    const mall_wishlist_remove =
+        "{% url 'mall_wishlist_remove' shoe_id=data.id %}";
 </script>
+<script src="{% static 'js/mall/script.js' %}"></script>
+<script></script>
 {% endblock %}
