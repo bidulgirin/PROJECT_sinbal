@@ -220,3 +220,4 @@ community/migrations/0003_rename_created_at_user_created.py
 community/migrations/0004_rename_created_user_created_at.py
 community/migrations/0005_alter_user_created_at.py
 community/migrations/0006_delete_user.py
+media/

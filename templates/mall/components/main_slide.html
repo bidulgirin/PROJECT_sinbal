@@ -1,10 +1,17 @@
 <!-- 슬라이드 -->
+{% load static %}
 <section class="splide" aria-labelledby="carousel-heading">
     <div class="splide__track">
         <ul class="splide__list">
-            <li class="l_slide splide__slide">Slide 01</li>
-            <li class="l_slide splide__slide">Slide 02</li>
-            <li class="l_slide splide__slide">Slide 03</li>
+            <li class="l_slide splide__slide">
+                <img src="{% static 'img/mall/slide1.png' %}" alt="" />
+            </li>
+            <li class="l_slide splide__slide">
+                <img src="{% static 'img/mall/slide2.jpg' %}" alt="" />
+            </li>
+            <li class="l_slide splide__slide">
+                <img src="{% static 'img/mall/slide3.png' %}" alt="" />
+            </li>
         </ul>
     </div>
 </section>

@@ -1,24 +1,34 @@
+{% load static %}
 <div class="container-fluid">
-    <h2 class="fw-bold">REVIEWS</h2>
-    <ul class="d-flex cards flex-wrap">
+    <h2 class="pt-3 pb-3 fw-bold">REVIEWS</h2>
+    <div class="row">
         {% for review in reviews %}
-        <li>
-            <div class="ly-img">
-                <a href="#!">
-                    <img
-                        src="https://cdn.shoemarker.co.kr/Upload/ProductImage/020102/48964_1_0320_0320.jpg"
-                        alt="{{review.title}}"
-                    />
-                </a>
-            </div>
+        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 border">
+            <a href="{% url 'mall_review_detail' review_id=review.id %}">
+                {% if review.mallreviewimage_set.all %}
+                <!-- 역참조해서 리뷰 이미지중 한개만 -->
+                {% for i in review.mallreviewimage_set.all|slice:":1" %}
+                <img
+                    class="card-img-top"
+                    src="{{ i.images.url }}"
+                    alt="{{review.title}}"
+                />
+                {% endfor %} {% else %}
+                <img
+                    class="card-img-top"
+                    src="{% static 'img/NO_IMG_600x600.png' %}"
+                    alt="{{review.title}}"
+                />
+                {% endif %}
+            </a>
             <div class="ly-content p-2">
                 <div class="rating">★ {{review.rating}}</div>
                 <div class="ly-name fw-bold fs-5">네오런닝화</div>
                 <p>{{review.content | truncatechars:30}}</p>
             </div>
-        </li>
+        </div>
         {% empty %}
         <li>아직 리뷰가 없습니다.</li>
         {% endfor %}
-    </ul>
+    </div>
 </div>

@@ -4,7 +4,7 @@
 {% load humanize %} {% block content %}
 <!-- 콘텐츠 영역 -->
 <div class="container">
-    <form method="POST" action="{% url 'parchase' %}">
+    <form method="POST" action="">
         {% csrf_token %}
         <div class="row">
             <div class="col">
@@ -13,80 +13,75 @@
                 <table>
                     <tr>
                         <td>상품번호</td>
-                        <td>상품주문번호</td>
                         <td>이미지</td>
                         <td>발 사이즈</td>
                         <td>가격</td>
                         <td>사이즈</td>
                         <td>수량</td>
                     </tr>
-                    {% for data in cart_datas %}
                     <tr>
                         <td>
-                            <!-- 여기서 나오는 shoe_id 값들있잖아 이거 -->
-                            {{data.shoe.id}}
                             <!-- 카트아이디 -->
                             <input
                                 type="text"
                                 name="cart_id[]"
-                                value="{{data.id}}"
+                                value="0"
                                 hidden
                             />
                             <input
                                 type="text"
-                                value="{{data.shoe.id}}"
                                 name="shoe_id[]"
+                                value="{{data.id}}"
                                 hidden
                             />
+                            {{data.id}}
                         </td>
-                        <td>{{data.id}}</td>
                         <td>
                             <img
-                                src="{{data.shoe.image_url}}"
-                                alt="{{data.shoe.name}}"
+                                src="{{data.images}}"
+                                alt="{{data.name}}"
                                 width="60px"
                                 heihgt="60px"
                             />
                         </td>
 
                         <td>
-                            {{data.shoe.name}}
+                            {{data.name}}
                             <input
                                 type="text"
                                 name="shoe_name[]"
-                                value="{{data.shoe.name}}"
+                                value="{{data.name}}"
                                 hidden
                             />
                         </td>
                         <td>
-                            {{data.shoe.price|intcomma}}
+                            {{data.price|intcomma}}
                             <input
                                 type="text"
                                 name="price[]"
-                                value="{{data.shoe.price}}"
+                                value="{{data.price}}"
                                 hidden
                             />
                         </td>
                         <td>
-                            {{data.size}}
+                            {{size}}
                             <input
                                 type="text"
                                 name="shoe_size[]"
-                                value="{{data.size}}"
+                                value="{{size}}"
                                 hidden
                             />
                         </td>
                         <td>
-                            {{data.quantity}}
+                            {{quantity}}
                             <input
                                 type="text"
                                 name="quantity[]"
-                                value="{{data.quantity}}"
+                                value="{{quantity}}"
                                 hidden
                             />
                         </td>
                     </tr>
-                    {% endfor %}
                 </table>
             </div>
             <div class="col">
