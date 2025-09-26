@@ -28,6 +28,6 @@ urlpatterns = [
     path("mall/", include('mall.urls')),
     # 마이페이지
     path("mypage/", include('mypage.urls')),
-    # 로그인
-    path("login/", include('users.urls'))
+    # 로그인(users)
+    path("users/", include('users.urls')),
 ]

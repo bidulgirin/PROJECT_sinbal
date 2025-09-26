@@ -1,11 +1,18 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
-from django.utils import timezone
 
 class UserManager(BaseUserManager):
     use_in_migrations = True    
 
     def create_user(self, nickname, email, username, password=None):
+        if not email:
+            raise ValueError("must haveu user email")
+        
+        if not password:
+            raise ValueError("must have password")
+        
+        if not username:
+            raise ValueError("must have username")
         
         user = self.model(
             nickname = nickname,
@@ -16,20 +23,27 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, nickname, password=None, **kwargs): # is_staff, ... 등등을 보내주기위한 매개변수
-        kwargs.setdefault("is_staff", True)
-        kwargs.setdefault("is_superuser", True)
-        kwargs.setdefault("is_admin", True)
-
-        return self.create_user(nickname, password, **kwargs)
+    def create_superuser(self, nickname, email, username, password=None): # is_staff, ... 등등을 보내주기위한 매개변수
+        user = self.create_user(
+            nickname=nickname,
+            email=email,
+            username=username,
+            password=password
+        )
+        user.is_staff = True
+        user.is_superuser = True
+        user.is_admin = True
+        user.save(using=self.db)
+        
+        return user
 
 class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
-    USERNAME_FIELD = "nickname" # 로그인 ID로 사용할 필드임~
-    REQUIRED_FIELDS = ["email", "username"]  # createsuperuser 할때 필요한거
+    USERNAME_FIELD = "email" # 로그인 ID로 사용할 필드임~
+    REQUIRED_FIELDS = ["nickname", "username"]  # createsuperuser 할때 필요한거
     
-    username = models.CharField("사용자 이름", max_length=50, unique=True)
+    username = models.CharField("사용자 이름", max_length=5, unique=False)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     nickname = models.CharField("닉네임", max_length=10, blank=False, unique=True)

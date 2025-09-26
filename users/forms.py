@@ -6,7 +6,6 @@ from users.models import User, UserBio
 # Create your forms here.
 
 class SignupForm(forms.Form):
-    print("사인업테스트")
     profile_image = forms.ImageField(
         label = "프로필 이미지", 
         required = False
@@ -86,11 +85,9 @@ class SignupForm(forms.Form):
     ball_foot = forms.ChoiceField(
         label = "발볼 크기",
         choices = UserBio.CATEGORY,
-        widget = forms.RadioSelect(
-            attrs = {"class" : "form-control",
-                     "placeholder" : "선택"}
-        ),
-        required = False
+        widget = forms.RadioSelect(),
+        required = False,
+        initial="Regular"
     )
     
     favorite_brand = forms.CharField(
@@ -115,20 +112,10 @@ class SignupForm(forms.Form):
     gender = forms.ChoiceField(
         label = "성별",
         choices = User.GENDER,
-        widget = forms.RadioSelect(
-            attrs = {"class" : "form-control"}
-        ),
-        required = False
+        widget = forms.RadioSelect(),
+        required = False,
+        initial = "Male"
     )
-    
-    def clean_username(self):
-        print("테스트3")
-        username = self.cleaned_data["username"]
-
-        if User.objects.filter(username=username).exists():
-            raise ValidationError(f"입력한 ID({username})은(는) 이미 사용 중입니다")
-        
-        return username
     
     def clean_nickname(self):
         print("테스트4")
@@ -139,14 +126,14 @@ class SignupForm(forms.Form):
         
         return nickname
     
-    # def clean_size(self):
-    #     print("테스트5")
-    #     size = self.cleaned_data.get("shoe_size")
+    def clean_size(self):
+        print("테스트5")
+        size = self.cleaned_data.get("shoe_size")
         
-    #     if size and size % 5 != 0:
-    #         raise ValidationError("신발 사이즈는 5단위여야 합니다(250,255,260...)")
+        if size and size % 5 != 0:
+            raise ValidationError("신발 사이즈는 5단위여야 합니다(250,255,260...)")
         
-    #     return size
+        return size
     
     def clean(self):
         print("테스트6")
@@ -161,47 +148,50 @@ class SignupForm(forms.Form):
         return self.cleaned_data
 
     def save(self):
-        print("너가문제지?")
-        username = self.cleaned_data["username"] 
-        email = self.cleaned_data["email"] 
-        password = self.cleaned_data["password"] 
-        nickname = self.cleaned_data["nickname"]
-        shoe_size = self.cleaned_data["shoe_size"]
-        ball_foot = self.cleaned_data["ball_foot"]
-        # address = self.cleaned_data["address"]
-       
-        
-        # favorite_brand = self.cleaned_data.get("favorite_brand", "")
+        username = self.cleaned_data.get("username")
+        email = self.cleaned_data.get("email")
+        password = self.cleaned_data.get("password")
+        nickname = self.cleaned_data.get("nickname")
+        profile_image = self.cleaned_data.get("image")
+        short_description = self.cleaned_data.get("short_description")
+        address = self.cleaned_data.get("address"),
+        gender = self.cleaned_data.get("gender"),
+        shoe_size = self.cleaned_data.get("shoe_size")
+        ball_foot = self.cleaned_data.get("ball_foot")
+        favorite_brand = self.cleaned_data.get("favorite_brand")
 
         user = User.objects.create_user(
             username=username,
             email=email,
             password=password,
             nickname=nickname,
-            #size=shoe_size, # 이거 에러떠서 삭제함
-            # profile_image = profile_image,
-            # short_description = short_description
         )
+        
+        user.short_description = short_description
+        user.address=address
+        user.gender=gender
+        if profile_image:
+            user.profile_image=profile_image
+        
+        user.save()
 
         user_bio = UserBio.objects.create(
             user=user,
             shoe_size=shoe_size,
             ball_foot=ball_foot,
-            # favorite_brand=favorite_brand
+            favorite_brand=favorite_brand
         )
         user_bio.save() #이거 없었음 
 
         return user
 
 class LoginForm(forms.Form):
-    username = forms.CharField(min_length=4,
-                               widget = forms.TextInput(
-                                   attrs = {"placeholder" : "ID",
-                                            "class" : "form-control"})
-                                )
+    email = forms.EmailField(min_length=4,
+                            widget = forms.TextInput(
+                            attrs = {"placeholder" : "ID",
+                                    "class" : "form-control"}))
     
     password = forms.CharField(min_length = 4,
                                widget = forms.PasswordInput(
-                                   attrs = {"placeholder" : "PASSWORD",
-                                            "class" : "form-control"})
-                               )
+                                attrs = {"placeholder" : "PASSWORD",
+                                        "class" : "form-control"}))
