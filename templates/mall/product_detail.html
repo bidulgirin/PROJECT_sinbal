@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="{% static 'css/mall/style.css' %}" />
 <!-- 콘텐츠 영억 -->
 <div class="container l_product bg-light">
-    <div class="d-flex">
+    <div class="d-flex justify-content-center">
         <div class="flex-fill l_pr">
             {% if data.images.count > 1 %}
             <div class="l_pr_sumbnail">
@@ -41,15 +41,11 @@
             </div>
             {% else %}
             <div class="l_pr_sumbnail" style="padding-left: 0px">
-                <div class="wrapper">
+                <div class="g_squre">
                     {% if data.images %}
-                    <div class="big-img">
-                        <img src="{{data.images.url}}" class="display-img" />
-                    </div>
+                    <img src="{{data.images.url}}" class="display-img" />
                     {% else %}
-                    <div>
-                        <img src="{% static 'img/NO_IMG_600x600.png'%}" class="display-img" />
-                    </div>
+                    <img src="{% static 'img/NO_IMG_600x600.png'%}" class="display-img" />
                     {% endif %}
                 </div>
             </div>
@@ -62,9 +58,11 @@
                 <div class="tabs-content">
                     <!-- item 1 -->
                     <div class="content active" id="detail">
+                        {% if data.images %}
                         <div class="g_squre">
                             <img src="{{data.images.url}}" />
                         </div>
+                        {% endif %}
                         <div class="product_detail">{{ data.description | linebreaksbr }}</div>
                     </div>
                     <!-- 후기컨텐츠 -->

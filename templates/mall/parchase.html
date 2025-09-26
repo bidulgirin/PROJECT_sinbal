@@ -25,7 +25,9 @@
                             <!-- 카트아이디 -->
                             <input type="text" name="cart_id[]" value="{{data.id}}" hidden />
                             <input type="text" value="{{data.shoe.id}}" name="shoe_id[]" hidden />
+                            {% if data.shoe.images %}
                             <img src="{{data.shoe.images.url}}" alt="{{data.shoe.name}}" width="60px" heihgt="60px" />
+                            {% endif %}
                         </td>
                         <td>
                             {{data.shoe.name}}
@@ -47,9 +49,9 @@
                     {% endfor %}
                 </table>
             </div>
-            <div class="col">
-                <h1>최종 결제 금액</h1>
-                <table>
+            <div class="col p-3">
+                <h4 class="fw-bold">최종 결제 금액</h4>
+                <table class="table">
                     <tr>
                         <td>총 가격</td>
                         <td>
@@ -62,11 +64,6 @@
                         <td>0 원</td>
                     </tr>
                 </table>
-                <!-- 결제하기 누르기 전에 
-                    1. 배송지를 입력하였는지
-                    2. 결제수단을 입력하였는지 확인하는 js 코드 필요
-                    3. 모두 입력했으면 결제하기 버튼 활성화시키기
-                -->
                 <button class="btn btn-primary" type="submit">결제하기</button>
             </div>
         </div>

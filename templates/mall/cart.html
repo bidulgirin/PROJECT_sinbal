@@ -37,12 +37,16 @@
                                 />
                             </td>
                             <td>
+                                {% if data.shoe.images %}
                                 <img
                                     src="{{data.shoe.images.url}}"
                                     alt="{{data.shoe.name}}"
                                     width="60px"
                                     heihgt="60px"
                                 />
+                                {% else %}
+                                <img src="{% static 'img/NO_IMG_600x600.png' %}" width="60px" heihgt="60px" />
+                                {% endif %}
                             </td>
 
                             <td>{{data.shoe.name}}</td>
@@ -79,7 +83,7 @@
                         <td>0 원</td>
                     </tr>
                 </table>
-                <button class="btn btn-primary" type="submit">구매하기</button>
+                <button class="btn btn-primary w-100" type="submit">구매하기</button>
             </div>
         </div>
     </form>
