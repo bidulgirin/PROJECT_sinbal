@@ -7,7 +7,7 @@ class MallReviewForm(forms.ModelForm):
         fields = [
           'title',
           'content',
-          'rating',
+          #'rating',
         ]
         widgets = {
             "content": forms.Textarea(

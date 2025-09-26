@@ -1,9 +1,11 @@
 <!-- 상품페이지 -->
-{% extends 'base/base.html' %} {% load static %} {% block content %}
+{% extends 'base/base.html' %} {% load static %}
+<!-- humanize -->
+{% load humanize %} {% block content %}
 <link rel="stylesheet" href="{% static 'css/mall/style.css' %}" />
 <!-- 콘텐츠 영억 -->
 <div class="container">
-    <h2 class="fw-bold">검색전/후 나타나는 페이지</h2>
+    <h2 class="fw-bold">검색결과</h2>
     <ul class="d-flex cards flex-wrap">
         {% for data in datas %}
         <li class="card" style="width: 18rem">
@@ -34,7 +36,9 @@
                         </div>
                     </div>
                     <div class="ly-price">
-                        <span class="fw-bold fs-6">{{data.price}} 원</span>
+                        <span class="fw-bold fs-6"
+                            >{{data.price|intcomma}} 원</span
+                        >
                     </div>
                 </div>
                 <!-- LSH END -->

@@ -288,8 +288,10 @@ def mall_review(request, shoe_id):
 
     context = {
         "form" : form,
-        "shoe" : shoe
+        "shoe" : shoe,
+        "writed_review" : writed_review
     }
+    
     return render(request, "mall/mall_review.html", context)
 
 # 리뷰 상세페이지
