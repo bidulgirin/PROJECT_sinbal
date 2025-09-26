@@ -48,10 +48,7 @@
                     </div>
                     {% else %}
                     <div>
-                        <img
-                            src="{% static 'img/NO_IMG_600x600.png'%}"
-                            class="display-img"
-                        />
+                        <img src="{% static 'img/NO_IMG_600x600.png'%}" class="display-img" />
                     </div>
                     {% endif %}
                 </div>
@@ -59,12 +56,8 @@
             {% endif %}
             <div id="tab_container">
                 <div class="d-flex tabs-container">
-                    <button class="btn active flex-fill" data-id="detail">
-                        상세보기
-                    </button>
-                    <button class="btn flex-fill" data-id="reviews">
-                        후기 ({{reviews.count|default:0 }}) 개
-                    </button>
+                    <button class="btn active flex-fill" data-id="detail">상세보기</button>
+                    <button class="btn flex-fill" data-id="reviews">후기 ({{reviews.count|default:0 }}) 개</button>
                 </div>
                 <div class="tabs-content">
                     <!-- item 1 -->
@@ -78,23 +71,28 @@
                         </div>
                     </div>
                     <!-- 후기컨텐츠 -->
-                    <div class="content" id="reviews">
+                    <div class="content row" id="reviews">
                         <!-- 만약 이 상품의 후기글을 쓰려면 -->
-                        <div class="d-flex">
-                            <a href="{% url 'mall_review' shoe_id=data.id %}">
-                                후기글쓰러가기
+                        <div class="d-flex justify-content-center pt-3 pb-3 bg-white">
+                            <a class="btn btn-primary" href="{% url 'mall_review' shoe_id=data.id %}">
+                                후기 쓰러가기
                             </a>
                         </div>
                         {% for review in reviews %}
-                        <div class="l_review_img">
-                            {% for i in review.mallreviewimage_set.all %}
-                            <img src="{{i.images.url}}" alt="" />
-                            {% empty %}
-                            <img src="" alt="" />
-                            {% endfor %}
+                        <div class="col-xs-6 card w-50">
+                            <div class="l_review_img">
+                                {% for i in review.mallreviewimage_set.all|slice:":1" %}
+                                <img src="{{i.images.url}}" class="card-img" />
+                                {% empty %}
+                                <img src="{% static 'img/NO_IMG_600x600.png'%}" />
+                                {% endfor %}
+                            </div>
+                            <div class="card-body">
+                                <div class="fw-bold fs-3">{{ review.title|truncatechars:10 }}</div>
+                                <div>❤{{ review.rating }}</div>
+                                <div>{{ review.content|truncatechars:20 }}</div>
+                            </div>
                         </div>
-                        <div>{{ review.title }}</div>
-                        <div>{{ review.content }}</div>
                         {% endfor %}
                     </div>
                 </div>
@@ -104,12 +102,7 @@
             <form id="form">
                 {% csrf_token %}
                 <div>
-                    <input
-                        type="text"
-                        value="{{data.id}}"
-                        name="shoe_id"
-                        hidden
-                    />
+                    <input type="text" value="{{data.id}}" name="shoe_id" hidden />
                     <div class="l_brand">
                         <div class="l_brand_img">
                             <img
@@ -122,17 +115,10 @@
                     <hr />
                     <div class="l_category">{{data.category}}</div>
                     <div class="l_name fs-2 fw-bold pb-1">{{data.name}}</div>
-                    <div class="l_star pb-1">별점 {{data.rating}}</div>
-                    <div class="l_price fw-bold fs-3 pb-1">
-                        {{data.price|intcomma}} 원
-                    </div>
+                    <div class="l_star pb-5">별점 {{data.rating}}</div>
+                    <div class="l_price fw-bold fs-3 pb-5">{{data.price|intcomma}} 원</div>
                     <div class="l_options">
-                        <select
-                            name="size"
-                            id="size"
-                            class="form-select mb-3"
-                            aria-label=""
-                        >
+                        <select name="size" id="size" class="form-select mb-3" aria-label="">
                             <option value="220">220</option>
                             <option value="225">225</option>
                             <option value="230">230</option>
@@ -149,65 +135,27 @@
                         </select>
                         <div class="count mb-3">
                             <!-- 개수입력 quantity -->
-                            <input
-                                id="quantity"
-                                type="text"
-                                name="quantity"
-                                value="0"
-                                hidden
-                            />
-                            <div
-                                class="center d-flex justify-content-center align-items-center"
-                            >
-                                <button
-                                    id="decr"
-                                    class="btn btn-dark"
-                                    type="button"
-                                >
-                                    -
-                                </button>
-                                <span id="print" class="flex-fill text-center">
-                                    0
-                                </span>
-                                <button
-                                    id="incr"
-                                    class="btn btn-dark"
-                                    type="button"
-                                >
-                                    +
-                                </button>
+                            <input id="quantity" type="text" name="quantity" value="0" hidden />
+                            <div class="center d-flex justify-content-center align-items-center">
+                                <button id="decr" class="btn btn-dark" type="button">-</button>
+                                <span id="print" class="flex-fill text-center"> 0 </span>
+                                <button id="incr" class="btn btn-dark" type="button">+</button>
                             </div>
                         </div>
                     </div>
                     <div class="l_options">
-                        <div
-                            class="d-flex justify-content-center align-items-center"
-                        >
+                        <div class="d-flex justify-content-center align-items-center">
                             <div class="flex-fill">
                                 <div class="heart">
                                     찜
                                     <label for="checkbox">
                                         <!-- if 너의 찜목록에 shoe_id 가 잇으면? -->
                                         {% if wish %}
-                                        <input
-                                            type="checkbox"
-                                            id="checkbox"
-                                            hidden
-                                            checked
-                                            data-shoe="{{data.id}}"
-                                        />
+                                        <input type="checkbox" id="checkbox" hidden checked data-shoe="{{data.id}}" />
                                         {% else %}
-                                        <input
-                                            type="checkbox"
-                                            id="checkbox"
-                                            hidden
-                                            data-shoe="{{data.id}}"
-                                        />
+                                        <input type="checkbox" id="checkbox" hidden data-shoe="{{data.id}}" />
                                         {% endif %}
-                                        <svg
-                                            class="icon"
-                                            viewBox="0 0 1024 1024"
-                                        >
+                                        <svg class="icon" viewBox="0 0 1024 1024">
                                             <path
                                                 d="M742.4 101.12A249.6 249.6 0 0 0 512 256a249.6 249.6 0 0 0-230.72-154.88C143.68 101.12 32 238.4 32 376.32c0 301.44 416 546.56 480 546.56s480-245.12 480-546.56c0-137.92-111.68-275.2-249.6-275.2z"
                                                 fill="#231F20"
@@ -218,17 +166,14 @@
                                 </div>
                             </div>
 
-                            <button
-                                id="cart"
-                                class="btn text-center flex-fill btn-light"
-                                type="button"
-                            >
+                            <button id="cart" class="btn text-center flex-fill btn-light" type="button">
                                 장바구니
                             </button>
                             <button
                                 id="parchase"
                                 class="btn btn-primary text-center flex-fill"
                                 type="button"
+                                style="margin-left: 1rem"
                             >
                                 구매하기
                             </button>
@@ -242,15 +187,10 @@
                 {% if messages %}
                 <div class="messages">
                     {% for message in messages %}
-                    <div
-                        class="alert alert-{% if message.tag %}{{ message.tags }}{% endif %}"
-                        role="alert"
-                    >
+                    <div class="alert alert-{% if message.tag %}{{ message.tags }}{% endif %}" role="alert">
                         {{ message }}
                         <div>
-                            <a href="{% url 'cart' %}" class="btn btn-primary">
-                                장바구니로 가기
-                            </a>
+                            <a href="{% url 'cart' %}" class="btn btn-primary"> 장바구니로 가기 </a>
                         </div>
                     </div>
                     {% endfor %} {% endif %}
@@ -265,8 +205,7 @@
     const cart_add_url = "{% url 'cart_add' %}";
     const shoe_id = "{{data.id}}";
     const mall_wishlist_add = "{% url 'mall_wishlist_add' shoe_id=data.id %}";
-    const mall_wishlist_remove =
-        "{% url 'mall_wishlist_remove' shoe_id=data.id %}";
+    const mall_wishlist_remove = "{% url 'mall_wishlist_remove' shoe_id=data.id %}";
 </script>
 <script src="{% static 'js/mall/script.js' %}"></script>
 <script></script>

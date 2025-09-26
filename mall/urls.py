@@ -29,6 +29,8 @@ urlpatterns = [
     path("mall_review_detail/<int:review_id>/", views.mall_review_detail, name="mall_review_detail"),
     # 쇼핑몰 후기 삭제 
     path("mall_review_delete/<int:id>/", views.mall_review_delete, name="mall_review_delete"),
+    # 쇼핑몰 후기 각 사진 삭제
+    path("mall_review_delete_img/<int:img_id>/", views.review_delete_img, name="review_delete_img"),
     # 찜 추가
     path("mall_wishlist_add/<int:shoe_id>/", views.mall_wishlist_add, name="mall_wishlist_add"),
     # 찜 삭제
