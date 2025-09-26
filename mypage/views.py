@@ -1,15 +1,13 @@
 from django.shortcuts import render, redirect
 from home.models import User, OrderItem
 from mypage.models import WishList
-from django.views.decorators.http import require_POST
-from django.urls import reverse
 from community.models import Comment, Post
 
 # Create your views here.
 def Profile(request, id):
     user = User.objects.get(id = id)
-    comments = Comment.objects.filter(id=user.id)
-    posts = Post.objects.filter(id=user.id)
+    comments = Comment.objects.filter(id=user.id).order_by("-created_at")
+    posts = Post.objects.filter(id=user.id).order_by("-updated_at")
     context = {
         "user" : user,
         "comments" : comments,
@@ -19,16 +17,22 @@ def Profile(request, id):
     return render(request, "users/profile.html", context)
 
 def OrderList(request, id):
-    items = OrderItem.objects.filter(id=id)
+    items = OrderItem.objects.filter(id=id).order_by("-order__created_at")
     context = {
         "items" : items
     }
     return render(request, "mypage/order_list.html", context)
 
-def MyWish(request):
-    return redirect("mypage/mywish/")
+def MyWish(request, id):
+    if id == id:
+        wishes = WishList.objects.all()
+        context = {
+            "wishes" : wishes,
+        }
+    return render(request, "mypage/wish_list.html", context)
 
-def WishDelete(reqeust, id):
-    shoe = OrderItem.objects.get(id=id)
+def WishDelete(request, id):
+    shoe = WishList.objects.get(id=id)
     shoe.delete()
-    return redirect("/mypage/mywish/")
+    conn_user = request.user.id
+    return redirect(f"/mypage/{conn_user}/mywish/")
