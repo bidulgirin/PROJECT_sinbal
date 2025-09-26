@@ -72,6 +72,7 @@ def mall_wishlist_remove(request, shoe_id):
     WishList.objects.get(shoe_id=shoe_id).delete()
     return redirect("product_detail", id=shoe_id)
 
+
 # 상품장바구니
 def mall_cart(request):
     # user 정보를 불러온다.
@@ -89,8 +90,6 @@ def mall_cart(request):
         # 살 shoe_id 의 배열을 같이 보낸다.
         ids = request.POST.getlist("shoe_id[]")
         # 장바구니에 담았던 shoe_id 중 선택한 애들만 결제페이지로 보냄
-        print("ids!!!!!!!!!!!!!!!!!")
-        print(ids)
         # get 으로 받으렴
         return redirect(reverse('parchase') + f'?id[]={ids}')
 
