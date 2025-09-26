@@ -1,30 +1,44 @@
 <!-- 상품페이지 -->
-{% extends 'base/base.html' %} {% load static %} {% block content %}
+{% extends 'base/base.html' %} {% load static %}
+<!-- humanize -->
+{% load humanize %} {% block content %}
 <link rel="stylesheet" href="{% static 'css/mall/style.css' %}" />
 <!-- 콘텐츠 영억 -->
 <div class="container">
-    <h2 class="fw-bold">검색전/후 나타나는 페이지</h2>
+    <h2 class="fw-bold">검색결과</h2>
     <ul class="d-flex cards flex-wrap">
         {% for data in datas %}
-        <li class="product_info">
+        <li class="card" style="width: 18rem">
             <div class="product-list">
                 <!-- LSH START -->
                 <div class="ly-img">
                     <a href="{% url 'product_detail' id=data.id %}">
-                        <img src="{{data.image_url}}" alt="{{data.name}}" />
+                        {% if data.images %}
+                        <img
+                            src="{{data.images.url}}"
+                            class="card-img-top display-img"
+                        />
+                        {% else %}
+                        <img
+                            class="display-img card-img-top"
+                            src="{% static 'img/NO_IMG_600x600.png'%}"
+                        />
+                        {% endif %}
                     </a>
                 </div>
-                <div class="ly-content p-1">
+                <div class="card-body">
                     <div class="ly-brand">
                         <div class="fw-bold">{{data.brand}}</div>
                     </div>
-                    <div class="ly-name">
+                    <div class="card-title">
                         <div class="">
                             <a href="#!">{{data.name}}</a>
                         </div>
                     </div>
                     <div class="ly-price">
-                        <span class="fw-bold fs-6">{{data.price}} 원</span>
+                        <span class="fw-bold fs-6"
+                            >{{data.price|intcomma}} 원</span
+                        >
                     </div>
                 </div>
                 <!-- LSH END -->

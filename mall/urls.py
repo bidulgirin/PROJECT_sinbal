@@ -14,11 +14,23 @@ urlpatterns = [
     # 장바구니 추가
     path("cart/add/", views.mall_cart_add, name="cart_add"),
     # 장바구니 삭제
-    path("cart/remove/", views.mall_cart_remove, name="cart_remove"),
+    path("cart/remove/<int:id>/", views.mall_cart_remove, name="cart_remove"),
+    # 바로 구매하기
+    path("quick_parchase/", views.mall_quick_parchase, name="quick_parchase"),
     # 상품결제
     path("parchase/", views.mall_parchase, name="parchase"),
     # 상품구매완료
-    path("parchase_completed/", views.mall_parchase_completed, name="parchase_completed"),
+    path("parchase_completed/<int:order_id>", views.mall_parchase_completed, name="parchase_completed"),
     # 슈마커 크롤링 요청
-    path("c/", views.crawling_shoes_page)
+    path("c/", views.crawling_shoes_page),
+    # 쇼핑몰 후기 쓰기/수정
+    path("mall_review/<int:shoe_id>/", views.mall_review, name="mall_review"),
+    # 쇼핑몰 후기 상세 페이지
+    path("mall_review_detail/<int:review_id>/", views.mall_review_detail, name="mall_review_detail"),
+    # 쇼핑몰 후기 삭제 
+    path("mall_review_delete/<int:id>/", views.mall_review_delete, name="mall_review_delete"),
+    # 찜 추가
+    path("mall_wishlist_add/<int:shoe_id>/", views.mall_wishlist_add, name="mall_wishlist_add"),
+    # 찜 삭제
+    path("mall_wishlist_remove/<int:shoe_id>/", views.mall_wishlist_remove, name="mall_wishlist_remove"),
 ]

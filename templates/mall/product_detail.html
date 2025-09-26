@@ -8,6 +8,7 @@
 <div class="container l_product bg-light">
     <div class="d-flex">
         <div class="flex-fill l_pr">
+            {% if data.images.count > 1 %}
             <div class="l_pr_sumbnail">
                 <div class="wrapper">
                     <!-- 썸네일이 여러개일때 표기 -->
@@ -34,44 +35,81 @@
                     </div>
                     <!-- 썸네일이 여러개일때 표기 end -->
                     <div class="big-img">
-                        <img
-                            src="http://vignette1.wikia.nocookie.net/overwatch/images/b/b7/CuteSprayAvatars-Tracer.png/revision/latest?cb=20160511194930"
-                            class="display-img"
-                        />
+                        <img src="#!" class="display-img" />
                     </div>
                 </div>
             </div>
+            {% else %}
+            <div class="l_pr_sumbnail" style="padding-left: 0px">
+                <div class="wrapper">
+                    {% if data.images %}
+                    <div class="big-img">
+                        <img src="{{data.images.url}}" class="display-img" />
+                    </div>
+                    {% else %}
+                    <div>
+                        <img
+                            src="{% static 'img/NO_IMG_600x600.png'%}"
+                            class="display-img"
+                        />
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
             <div id="tab_container">
                 <div class="d-flex tabs-container">
                     <button class="btn active flex-fill" data-id="detail">
                         상세보기
                     </button>
                     <button class="btn flex-fill" data-id="reviews">
-                        후기 (0) 개
+                        후기 ({{reviews.count|default:0 }}) 개
                     </button>
                 </div>
                 <div class="tabs-content">
                     <!-- item 1 -->
                     <div class="content active" id="detail">
                         <div class="product_detail">
+                            <!-- 크롤링 해올수있으면 해오기 -->
                             <img
                                 src="https://cdn.shoemarker.co.kr/Upload/Shoemarker/PBdetail/whever/WV25311/common.jpg"
                                 alt=""
                             />
                         </div>
                     </div>
-                    <!-- item 1 -->
+                    <!-- 후기컨텐츠 -->
                     <div class="content" id="reviews">
-                        <!-- 지금은 main_review 지만 나중에 해당 id 에 맞는 리뷰를 가지고 오는것을 views.py 에 추가 -->
-                        {% include 'mall/components/main_review.html' %}
+                        <!-- 만약 이 상품의 후기글을 쓰려면 -->
+                        <div class="d-flex">
+                            <a href="{% url 'mall_review' shoe_id=data.id %}">
+                                후기글쓰러가기
+                            </a>
+                        </div>
+                        {% for review in reviews %}
+                        <div class="l_review_img">
+                            {% for i in review.mallreviewimage_set.all %}
+                            <img src="{{i.images.url}}" alt="" />
+                            {% empty %}
+                            <img src="" alt="" />
+                            {% endfor %}
+                        </div>
+                        <div>{{ review.title }}</div>
+                        <div>{{ review.content }}</div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
         </div>
         <div class="flex-fill bg-white p-5 l_pr">
-            <form id="form" method="POST">
+            <form id="form">
                 {% csrf_token %}
                 <div>
+                    <input
+                        type="text"
+                        value="{{data.id}}"
+                        name="shoe_id"
+                        hidden
+                    />
                     <div class="l_brand">
                         <div class="l_brand_img">
                             <img
@@ -81,41 +119,41 @@
                         </div>
                         <div class="l_brand_name">{{data.brand}}</div>
                     </div>
+                    <hr />
                     <div class="l_category">{{data.category}}</div>
-                    <div class="l_name">{{data.name}}</div>
-                    <div class="l_star">별점 {{data.rating}}</div>
-                    <div class="l_price fw-bold fs-3">
+                    <div class="l_name fs-2 fw-bold pb-1">{{data.name}}</div>
+                    <div class="l_star pb-1">별점 {{data.rating}}</div>
+                    <div class="l_price fw-bold fs-3 pb-1">
                         {{data.price|intcomma}} 원
                     </div>
                     <div class="l_options">
                         <select
                             name="size"
-                            id=""
-                            class="form-select"
+                            id="size"
+                            class="form-select mb-3"
                             aria-label=""
                         >
                             <option value="220">220</option>
-                            <option value="220">225</option>
-                            <option value="220">230</option>
-                            <option value="220">235</option>
-                            <option value="220">240</option>
-                            <option value="220">245</option>
-                            <option value="220">250</option>
-                            <option value="220">255</option>
-                            <option value="220">260</option>
-                            <option value="220">265</option>
-                            <option value="220">270</option>
-                            <option value="220">275</option>
-                            <option value="220">280</option>
+                            <option value="225">225</option>
+                            <option value="230">230</option>
+                            <option value="235">235</option>
+                            <option value="240">240</option>
+                            <option value="245">245</option>
+                            <option value="250">250</option>
+                            <option value="255">255</option>
+                            <option value="260">260</option>
+                            <option value="265">265</option>
+                            <option value="270">270</option>
+                            <option value="275">275</option>
+                            <option value="280">280</option>
                         </select>
-
-                        <div class="count">
+                        <div class="count mb-3">
                             <!-- 개수입력 quantity -->
                             <input
                                 id="quantity"
                                 type="text"
                                 name="quantity"
-                                value=""
+                                value="0"
                                 hidden
                             />
                             <div
@@ -149,11 +187,23 @@
                                 <div class="heart">
                                     찜
                                     <label for="checkbox">
+                                        <!-- if 너의 찜목록에 shoe_id 가 잇으면? -->
+                                        {% if wish %}
                                         <input
                                             type="checkbox"
                                             id="checkbox"
                                             hidden
+                                            checked
+                                            data-shoe="{{data.id}}"
                                         />
+                                        {% else %}
+                                        <input
+                                            type="checkbox"
+                                            id="checkbox"
+                                            hidden
+                                            data-shoe="{{data.id}}"
+                                        />
+                                        {% endif %}
                                         <svg
                                             class="icon"
                                             viewBox="0 0 1024 1024"
@@ -167,15 +217,7 @@
                                     </label>
                                 </div>
                             </div>
-                            <!-- Cart 모델에 추가된다. -->
 
-                            <!-- 
-                                user = models.ForeignKey(User, on_delete=models.CASCADE) 
-                                shoe = models.ForeignKey(Shoe, on_delete=models.CASCADE) 
-                                size = models.CharField(max_length=10) 
-                                quantity = models.IntegerField(default=1) 
-                                created_at = models.DateTimeField(auto_now_add=True) 
-                            -->
                             <button
                                 id="cart"
                                 class="btn text-center flex-fill btn-light"
@@ -183,11 +225,6 @@
                             >
                                 장바구니
                             </button>
-                            <!-- 구매하기 누르면 구매하기 페이지로 넘길것임 
-                                id[] 값에 ["1"] 이런식으로 배열값을 넘겨야함 
-                                parchase/["1"]
-                            
-                            -->
                             <button
                                 id="parchase"
                                 class="btn btn-primary text-center flex-fill"
@@ -201,33 +238,36 @@
                         <a href="">#태그</a>
                     </div> -->
                 </div>
+                <!-- 이미 장바구니에 추가되었으면 -->
+                {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                    <div
+                        class="alert alert-{% if message.tag %}{{ message.tags }}{% endif %}"
+                        role="alert"
+                    >
+                        {{ message }}
+                        <div>
+                            <a href="{% url 'cart' %}" class="btn btn-primary">
+                                장바구니로 가기
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %} {% endif %}
+                </div>
             </form>
         </div>
     </div>
 </div>
 <!-- splide 슬라이더 기능  -->
-<script src="{% static 'js/splide/splide.min.js'%}"></script>
-<script src="{% static 'js/mall/script.js' %}"></script>
 <script>
-    // 장바구니 버튼을 눌렀을때
-    let form = document.getElementById("form");
-    const cart = document.getElementById("cart");
-    const parchase = document.getElementById("parchase");
-
-    form.mothod = "POST";
-    // 장바구니를 클릭할경우
-    cart.addEventListener("click", (e) => {
-        e.preventDefault();
-        form.action = "{% url 'cart_add' %}";
-        form.submit();
-    });
-    // 구매하기 클릭한경우
-    parchase.addEventListener("click", (e) => {
-        e.preventDefault();
-        form.action = "{% url 'parchase' %}";
-        form.submit();
-    });
-
-    // 구매하기 버튼을 눌렀을때
+    // 변수로 쓸것들
+    const cart_add_url = "{% url 'cart_add' %}";
+    const shoe_id = "{{data.id}}";
+    const mall_wishlist_add = "{% url 'mall_wishlist_add' shoe_id=data.id %}";
+    const mall_wishlist_remove =
+        "{% url 'mall_wishlist_remove' shoe_id=data.id %}";
 </script>
+<script src="{% static 'js/mall/script.js' %}"></script>
+<script></script>
 {% endblock %}
