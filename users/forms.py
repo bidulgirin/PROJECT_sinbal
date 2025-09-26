@@ -165,11 +165,14 @@ class SignupForm(forms.Form):
             email=email,
             password=password,
             nickname=nickname,
+            gender=gender,
+            address=address,
+            ball_foot=ball_foot,
+            shoe_size=shoe_size,
+            favorite_brand=favorite_brand,
         )
         
         user.short_description = short_description
-        user.address=address
-        user.gender=gender
         if profile_image:
             user.profile_image=profile_image
         

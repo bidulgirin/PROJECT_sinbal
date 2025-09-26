@@ -113,7 +113,7 @@
 
                         <!-- 성별 -->
                         <div class="col-md-5">
-                            <label>성별</label>
+                            <label class = "mt-2">성별</label>
                             <div class = "mt-2">
                                 {% for radio in form.gender %}
                                     <div class="form-check form-check-inline">
@@ -124,6 +124,14 @@
                                     </div>
                                 {% endfor %}
                             </div>                      
+                        </div>
+
+                        <!-- 선호하는 브랜드 -->
+                        <div class="col-md-4 mt-1">
+                            <label for="code" class = "mt-2">선호 브랜드</label>
+                            <div class = "mt-1">
+                            {{ form.favorite_brand }}
+                            </div>
                         </div>
 
                     <hr class="mb-2 mt-3">
