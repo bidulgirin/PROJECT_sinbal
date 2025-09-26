@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="{% static 'css/mall/style.css' %}" />
 <!-- 콘텐츠 영억 -->
 <div class="container l_product bg-light">
-    <div class="d-flex">
+    <div class="d-flex justify-content-center">
         <div class="flex-fill l_pr">
             {% if data.images.count > 1 %}
             <div class="l_pr_sumbnail">
@@ -41,15 +41,11 @@
             </div>
             {% else %}
             <div class="l_pr_sumbnail" style="padding-left: 0px">
-                <div class="wrapper">
+                <div class="g_squre">
                     {% if data.images %}
-                    <div class="big-img">
-                        <img src="{{data.images.url}}" class="display-img" />
-                    </div>
+                    <img src="{{data.images.url}}" class="display-img" />
                     {% else %}
-                    <div>
-                        <img src="{% static 'img/NO_IMG_600x600.png'%}" class="display-img" />
-                    </div>
+                    <img src="{% static 'img/NO_IMG_600x600.png'%}" class="display-img" />
                     {% endif %}
                 </div>
             </div>
@@ -62,13 +58,12 @@
                 <div class="tabs-content">
                     <!-- item 1 -->
                     <div class="content active" id="detail">
-                        <div class="product_detail">
-                            <!-- 크롤링 해올수있으면 해오기 -->
-                            <img
-                                src="https://cdn.shoemarker.co.kr/Upload/Shoemarker/PBdetail/whever/WV25311/common.jpg"
-                                alt=""
-                            />
+                        {% if data.images %}
+                        <div class="g_squre">
+                            <img src="{{data.images.url}}" />
                         </div>
+                        {% endif %}
+                        <div class="product_detail">{{ data.description | linebreaksbr }}</div>
                     </div>
                     <!-- 후기컨텐츠 -->
                     <div class="content row" id="reviews">
@@ -79,8 +74,8 @@
                             </a>
                         </div>
                         {% for review in reviews %}
-                        <div class="col-xs-6 card w-50">
-                            <div class="l_review_img">
+                        <div class="col-xs-6 card w-50 modalBtn" id="{{review.id}}">
+                            <div class="g_squre">
                                 {% for i in review.mallreviewimage_set.all|slice:":1" %}
                                 <img src="{{i.images.url}}" class="card-img" />
                                 {% empty %}
@@ -89,8 +84,20 @@
                             </div>
                             <div class="card-body">
                                 <div class="fw-bold fs-3">{{ review.title|truncatechars:10 }}</div>
-                                <div>❤{{ review.rating }}</div>
+                                <div>★{{ review.rating }}</div>
                                 <div>{{ review.content|truncatechars:20 }}</div>
+                            </div>
+                        </div>
+                        <div id="modal-{{review.id}}" style="display: none">
+                            <div class="d-flex flex-wrap">
+                                <div class="">
+                                    {% for i in review.mallreviewimage_set.all %}
+                                    <img src="{{i.images.url}}" class="card-img" />
+                                    {% empty %}
+                                    <img src="{% static 'img/NO_IMG_600x600.png'%}" />
+                                    {% endfor %}
+                                </div>
+                                <div class="">{{ review.content|linebreaksbr }}</div>
                             </div>
                         </div>
                         {% endfor %}
@@ -199,6 +206,21 @@
         </div>
     </div>
 </div>
+<!-- 모달 -->
+<div
+    class="modal fade"
+    id="modalArea"
+    tabindex="-1"
+    data-bs-backdrop="static"
+    aria-labelledby="modalArea"
+    aria-hidden="true"
+>
+    <div id="closeBtn" class="fw-bold text-white text-end p-5" style="font-size: 3rem">×</div>
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">동적으로 모달이 들어가는 곳</div>
+    </div>
+</div>
+
 <!-- splide 슬라이더 기능  -->
 <script>
     // 변수로 쓸것들
@@ -206,6 +228,37 @@
     const shoe_id = "{{data.id}}";
     const mall_wishlist_add = "{% url 'mall_wishlist_add' shoe_id=data.id %}";
     const mall_wishlist_remove = "{% url 'mall_wishlist_remove' shoe_id=data.id %}";
+
+    // 실행
+    $(function () {
+        // Access to XMLHttpRequest at 'file:///C:/Users/Seokbong/Desktop/test/testModal.html' from origin 'null' has been blocked by CORS policy: Cross origin requests are only supported for protocol schemes: http, data, chrome, chrome-extension, chrome-untrusted, https.
+        // Loacal에서는 CORS policy 문제 발생함.
+        $(document).on("click", ".modalBtn", function () {
+            // 모달의 id값 가져오기
+            // [id].html 지정
+            let modal = this.getAttribute("id");
+            let content = $(`#modal-${modal}`); // 해당 하는 content 가져오기
+            console.log(content);
+
+            let filePath = "./" + modal + ".html";
+
+            // modalArea 안의 .modal-content에 [id].html 로드 후 모달 show
+            $("#modalArea")
+                .find(".modal-content")
+                .load(filePath, function () {
+                    $("#modalArea").modal("show");
+                    content.show();
+                    $("#modalArea .modal-content").html(content);
+                });
+        });
+
+        // 모달 종료(hide) 버튼
+        $(document).on("click", "#closeBtn", function () {
+            $("#modalArea").modal("hide");
+            content.hide();
+            $(`#modalArea #${modal}`).remove(); // 안에있는돔없애기
+        });
+    });
 </script>
 <script src="{% static 'js/mall/script.js' %}"></script>
 <script></script>
