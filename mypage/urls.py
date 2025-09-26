@@ -4,7 +4,7 @@ from mypage import views
 
 urlpatterns = [
     path("<int:id>/", views.Profile, name="profile"),
-    path("order/", views.OrderList, name="orderlist"),
-    path("mywish/", views.MyWish, name="mywish"),
+    path("<int:id>/order/", views.OrderList, name="orderlist"),
+    path("<int:id>/mywish/", views.MyWish, name="mywish"),
     path("<int:id>/delete/", views.WishDelete, name="wish_delete"),
 ]

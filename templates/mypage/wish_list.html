@@ -2,19 +2,54 @@
 {% extends 'base/base.html' %}
 <!-- content 안에 아래 내용 쑤셔 넣을 예정 -->
 {% block content %}
-<div id="wish-cart-list">
-    {% for shoe in shoes %}
+<div class="row" id="wish-list">
+    <div class="col-8">
         <!-- 체크박스를 누르면 정보를 보내는 폼 작성 -->
-        <form method="POST">
+        <form action="/" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <!-- 체크박스 된 것들만 가격 계산 -->
-        <input type="checkbox" name="order_list">
-        {{ shoe.image_url }} {{ shoe.name }} {{ shoe.price }}
-        {{ shoe.size }} {{ shoe.개수 }} {{ shoe.price }}*{{ shoe.개수 }}원
-        <!-- 체크박스당 삭제 버튼 추가 -->
-        <a href="{% url 'wish_delete' %}" type="button">삭제</a>
-    {% endfor %}
+        {% for wish in wishes %}
+        <div>
+            <input type='checkbox' id="c{ wish.id }" name='check[]'
+            value='{ wish.id }' data-price="{{ wish.shoe.price }}" 
+            data-quantity="{{ wish.quantity }}" /> 
+                {{ wish.shoe.images }}
+                {{ wish.shoe.name }}
+                {{ wish.shoe.price }}
+                {{ wish.user.size }}
+                {{ wish.quantity }}
+        </div>
+        {% endfor %}
+        </form>
+    </div>
     <!-- 장바구니 사이트로 이동하는 버튼 -->
-    <a type="button" href="{% url '장바구니 url 이름' %}">장바구니</a>
+    <div class="col-4">
+        <li id="total">{{ TotPrice }}</li>
+        <div><button onclick="deleter()" type="button">삭제</button></form></div>
+        <a type="button" href="">장바구니</a>
+    </div>
 </div>
+<script>
+// 체크한 상품 총 가격 계산하기 ( jquery code )
+let totalCost = 0;
+
+$(function () {
+    $("#total").text(totalCost);
+});
+// 체크박스
+$("input[name='check[]']").change(function () {
+    calculator();
+});
+// 계산해줌
+function calculator() {
+    totalCost = 0;
+    $("#total").text(totalCost);
+    $("#wish-list input:checked").each(function () {
+        totalCost +=
+            parseInt($(this).attr("data-price")) *
+            parseInt($(this).attr("data-quantity"));
+
+        $("#total").text(totalCost);
+    });
+}
+</script>
 {% endblock %}
