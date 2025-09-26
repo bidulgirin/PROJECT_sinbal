@@ -34,9 +34,11 @@
         {% empty %}
         <li class="col h-100">
             <p>아직 상품이 등록되지 않았습니다</p>
+            {% if user.is_admin %}
             <p>
                 <a href="/admin/home/shoe/" class="btn btn-primary">등록하러가기</a>
             </p>
+            {% endif %}
         </li>
         {% endfor %}
     </div>
