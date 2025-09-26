@@ -5,21 +5,15 @@
         {% for review in reviews %}
         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 border">
             <a href="{% url 'mall_review_detail' review_id=review.id %}">
-                {% if review.mallreviewimage_set.all %}
-                <!-- 역참조해서 리뷰 이미지중 한개만 -->
-                {% for i in review.mallreviewimage_set.all|slice:":1" %}
-                <img
-                    class="card-img-top"
-                    src="{{ i.images.url }}"
-                    alt="{{review.title}}"
-                />
-                {% endfor %} {% else %}
-                <img
-                    class="card-img-top"
-                    src="{% static 'img/NO_IMG_600x600.png' %}"
-                    alt="{{review.title}}"
-                />
-                {% endif %}
+                <div class="g_squre">
+                    {% if review.mallreviewimage_set.all %}
+                    <!-- 이미지중 한개만 출력 -->
+                    {% for i in review.mallreviewimage_set.all|slice:":1" %}
+                    <img class="card-img-top" src="{{ i.images.url }}" alt="{{review.title}}" />
+                    {% endfor %} {% else %}
+                    <img class="card-img-top" src="{% static 'img/NO_IMG_600x600.png' %}" alt="{{review.title}}" />
+                    {% endif %}
+                </div>
             </a>
             <div class="ly-content p-2">
                 <div class="rating">★ {{review.rating}}</div>
@@ -32,3 +26,7 @@
         {% endfor %}
     </div>
 </div>
+<style>
+    .l_img_wrap {
+    }
+</style>

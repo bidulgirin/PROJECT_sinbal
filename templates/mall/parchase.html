@@ -7,100 +7,55 @@
     <form method="POST" action="{% url 'parchase' %}">
         {% csrf_token %}
         <div class="row">
-            <div class="col">
+            <div class="col p-3">
                 {% include 'mall/components/user_info.html' %}
-                <h1>구매하는 상품 목록</h1>
-                <table>
+                <h4 class="fw-bold">구매하는 상품 목록</h4>
+                <table class="table">
                     <tr>
-                        <td>상품번호</td>
-                        <td>상품주문번호</td>
-                        <td>이미지</td>
-                        <td>발 사이즈</td>
-                        <td>가격</td>
-                        <td>사이즈</td>
-                        <td>수량</td>
+                        <th scope="col">상품</th>
+                        <th scope="col">상품이름</th>
+                        <th scope="col">가격</th>
+                        <th scope="col">사이즈</th>
+                        <th scope="col">수량</th>
                     </tr>
                     {% for data in cart_datas %}
                     <tr>
                         <td>
                             <!-- 여기서 나오는 shoe_id 값들있잖아 이거 -->
-                            {{data.shoe.id}}
                             <!-- 카트아이디 -->
-                            <input
-                                type="text"
-                                name="cart_id[]"
-                                value="{{data.id}}"
-                                hidden
-                            />
-                            <input
-                                type="text"
-                                value="{{data.shoe.id}}"
-                                name="shoe_id[]"
-                                hidden
-                            />
+                            <input type="text" name="cart_id[]" value="{{data.id}}" hidden />
+                            <input type="text" value="{{data.shoe.id}}" name="shoe_id[]" hidden />
+                            {% if data.shoe.images %}
+                            <img src="{{data.shoe.images.url}}" alt="{{data.shoe.name}}" width="60px" heihgt="60px" />
+                            {% endif %}
                         </td>
-                        <td>{{data.id}}</td>
-                        <td>
-                            <img
-                                src="{{data.shoe.image_url}}"
-                                alt="{{data.shoe.name}}"
-                                width="60px"
-                                heihgt="60px"
-                            />
-                        </td>
-
                         <td>
                             {{data.shoe.name}}
-                            <input
-                                type="text"
-                                name="shoe_name[]"
-                                value="{{data.shoe.name}}"
-                                hidden
-                            />
+                            <input type="text" name="shoe_name[]" value="{{data.shoe.name}}" hidden />
                         </td>
                         <td>
                             {{data.shoe.price|intcomma}}
-                            <input
-                                type="text"
-                                name="price[]"
-                                value="{{data.shoe.price}}"
-                                hidden
-                            />
+                            <input type="text" name="price[]" value="{{data.shoe.price}}" hidden />
                         </td>
                         <td>
                             {{data.size}}
-                            <input
-                                type="text"
-                                name="shoe_size[]"
-                                value="{{data.size}}"
-                                hidden
-                            />
+                            <input type="text" name="shoe_size[]" value="{{data.size}}" hidden />
                         </td>
                         <td>
                             {{data.quantity}}
-                            <input
-                                type="text"
-                                name="quantity[]"
-                                value="{{data.quantity}}"
-                                hidden
-                            />
+                            <input type="text" name="quantity[]" value="{{data.quantity}}" hidden />
                         </td>
                     </tr>
                     {% endfor %}
                 </table>
             </div>
-            <div class="col">
-                <h1>최종 결제 금액</h1>
-                <table>
+            <div class="col p-3">
+                <h4 class="fw-bold">최종 결제 금액</h4>
+                <table class="table">
                     <tr>
                         <td>총 가격</td>
                         <td>
-                            <input
-                                id="total_price"
-                                name="total_price"
-                                type="text"
-                                hidden
-                            />
+                            <input id="total_price" name="total_price" type="text" hidden />
                             <p id="total_price_p"></p>
                         </td>
                     </tr>
@@ -109,11 +64,6 @@
                         <td>0 원</td>
                     </tr>
                 </table>
-                <!-- 결제하기 누르기 전에 
-                    1. 배송지를 입력하였는지
-                    2. 결제수단을 입력하였는지 확인하는 js 코드 필요
-                    3. 모두 입력했으면 결제하기 버튼 활성화시키기
-                -->
                 <button class="btn btn-primary" type="submit">결제하기</button>
             </div>
         </div>
@@ -146,10 +96,7 @@
                     }
                     // 건물명이 있고, 공동주택일 경우 추가한다.
                     if (data.buildingName !== "" && data.apartment === "Y") {
-                        extraAddr +=
-                            extraAddr !== ""
-                                ? ", " + data.buildingName
-                                : data.buildingName;
+                        extraAddr += extraAddr !== "" ? ", " + data.buildingName : data.buildingName;
                     }
                     // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
                     if (extraAddr !== "") {
@@ -207,9 +154,7 @@
         const length = phoneNumber.length;
 
         if (length >= 9) {
-            let numbers = phoneNumber
-                .replace(/[^0-9]/g, "")
-                .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
+            let numbers = phoneNumber.replace(/[^0-9]/g, "").replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
             phoneNumberInput.value = numbers;
         }
     }

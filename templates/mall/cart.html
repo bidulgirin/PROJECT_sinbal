@@ -7,22 +7,20 @@
     <form method="POST" action="{% url 'cart' %}" id="cart_form">
         {% csrf_token %}
         <div class="row">
-            <div class="col">
-                <h1>장바구니 목록</h1>
-                <table>
+            <div class="col p-3">
+                <h4 class="fw-bold">장바구니 목록</h4>
+                <table class="table">
                     <thead>
                         <tr>
-                            <td>
+                            <th scope="col">
                                 <input type="checkbox" id="all_check" />
-                            </td>
-                            <td>상품번호</td>
-                            <td>상품주문번호</td>
-                            <td>이미지</td>
-                            <td>발 사이즈</td>
-                            <td>가격</td>
-                            <td>사이즈</td>
-                            <td>수량</td>
-                            <td>삭제</td>
+                            </th>
+                            <th scope="col">상품</th>
+                            <th scope="col">상품이름</th>
+                            <th scope="col">가격</th>
+                            <th scope="col">사이즈</th>
+                            <th scope="col">수량</th>
+                            <th scope="col">삭제</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -38,27 +36,25 @@
                                     data-count="{{data.quantity}}"
                                 />
                             </td>
-                            <td>{{data.shoe.id}}</td>
-                            <td>{{data.id}}</td>
                             <td>
+                                {% if data.shoe.images %}
                                 <img
-                                    src="{{data.shoe.image_url}}"
+                                    src="{{data.shoe.images.url}}"
                                     alt="{{data.shoe.name}}"
                                     width="60px"
                                     heihgt="60px"
                                 />
+                                {% else %}
+                                <img src="{% static 'img/NO_IMG_600x600.png' %}" width="60px" heihgt="60px" />
+                                {% endif %}
                             </td>
 
                             <td>{{data.shoe.name}}</td>
                             <td>{{data.shoe.price|intcomma}}원</td>
-                            <td>{{data.size}}</td>
-                            <td>{{data.quantity}}</td>
+                            <td class="text-center">{{data.size}}</td>
+                            <td class="text-center">{{data.quantity}}</td>
                             <td>
-                                <button
-                                    class="btn btn-danger delete_btn"
-                                    type="button"
-                                    data-id="{{data.id}}"
-                                >
+                                <button class="btn btn-danger delete_btn" type="button" data-id="{{data.id}}">
                                     삭제
                                 </button>
                             </td>
@@ -72,13 +68,13 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col">
-                <h1>최종 결제 금액</h1>
-                <table>
+            <div class="col p-3">
+                <h4 class="fw-bold">최종 결제 금액</h4>
+                <table class="table">
                     <tr>
                         <td>총 가격</td>
                         <td>
-                            <span id="total_price_p">0</span>
+                            <span id="total_price_dom">0</span>
                             원
                         </td>
                     </tr>
@@ -87,7 +83,7 @@
                         <td>0 원</td>
                     </tr>
                 </table>
-                <button class="btn btn-primary" type="submit">구매하기</button>
+                <button class="btn btn-primary w-100" type="submit">구매하기</button>
             </div>
         </div>
     </form>
@@ -123,15 +119,17 @@
     $("input[name='shoe_id[]']").change(function () {
         calculator();
     });
+    function comma(str) {
+        str = String(str);
+        return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, "$1,");
+    }
     // 계산해줌
     function calculator() {
         totalCost = 0;
-        $("#total_price_p").text(totalCost);
+        $("#total_price_dom").text(totalCost);
         $("tbody input:checked").each(function () {
-            totalCost +=
-                parseInt($(this).attr("data-price")) *
-                parseInt($(this).attr("data-count"));
-            $("#total_price_p").text(totalCost);
+            totalCost += parseInt($(this).attr("data-price")) * parseInt($(this).attr("data-count"));
+            $("#total_price_dom").text(comma(totalCost));
         });
     }
 
@@ -140,7 +138,7 @@
     delete_btns.forEach((e) => {
         e.addEventListener("click", () => {
             const delete_row_id = e.getAttribute("data-id");
-            if (confirm("삭제하시겠습니까?")) {
+            if (confirm("장바구니에서 삭제하시겠습니까?")) {
                 delete_cart_data(delete_row_id);
             }
         });
