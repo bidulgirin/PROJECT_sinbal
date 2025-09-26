@@ -1,18 +1,19 @@
 <!-- 몰 리뷰 쓰기 -->
 {% extends 'base/base.html' %} {% load static %} {% block content %}
 <div class="container">
-    <h1>'{{shoe.name}}'상품의 후기</h1>
+    <h1 class="fw-bold pt-3 pb-3">'{{shoe.name}}'상품의 후기</h1>
     <form
+        class="form-group"
         method="POST"
         action="{% url 'mall_review' shoe_id=shoe.id %}"
         enctype="multipart/form-data"
     >
         {% csrf_token %} {{form.as_p}}
         <!-- 별점 -->
-        별점
-        <div class="rating">
-            <input type="radio" id="star-1" name="rating" value="5" />
-            <label for="star-1">
+        <div>별점:</div>
+        <div class="rating pb-5">
+            <input type="radio" id="star-5" name="rating" value="5" />
+            <label for="star-5">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path
                         pathLength="360"
@@ -20,8 +21,8 @@
                     ></path>
                 </svg>
             </label>
-            <input type="radio" id="star-2" name="rating" value="4" />
-            <label for="star-2">
+            <input type="radio" id="star-4" name="rating" value="4" />
+            <label for="star-4">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path
                         pathLength="360"
@@ -38,8 +39,8 @@
                     ></path>
                 </svg>
             </label>
-            <input type="radio" id="star-4" name="rating" value="2" />
-            <label for="star-4">
+            <input type="radio" id="star-2" name="rating" value="2" />
+            <label for="star-2">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path
                         pathLength="360"
@@ -47,8 +48,8 @@
                     ></path>
                 </svg>
             </label>
-            <input type="radio" id="star-5" name="rating" value="1" checked />
-            <label for="star-5">
+            <input type="radio" id="star-1" name="rating" value="1" checked />
+            <label for="star-1">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path
                         pathLength="360"
@@ -58,8 +59,23 @@
             </label>
         </div>
         <!-- 다중 파일 업로드임  -->
-        <input type="file" name="images" multiple />
-        <button type="submit">후기쓰기</button>
+        <div>후기사진</div>
+        <div class="pb-3 pt-3">
+            <input class="pb-5" type="file" name="images" multiple />
+            {% if writed_review.mallreviewimage_set.all %}
+            <!-- 이미지가 있으면 -->
+            <div class="fw-bold pb-3">등록된사진</div>
+            {% for i in writed_review.mallreviewimage_set.all %}
+            <div>
+                <img src="{{i.images.url}}" alt="" style="width: 100px; height: 100px" />
+                <a href="{% url 'review_delete_img' img_id=i.id %}" class="btn btn-warning delete_btn">삭제</a>
+            </div>
+
+            {% endfor %} {% endif %}
+        </div>
+        <div>
+            <button type="submit" class="w-100 btn btn-lg btn-outline-primary">후기등록</button>
+        </div>
     </form>
 </div>
 <style>
@@ -142,12 +158,13 @@
 </style>
 <script>
     // rating 별점 !!!!!!!!#!!@!@!!@@!@!
-    const rating = Number("{{writed_review.rating|default:0}}"); // fo
-    console.log("rating");
-    console.log(rating);
+    const rating = Number("{{writed_review.rating|default:0}}");
     if (rating) {
         const checked_star_input = document.getElementById(`star-${rating}`);
+        console.log(checked_star_input);
         checked_star_input.checked = true;
     }
+
+    // 각 이미지 삭제
 </script>
 {% endblock %}

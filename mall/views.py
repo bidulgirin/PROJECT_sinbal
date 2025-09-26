@@ -260,7 +260,6 @@ def mall_review(request, shoe_id):
     if request.method == "POST":
         # 후기를 수정할때
         if writed_review:
-            print("수정입니다!!!!")
             form = MallReviewForm(request.POST, instance = writed_review)
         # 처음 후기를 쓸때
         else: 
@@ -268,6 +267,8 @@ def mall_review(request, shoe_id):
 
         if form.is_valid():
             review = form.save(commit=False)
+
+            review.rating = request.POST["rating"] # 별점 커스텀해서 따로 받아요
             review.user_id = conn_user_id # 니 누고
             review.shoe_id = shoe_id # 니 뭐 샀누? 
             review.save() 
@@ -309,6 +310,17 @@ def mall_review_delete(request, id):
     delete_data.delete()
     # 그 이전페이지로 돌아가면 좋을텐디~
     return redirect('mall_main')
+
+# 후기 이미지 삭제
+def review_delete_img(request, img_id):
+    delete_data = MallReviewImage.objects.get(id = img_id)
+    delete_data.delete()
+    review_id = delete_data.review_id
+    shoe_id = MallReview.objects.get(id=review_id).shoe_id
+    
+    return redirect("mall_review", shoe_id=shoe_id)
+
+
 # 슈마커에서 데이터 크롤링해오기
 
 # 1. https://www.shoemarker.co.kr/ASP/Product/SearchProductList.asp?SearchWord=%EB%9F%B0%EB%8B%9D%ED%99%94'
