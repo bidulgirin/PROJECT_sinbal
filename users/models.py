@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseU
 class UserManager(BaseUserManager):
     use_in_migrations = True    
 
-    def create_user(self, username, nickname, email, address, gender, shoe_size, ball_foot, favorite_brand, password=None):
+    def create_user(self, username, nickname, email, address, gender, password=None):
         if not email:
             raise ValueError("must haveu user email")
         
@@ -17,12 +17,9 @@ class UserManager(BaseUserManager):
         user = self.model(
             nickname = nickname,
             email = self.normalize_email(email),
-            username=username,
-            gender=gender,
+            username = username,
+            gender = gender,
             address = address,
-            shoe_size = shoe_size,
-            ball_foot = ball_foot,
-            favorite_brand = favorite_brand,
         )
         user.set_password(password)
         user.save(using=self._db)
