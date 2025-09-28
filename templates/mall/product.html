@@ -7,48 +7,46 @@
 <div class="container p-3">
     <div class="g_height">
         <h2 class="fw-bold">쇼핑몰</h2>
-        <div class="border">
-            {% if datas %}
-            <ul class="d-flex cards flex-wrap">
-                {% for data in datas %}
-                <li class="card" style="width: 18rem">
-                    <div class="product-list">
-                        <!-- LSH START -->
-                        <div class="ly-img">
-                            <a href="{% url 'product_detail' id=data.id %}">
-                                {% if data.images %}
-                                <img src="{{data.images.url}}" class="card-img-top display-img" />
-                                {% else %}
-                                <img class="display-img card-img-top" src="{% static 'img/NO_IMG_600x600.png'%}" />
-                                {% endif %}
-                            </a>
-                        </div>
-                        <div class="card-body">
-                            <div class="ly-brand">
-                                <div class="fw-bold">{{data.brand}}</div>
-                            </div>
-                            <div class="card-title">
-                                <div class="">
-                                    <a href="#!">{{data.name}}</a>
-                                </div>
-                            </div>
-                            <div class="ly-price">
-                                <span class="fw-bold fs-6">{{data.price|intcomma}} 원</span>
-                            </div>
-                        </div>
-                        <!-- LSH END -->
+        {% if datas %}
+        <div class="d-flex cards flex-wrap">
+            {% for data in datas %}
+            <div class="card" style="width: 18rem">
+                <div class="product-list">
+                    <!-- LSH START -->
+                    <div class="ly-img">
+                        <a href="{% url 'product_detail' id=data.id %}">
+                            {% if data.images %}
+                            <img src="{{data.images.url}}" class="card-img-top display-img" />
+                            {% else %}
+                            <img class="display-img card-img-top" src="{% static 'img/NO_IMG_600x600.png'%}" />
+                            {% endif %}
+                        </a>
                     </div>
-                </li>
-                {% endfor %}
-            </ul>
-            {% else %}
-            <ul style="justify-content:center; text-align: center; align-items:center;">
-                <li class="">
-                    데이터가 없습니다
-                </li>
-            </ul>
-            {% endif %}
+                    <div class="card-body">
+                        <div class="ly-brand">
+                            <div class="fw-bold">{{data.brand}}</div>
+                        </div>
+                        <div class="card-title">
+                            <div class="">
+                                <a href="#!">{{data.name}}</a>
+                            </div>
+                        </div>
+                        <div class="ly-price">
+                            <span class="fw-bold fs-6">{{data.price|intcomma}} 원</span>
+                        </div>
+                    </div>
+                    <!-- LSH END -->
+                </div>
+            </div>
+            {% endfor %}
         </div>
+        {% else %}
+        <div style="justify-content:center; text-align: center; align-items:center;">
+            <div class="">
+                데이터가 없습니다
+            </div>
+        </div>
+        {% endif %}
     </div>
     <!-- 페이지 네이션 -->
     <nav aria-label="...">
