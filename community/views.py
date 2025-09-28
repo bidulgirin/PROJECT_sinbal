@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render
 from community.models import Post, Comment, PostImage
 from datetime import *
 from django.utils import timezone
+from community.forms import PostForm
 
 # Create your views here.
 def community(request):
@@ -14,22 +15,22 @@ def community(request):
     # 전체 게시판
     posts = Post.objects.all().order_by("-pk")
     # 자유 게시판 (category=1)
-    free_posts = Post.objects.filter(category = "1")
+    free_posts = Post.objects.filter(category = "free")
     # 요청 게시판 (category=2)
-    apply_posts = Post.objects.filter(category = "2")
+    request_posts = Post.objects.filter(category = "request")
     # 신발리뷰 게시판 (category=3)
-    review_posts = Post.objects.filter(category = "3")
+    review_posts = Post.objects.filter(category = "review")
     # 마라톤후기 게시판 (category=4)
-    maraton_posts = Post.objects.filter(category = "4")
+    marathon_posts = Post.objects.filter(category = "marathon")
     
     context = {
         "weeks_best_posts": weeks_best_posts,
         "best_posts": best_posts,
         "posts":posts,
         "free_posts":free_posts,
-        "apply_posts":apply_posts,
+        "request_posts":request_posts,
         "review_posts":review_posts,
-        "maraton_posts":maraton_posts,
+        "marathon_posts":marathon_posts,
         "today": today
     }
     
@@ -38,34 +39,62 @@ def community(request):
 # 포스트 게시하기
 def add_post(request):
     if request.method == "POST":
-        print(request.POST)
-        # 하나하나 필요한 컬럼 받기
-        result = request.POST
-        conn_user = request.user
+        form = PostForm(request.POST)
         
-        category = result["category"]
-        title = result["title"]
-        content = result["content"]
-        
-        
-        post = Post.objects.create(
-            category = category,
-            title = title,
-            content = content,
-            author_id = conn_user.id
-        )
-        post.save() # 포스트 먼저 save
-        
-        # 다중 이미지 넣기 
-        for image_file in request.FILES.getlist("images"):
-            PostImage.objects.create(
-                post = post,
-                images = image_file
-        )
-        # 해당 포스트의 상세페이지로 감
-        return redirect('community:product_detail', id=post.id )
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+
+            # 다중 이미지 넣기
+            for image_file in request.FILES.getlist("images"):
+                PostImage.objects.create(
+                    post=post, 
+                    images=image_file
+            )
+            # 해당 포스트의 상세페이지로 감
+            return redirect("community:product_detail", id=post.id)
+    form = PostForm()
     
-    return render(request, "community/community_post.html")
+    context = {
+        "form": form
+    }
+    return render(request, "community/community_post.html", context)
+
+# 글 수정
+def edit_post(request, id):
+    
+    data = Post.objects.get(id = id)
+    
+    if request.method == "POST":
+        form = PostForm(request.POST, instance = data)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+
+            # 다중 이미지 넣기
+            for image_file in request.FILES.getlist("images"):
+                PostImage.objects.create(
+                    post=post, 
+                    images=image_file
+            )
+            # 해당 포스트의 상세페이지로 감
+            return redirect("community:product_detail", id=post.id)
+    else:
+        form = PostForm(instance = data)
+    context = {
+        "form" : form, 
+    }
+    return render(request, "community/community_post.html", context)
+
+# 글 삭제
+def delete_post(request, id):
+    # Cart 에서 등록된 상품 id 를 가져온다
+    delete_data = Post.objects.get(id = id)
+    delete_data.delete()
+    return redirect('community:community') # 일단 메인으로 돌려보내
+
 # 상세페이지
 def product_detail(request, id):
     data = Post.objects.get(id = id)
