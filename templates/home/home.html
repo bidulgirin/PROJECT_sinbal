@@ -2,19 +2,6 @@
 {% load static %}
 {% block head_name %}이런신발 - 홈{% endblock %}
 {% block content %}
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container d-flex justify-content-center text-light">
-        이런신발
-    </div>
-    <div style="margin-right:20px">
-        {% if user.is_authenticated %}
-        <a href="{% url 'logout' %}"><button class="btn btn-outline-light">로그아웃</button></a>
-        {% else %}
-        <a href="{% url 'login' %}"><button class="btn btn-outline-light">로그인</button></a>
-        {% endif %}
-    </div>
-    <div>
-</nav>
 <!-- 메인 컨테이너 -->
 <div class="container mt-4 g_height">
     <!-- 메인 이미지 (Bootstrap 이미지 클래스 활용) -->
