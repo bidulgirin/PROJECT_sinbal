@@ -79,7 +79,7 @@ def mall_cart(request):
     conn_user = request.user
     # user 의 장바구니 정보를 불러온다.
     # 유저아이디를 유저이름으로 찾는 행위가 맞는가...?
-    user_id = User.objects.get(username=conn_user).id
+    user_id = conn_user.id
     cart_datas = Cart.objects.filter(user_id=user_id)
 
     context = {

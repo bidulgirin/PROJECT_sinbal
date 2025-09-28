@@ -5,10 +5,13 @@
 <!-- 상단 헤더 (Bootstrap navbar 컴포넌트) -->
 <div class="container mt-4" style="min-height: 100vh;">
     <!-- 수정/삭제 버튼 -->
+    <!-- 본인글에서만보이게 -->
+    {% if data.author_id == user.id %}
     <div class="text-end">
         <a class="btn btn-primary" href="{% url 'community:edit_post' id=data.id %}">수정</a>
         <button type="button" class="btn btn-danger delete_btn">삭제</button>
     </div>
+    {% endif %}
     <form method="POST" id="form">
         {% csrf_token %}
     </form>
