@@ -1,63 +1,46 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>이런신발</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    
-    <style>
-        body {
-            background-color: #f8f9fa;  
-        }
-        
-        .price {
-            color: #0d6efd;  
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .a {
-            text-decoration-line: none
-        }
-    </style>
-</head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container d-flex justify-content-center">
-            <a href = "/" style="text-decoration: none;"><span class="navbar-brand" style="margin-left:150px;">이런신발</span></a>
-        </div>
-            {% if user.is_authenticated %}
-            <a href = "{% url 'logout' %}" ><button class ="btn btn-outline-light" style="margin-right:100px;">로그아웃</button></a>
-            {% else %}
-            <a href = "{% url 'login' %}" ><button class ="btn btn-outline-light" style="margin-right:100px;">로그인</button></a>
-            {% endif %}
-        <div>
-    </nav>
-
-    <!-- 메인 컨테이너 -->
-    <div class="container mt-4">
-        <!-- 메인 이미지 (Bootstrap 이미지 클래스 활용) -->
-        <div class="mb-5">
-            <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner" style = "width:1300px; height:487px;">
+{% extends 'base/base.html' %}
+{% load static %}
+{% block head_name %}이런신발 - 홈{% endblock %}
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container d-flex justify-content-center text-light">
+        이런신발
+    </div>
+    <div style="margin-right:20px">
+        {% if user.is_authenticated %}
+        <a href="{% url 'logout' %}"><button class="btn btn-outline-light">로그아웃</button></a>
+        {% else %}
+        <a href="{% url 'login' %}"><button class="btn btn-outline-light">로그인</button></a>
+        {% endif %}
+    </div>
+    <div>
+</nav>
+<!-- 메인 컨테이너 -->
+<div class="container mt-4">
+    <!-- 메인 이미지 (Bootstrap 이미지 클래스 활용) -->
+    <div class="mb-5">
+        <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner" style="width:1300px; height:487px;">
                 <div class="carousel-item active">
-                    <img src="https://img.gqkorea.co.kr/gq/2024/11/style_673bca64215ac.jpg" class="d-block w-100" alt="...">
+                    <img src="https://img.gqkorea.co.kr/gq/2024/11/style_673bca64215ac.jpg" class="d-block w-100"
+                        alt="...">
                 </div>
                 <div class="carousel-item">
-                    <img src="https://the-edit.co.kr/wp-content/uploads/2022/09/1400_adidas2.0.jpg" class="d-block w-100" alt="...">
+                    <img src="https://the-edit.co.kr/wp-content/uploads/2022/09/1400_adidas2.0.jpg"
+                        class="d-block w-100" alt="...">
                 </div>
                 <div class="carousel-item">
-                    <img src="https://the-edit.co.kr/wp-content/uploads/2022/09/1400_2_under.jpg" class="d-block w-100" alt="...">
+                    <img src="https://the-edit.co.kr/wp-content/uploads/2022/09/1400_2_under.jpg" class="d-block w-100"
+                        alt="...">
                 </div>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying"
+                data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying"
+                data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
             </button>
@@ -65,7 +48,6 @@
 
         <!-- 메인 콘텐츠 영역 -->
         <div class="row mt-4">
-
             <!-- 왼쪽 사이드바 - 카테고리 -->
             <div class="col-md-3 mb-4">
                 <div class="card">
@@ -80,23 +62,18 @@
                     <!-- 카테고리 내 리스트 -->
                     <div class="card-body">
                         <div class="list-group list-group-flush">
-                            <a href="" class="list-group-item list-group-item-action">
-                                <i class="bi bi-chevron-right"></i> 러닝화
+                            {% for category in categorys %}
+                            <a href="/mall/product/?keyword={{category.name}}"
+                                class="list-group-item list-group-item-action">
+                                <i class="bi bi-chevron-right"></i> {{category.name}}
+
                             </a>
-                            <a href="" class="list-group-item list-group-item-action">
-                                <i class="bi bi-chevron-right"></i> 트레일화
-                            </a>
-                            <a href="" class="list-group-item list-group-item-action">
-                                <i class="bi bi-chevron-right"></i> 워킹화
-                            </a>
-                            <a href="" class="list-group-item list-group-item-action">
-                                <i class="bi bi-chevron-right"></i> 레이싱화
-                            </a>
-                            <a href="" class="list-group-item list-group-item-action">
-                                <i class="bi bi-chevron-right"></i> 브랜드별
-                            </a>
+                            {% empty %}
+                            카테고리가 없습니다
+                            {% endfor %}
+
                         </div>
-                        <button class="btn btn-primary btn-sm mt-3 w-100">전체 카테고리</button>
+                        <!-- <button class="btn btn-primary btn-sm mt-3 w-100">전체 카테고리</button> -->
                     </div>
                 </div>
             </div>
@@ -106,32 +83,44 @@
 
                 <!-- 커뮤니티 인기글 섹션 -->
                 <div class="card mb-4">
-                    
+
                     <!-- 커뮤니티 맨 위 부분 -->
                     <div class="card-header bg-light d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">
                             <i class="bi bi-fire text-danger"></i> 커뮤니티 인기글
                         </h5>
-                        <a href="{% url 'community' %}" class="btn btn-sm btn-primary">
+                        <a href="{% url 'community:community' %}" class="btn btn-sm btn-primary">
                             더보기 <i class="bi bi-arrow-right"></i>
                         </a>
                     </div>
 
                     <!-- 커뮤니티 게시글 3개 -->
                     <ul class="list-group list-group-flush">
+                        {% if free_post %}
+                        {% for i in free_post %}
                         <li class="list-group-item">
                             <i class="bi bi-chat-dots text-primary"></i>
-                            김효훈 수면시간 보장 시급
+                            {{ i.title }}
                             <span class="badge bg-danger float-end">HOT</span>
                         </li>
+                        {% endfor %}
+                        {% endif %}
+                        {% if request_post %}
+                        {% for i in request_post %}
                         <li class="list-group-item">
                             <i class="bi bi-question-circle text-warning"></i>
-                            질문) 최정후 학생 팀 술 회식 안여는지?
+                            질문) {{ i.title }}
                         </li>
+                        {% endfor %}
+                        {% endif %}
+                        {% if marathon_post %}
+                        {% for i in marathon_post %}
                         <li class="list-group-item">
                             <i class="bi bi-trophy text-success"></i>
-                            런린이 첫 하프마라톤 완주했습니다
+                            {{ i.title }}
                         </li>
+                        {% endfor %}
+                        {% endif %}
                     </ul>
                 </div>
 
@@ -149,71 +138,28 @@
                     <div class="card-body">
                         <div class="row g-3">
                             <!-- 신발 카드 1 -->
+                            {% for hot_shoe in hot_shoes %}
                             <div class="col-md-6 col-lg-4">
                                 <div class="card h-100">
-                                    <img src="" class="card-img-top" alt="신발">
+                                    <div class="g_squre">
+                                        {% if hot_shoe.images %}
+                                        <img src="{{hot_shoe.images.url}}" class="card-img-top" />
+                                        {% else %}
+                                        <img src="{% static 'img/NO_IMG_600x600.png'%}" class="card-img-top" />
+                                        {% endif %}
+                                    </div>
                                     <div class="card-body">
-                                        <h6 class="card-title">나이키 페가수스 41</h6>
-                                        <p class="price">₩159,000</p>
-                                        <button class="btn btn-primary btn-sm w-100">상세보기</button>
+                                        <h6 class="card-title">{{hot_shoe.name}}</h6>
+                                        <p class="price">₩{{hot_shoe.price}}</p>
+                                        <a class="btn btn-primary btn-sm w-100"
+                                            href="{% url 'product_detail' id=hot_shoe.id %}">상세보기</a>
                                     </div>
                                 </div>
                             </div>
-                            <!-- 신발 카드 2 -->
-                            <div class="col-md-6 col-lg-4">
-                                <div class="card h-100">
-                                    <img src="" class="card-img-top" alt="신발">
-                                    <div class="card-body">
-                                        <h6 class="card-title">아식스 젤님버스 26</h6>
-                                        <p class="price">₩189,000</p>
-                                        <button class="btn btn-primary btn-sm w-100">상세보기</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- 신발 카드 3 -->
-                            <div class="col-md-6 col-lg-4">
-                                <div class="card h-100">
-                                    <img src="" class="card-img-top" alt="신발">
-                                    <div class="card-body">
-                                        <h6 class="card-title">호카 클리프톤 9</h6>
-                                        <p class="price">₩179,000</p>
-                                        <button class="btn btn-primary btn-sm w-100">상세보기</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- 신발 카드 4 -->
-                            <div class="col-md-6 col-lg-4">
-                                <div class="card h-100">
-                                    <img src="" class="card-img-top" alt="신발">
-                                    <div class="card-body">
-                                        <h6 class="card-title">뉴발란스 1080</h6>
-                                        <p class="price">₩199,000</p>
-                                        <button class="btn btn-primary btn-sm w-100">상세보기</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- 신발 카드 5 -->
-                            <div class="col-md-6 col-lg-4">
-                                <div class="card h-100">
-                                    <img src="" class="card-img-top" alt="신발">
-                                    <div class="card-body">
-                                        <h6 class="card-title">아디다스 울트라부스트</h6>
-                                        <p class="price">₩239,000</p>
-                                        <button class="btn btn-primary btn-sm w-100">상세보기</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- 신발 카드 6 -->
-                            <div class="col-md-6 col-lg-4">
-                                <div class="card h-100">
-                                    <img src="" class="card-img-top" alt="신발">
-                                    <div class="card-body">
-                                        <h6 class="card-title">브룩스 고스트 15</h6>
-                                        <p class="price">₩169,000</p>
-                                        <button class="btn btn-primary btn-sm w-100">상세보기</button>
-                                    </div>
-                                </div>
-                            </div>
+                            {% empty %}
+                            <div>아직 등록된 신발이 없습니다.</div>
+                            {% endfor %}
+
                         </div>
                     </div>
                 </div>
@@ -272,7 +218,20 @@
             </div>
         </div>
     </div>
+</div>
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+    .price {
+        color: #0d6efd;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .a {
+        text-decoration-line: none
+    }
+</style>
+{% endblock %}

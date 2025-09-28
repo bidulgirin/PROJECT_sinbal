@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 {% extends 'base/base.html' %}
 {% load static %}
 {% block head_name %}이런신발 - 커뮤니티{% endblock %}
@@ -10,35 +9,6 @@
         <a href="{% url 'login' %}">
             <button class="btn btn-outline-light">로그인</button>
         </a>
-    </div>
-</nav>
-
-<!-- 메뉴바 (Bootstrap navbar 기능 활용해보기) -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
-    <div class="container">
-        <ul class="navbar-nav mx-auto">
-            <!-- 쿼리스트링으로 처리할것임  -->
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'community:community' %}">
-                    <i class="bi bi-house"></i> 홈
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="">
-                    <i class="bi bi-flag"></i> 마라톤
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="">
-                    <i class="bi bi-cart"></i> 쇼핑몰
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="">
-                    <i class="bi bi-person"></i> 마이페이지
-                </a>
-            </li>
-        </ul>
     </div>
 </nav>
 
