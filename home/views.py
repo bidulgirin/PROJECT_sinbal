@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from home.models import Shoe, Category
+from home.models import Shoe, Category, Marathon
 from community.models import Post
 from datetime import *
 from django.utils import timezone
@@ -17,6 +17,9 @@ def home(request):
     review_post = Post.objects.filter(category = "review").order_by('-views')[:1]
     # 마라톤후기 게시판 (category=4)
     marathon_post = Post.objects.filter(category = "marathon").order_by('-views')[:1]
+    # 마라톤
+    marathons = Marathon.objects.all().order_by('-pk')[:3]
+    
 
     context = {
         "categorys": categorys,
@@ -25,5 +28,6 @@ def home(request):
         "request_post" : request_post,
         "review_post" : review_post,
         "marathon_post" : marathon_post,
+        "marathons" : marathons,
     }
     return render(request, "home/home.html", context)

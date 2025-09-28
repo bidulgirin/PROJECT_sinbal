@@ -16,7 +16,7 @@
     <div>
 </nav>
 <!-- 메인 컨테이너 -->
-<div class="container mt-4">
+<div class="container mt-4 g_height">
     <!-- 메인 이미지 (Bootstrap 이미지 클래스 활용) -->
     <div class="mb-5">
         <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
@@ -176,24 +176,14 @@
 
                     <!-- 마라톤 일정 리스트 -->
                     <div class="list-group list-group-flush">
+                        {% for marathon in marathons %}
                         <div class="list-group-item">
                             <div class="d-flex justify-content-between">
-                                <strong>한강마라톤</strong>
-                                <span class="text-muted">2025년 9월 20일</span>
+                                <strong>{{marathon.name}}</strong>
+                                <span class="text-muted">{{ marathon.date|date:"Y년 n월 j일" }}</span>
                             </div>
                         </div>
-                        <div class="list-group-item">
-                            <div class="d-flex justify-content-between">
-                                <strong>혈압마라톤</strong>
-                                <span class="text-muted">2025년 9월 21일</span>
-                            </div>
-                        </div>
-                        <div class="list-group-item">
-                            <div class="d-flex justify-content-between">
-                                <strong>신촌IT마라톤</strong>
-                                <span class="text-muted">2025년 9월 22일</span>
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>

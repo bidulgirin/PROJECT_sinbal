@@ -23,3 +23,6 @@ a {
     height: 100%;
     object-fit: cover;
 }
+.g_height {
+    min-height: 100vh;
+}
