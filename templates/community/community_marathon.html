@@ -1,0 +1,13 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block head_name %}이런신발 - 마라톤일정{% endblock %}
+{% block content %}
+<div class="container">
+    <h4>{{data.name}}</h4>
+    <h4>{{data.date}}</h4>
+    <h4>{{data.location}}</h4>
+    <h4>{{data.distance}}km</h4>
+    <h4>{{data.price}}</h4>
+    <h4>{{data.website_url}}</h4>
+</div>
+{% endblock %}

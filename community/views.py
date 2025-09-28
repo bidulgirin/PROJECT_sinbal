@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render
 from community.models import Post, Comment, PostImage
+from home.models import Marathon
 from datetime import *
 from django.utils import timezone
 from community.forms import PostForm
@@ -102,3 +103,13 @@ def product_detail(request, id):
         "data": data
     }
     return render(request, "community/community_post_detail.html", context)
+
+
+# 마라톤 상세페이지
+def marathon(request, id ):
+    data = Marathon.objects.get(id = id )
+    context = {
+        "data": data
+    } 
+    return render(request, "community/community_marathon.html", context)
+    

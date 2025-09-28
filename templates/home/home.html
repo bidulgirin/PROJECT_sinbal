@@ -166,8 +166,11 @@
                         {% for marathon in marathons %}
                         <div class="list-group-item">
                             <div class="d-flex justify-content-between">
-                                <strong>{{marathon.name}}</strong>
+                                <a href="{% url 'community:marathon' id=marathon.id %}">
+                                    <strong>{{marathon.name}}</strong>
+                                </a>
                                 <span class="text-muted">{{ marathon.date|date:"Y년 n월 j일" }}</span>
+
                             </div>
                         </div>
                         {% endfor %}
