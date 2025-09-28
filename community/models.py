@@ -46,3 +46,11 @@ class Comment(models.Model):
     def __str__(self):
         return f"{self.post.title}의 댓글"
     
+    
+class PostImage(models.Model):
+    post = models.ForeignKey(Post, 
+                             verbose_name= "게시판 이미지", 
+                             on_delete = models.CASCADE)
+    images = models.ImageField("사진", upload_to="post/%Y/%m/%d/", blank = True, null = True)
+    
+    

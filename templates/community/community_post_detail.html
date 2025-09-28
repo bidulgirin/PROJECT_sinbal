@@ -1,0 +1,48 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block head_name %}이런신발 - 커뮤니티{% endblock %}
+{% block content %}
+<!-- 상단 헤더 (Bootstrap navbar 컴포넌트) -->
+<div class="container mt-4" style="min-height: 100vh;">
+    <!-- 수정/삭제 버튼 -->
+    <div class="text-end">
+        <a class="btn btn-primary" href="{% url 'community:edit_post' id=data.id %}">수정</a>
+        <button type="button" class="btn btn-danger delete_btn">삭제</button>
+    </div>
+    <form method="POST" id="form">
+        {% csrf_token %}
+    </form>
+
+    <!-- 글 상세페이지 -->
+    <h1>
+        {{ data.title }}
+    </h1>
+    <hr>
+    <div>
+        {% if data.postimage_set.all %}
+        {% for i in data.postimage_set.all %}
+        <img src="{{i.images.url}}" alt="">
+        {% endfor %}
+        {% endif %}
+    </div>
+    <div>
+        {{ data.content }}
+    </div>
+</div>
+<script>
+    // 삭제 버튼 누르면 해당 id 값과 action 슥~ 보내기
+    const delete_btns = document.querySelector(".delete_btn");
+    delete_btns.addEventListener("click", () => {
+        const delete_row_id = Number("{{data.id}}");
+        if (confirm("글을 삭제하시겠습니까?")) {
+            delete_data(delete_row_id);
+        }
+    });
+    function delete_data(id) {
+        const form = document.querySelector("#form");
+        form.action = `/community/post/delete/${id}/`;
+        form.method = "GET";
+        form.submit();
+    }
+</script>
+{% endblock %}

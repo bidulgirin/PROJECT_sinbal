@@ -1,281 +1,296 @@
 <!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>이런신발 - 커뮤니티</title>
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        
-        .post-thumbnail {
-            width: 120px;
-            height: 120px;
-            object-fit: cover;
-        }
-    </style>
-</head>
-<body>
-    <!-- 상단 헤더 (Bootstrap navbar 컴포넌트) -->
-    <nav class="navbar navbar-dark bg-dark">
-        <div class="container">
-            <span class="navbar-brand mx-auto">커뮤니티</span>
-            <a href = "{% url 'login' %}">
-                <button class="btn btn-outline-light">로그인</button>
-            </a>
-        </div>
-    </nav>
-    
-    <!-- 메뉴바 (Bootstrap navbar 기능 활용해보기) -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
-        <div class="container">
-            <ul class="navbar-nav mx-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'home' %}">
-                        <i class="bi bi-house"></i> 홈
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="">
-                        <i class="bi bi-flag"></i> 마라톤
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="">
-                        <i class="bi bi-cart"></i> 쇼핑몰
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="">
-                        <i class="bi bi-person"></i> 마이페이지
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
-    <!-- 메인 컨테이너 -->
-    <div class="container mt-4">
-        <!-- 인기글 섹션 -->
-        <div class="row mb-4">
-            <!-- 좋아요 인기글 -->
-            <div class="col-lg-6 mb-3">
-                <div class="card shadow-sm">
-                    <div class="card-header bg-danger text-white">
-                        <h5 class="mb-0">
-                            <i class="bi bi-suit-heart-fill"></i> 일주일 좋아요 인기글
-                        </h5>
-                    </div>
-                    <div class="list-group">
-                        <a href="" class="list-group-item">
-                            <div class="d-flex justify-content-between">
-                                <span>나이키 알파플라이3 후기</span>
-                                <span class="badge bg-danger">73</span>
-                            </div>
-                        </a>
-                        <a href="" class="list-group-item">
-                            <div class="d-flex justify-content-between">
-                                <span>아식스 노바블라스트5 후기</span>
-                                <span class="badge bg-danger">60</span>
-                            </div>
-                        </a>
-                        <a href="" class="list-group-item">
-                            <div class="d-flex justify-content-between">
-                                <span>초보자 러닝화 선택기준 알려준다</span>
-                                <span class="badge bg-danger">30</span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 실시간 인기글 -->
-            <div class="col-lg-6 mb-3">
-                <div class="card shadow-sm">
-                    <div class="card-header bg-warning text-dark">
-                        <h5 class="mb-0">
-                            <i class="bi bi-fire"></i> 실시간 인기글
-                        </h5>
-                    </div>
-                    <div class="list-group">
-                        <div class="list-group-item">
-                            <span class="badge bg-secondary me-2">1</span>
-                            김효훈 수면시간 보장 시급
-                            <span class="badge bg-warning">HOT</span>
-                        </div>
-                        <div class="list-group-item">
-                            <span class="badge bg-secondary me-2">2</span>
-                            질문) 최정후 학생 팀 술 회식 안여는지?
-                        </div>
-                        <div class="list-group-item">
-                            <span class="badge bg-secondary me-2">3</span>
-                            런린이 첫 하프마라톤 완주했습니다
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 탭 메뉴 (Bootstrap Nav tabs) -->
-        <ul class="nav nav-tabs mb-3">
-            <li class="nav-item">
-                <a class="nav-link active" href="">전체</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="">자유</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="">신발 리뷰</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="">마라톤 후기</a>
-            </li>
-        </ul>
-
-        <!-- 전체 게시판 -->
-        <div class="card mb-4">
-            <div class="card-header">
-                <h4 class="mb-0">전체 게시판</h4>
-            </div>
-            <div class="list-group">
-                <!-- 게시글 1 (이미지 있음) -->
-                <div class="list-group-item">
-                    <div class="row align-items-center">
-                        <div class="col-auto">
-                            <img src="" class="rounded post-thumbnail" alt="썸네일">
-                        </div>
-                        <div class="col">
-                            <h5>
-                                <span class="badge bg-danger me-1">인기</span>
-                                아식스 노바블라스트4 한달 사용기
-                            </h5>
-                            <p class="text mb-2">한달동안 약 200km 정도 뛰면서 느낀 점들...</p>
-                            <small class="text me-2">
-                                <i class="bi bi-person"></i> 러닝초보 
-                                <i class="bi bi-clock"></i> 3시간 전 
-                                <i class="bi bi-chat"></i> 60
-                                <i class="bi bi-heart"></i> 34
-                            </small>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- 게시글 2 (이미지 없음) -->
-                <div class="list-group-item">
-                    <h5>
-                        <span class="badge bg-success me-2">NEW</span>
-                        첫 하프마라톤 완주! 2시간 15분 기록
-                    </h5>
-                    <p class="text mb-2">6개월 준비 끝에 드디어 첫 하프마라톤을 완주했습니다...</p>
-                    <small class="text">
-                        <i class="bi bi-person"></i> 런린이졸업
-                        <i class="bi bi-clock"></i> 1일 전
-                        <i class="bi bi-chat"></i> 10
-                        <i class="bi bi-heart"></i> 45
-                    </small>
-                </div>
-            </div>
-            <div class="card-footer text-center">
-                <button class="btn btn-secondary">
-                    <i class="bi bi-arrow-down-circle"></i> 더보기
-                </button>
-            </div>
-        </div>
-
-        <!-- 자유 게시판 -->
-        <div class="card shadow-sm mb-4">
-            <div class="card-header bg-light">
-                <h4 class="mb-0">자유 게시판</h4>
-            </div>
-            <div class="list-group list-group-flush">
-                <div class="list-group-item">
-                    <h6>밤에 같이 러닝하실 20대 여자분? 본인 30대 중반</h6>
-                    <small class="text-muted">
-                        <i class="bi bi-person"></i> 남자는wine
-                        <i class="bi bi-clock"></i> 1시간 전
-                        <i class="bi bi-chat"></i> 0
-                    </small>
-                </div>
-                <div class="list-group-item">
-                    <h6>오늘 아침 러닝 인증!</h6>
-                    <small class="text-muted">
-                        <i class="bi bi-person"></i> 미라클모닝
-                        <i class="bi bi-clock"></i> 3시간 전
-                        <i class="bi bi-chat"></i> 2
-                    </small>
-                </div>
-            </div>
-            <div class="card-footer text-center">
-                <button class="btn btn-secondary">
-                    <i class="bi bi-arrow-down-circle"></i> 더보기
-                </button>
-            </div>
-        </div>
-
-        <!-- 요청 게시판 -->
-        <div class="card mb-5">
-            <div class="card-header">
-                <h4 class="mb-0">요청 게시판</h4>
-            </div>
-            <div class="list-group">
-                <!-- 요청글 1-->
-                <div class="list-group-item">
-                    <div class="row">
-                        <div class="col-1">
-                            <img src="" class="rounded post-thumbnail" alt="썸네일">
-                        </div>
-                        <div class="col">
-                            <h5>
-                                <span class="badge bg-primary me-2">요청</span>
-                                다음주 회식 장소 추천해주세요
-                            </h5>
-                            <p class="text-muted mb-2">술 안 먹는 팀원들이 있어서 부담 없는 곳 추천...</p>
-                            <small class="text-muted">
-                                <i class="bi bi-person"></i> dogfoot팀장
-                                <i class="bi bi-clock"></i> 5시간 전
-                                <i class="bi bi-chat"></i> 15
-                            </small>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- 요청글 2 -->
-                <div class="list-group-item">
-                    <h5>
-                        <span class="badge bg-warning text-dark me-2">답변</span>
-                        정후님, 수면 시간 지켜주세요
-                    </h5>
-                    <small class="text-muted">
-                        <i class="bi bi-person"></i> 프론트에재능을찾은남자
-                        <i class="bi bi-clock"></i> 2일 전
-                        <i class="bi bi-chat"></i> 1
-                    </small>
-                </div>
-            </div>
-            <div class="card-footer text-center">
-                <button class="btn btn-secondary">
-                    <i class="bi bi-arrow-down-circle"></i> 더보기
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 글쓰기 버튼 (Bootstrap으로 위치 고정) -->
-    <div class="position-fixed bottom-0 end-0 p-4">
-        <a href = "{% url 'add_post' %}">
-            <button class="btn btn-primary btn-lg rounded-circle shadow-lg">
-                <i class="bi bi-pencil-fill"></i>
-            </button>
+{% extends 'base/base.html' %}
+{% load static %}
+{% block head_name %}이런신발 - 커뮤니티{% endblock %}
+{% block content %}
+<!-- 상단 헤더 (Bootstrap navbar 컴포넌트) -->
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container">
+        <span class="navbar-brand mx-auto">커뮤니티</span>
+        <a href="{% url 'login' %}">
+            <button class="btn btn-outline-light">로그인</button>
         </a>
     </div>
+</nav>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+<!-- 메뉴바 (Bootstrap navbar 기능 활용해보기) -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <div class="container">
+        <ul class="navbar-nav mx-auto">
+            <!-- 쿼리스트링으로 처리할것임  -->
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'community:community' %}">
+                    <i class="bi bi-house"></i> 홈
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="">
+                    <i class="bi bi-flag"></i> 마라톤
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="">
+                    <i class="bi bi-cart"></i> 쇼핑몰
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="">
+                    <i class="bi bi-person"></i> 마이페이지
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
 
+<!-- 메인 컨테이너 -->
+<div class="container mt-4">
+    <!-- 인기글 섹션 -->
+    <div class="row mb-4">
+        <!-- 좋아요 인기글 -->
+        <div class="col-lg-6 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0">
+                        <i class="bi bi-suit-heart-fill"></i> 일주일 좋아요 인기글
+                    </h5>
+                </div>
+                <div class="list-group">
+                    {% for post in weeks_best_posts %}
+                    <a href="{% url 'community:product_detail' id=post.id %}" class="list-group-item">
+                        <div class="d-flex justify-content-between">
+                            <span>{{post.title}}</span>
+                            <span class="badge bg-danger">{{post.comment_set.all.count|default:0}}</span>
+                        </div>
+                    </a>
+                    {% empty %}
+                    <div class="d-flex justify-content-between">
+                        <span>아직 게시글이 없습니다</span>
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+
+        <!-- 실시간 인기글 -->
+        <div class="col-lg-6 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0">
+                        <i class="bi bi-fire"></i> 실시간 인기글
+                    </h5>
+                </div>
+                <div class="list-group">
+                    {% for post in best_posts %}
+                    <a href="{% url 'community:product_detail' id=post.id %}" class="list-group-item">
+                        <span class="badge bg-secondary me-2">{{post.index}}</span>
+                        {{post.title}}
+                        {% if post.views > 3 %}
+                        <span class="badge bg-warning">HOT</span>
+                        {% endif %}
+                    </a>
+                    {% empty %}
+                    <div class="d-flex justify-content-between">
+                        <span>아직 게시글이 없습니다</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 탭 메뉴 (Bootstrap Nav tabs) -->
+    <ul class="nav nav-tabs mb-3">
+        <li class="nav-item">
+            <a class="nav-link active" href="">전체</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="">자유</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="">신발 리뷰</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="">마라톤 후기</a>
+        </li>
+    </ul>
+
+    <!-- 전체 게시판 -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h4 class="mb-0">전체 게시판</h4>
+        </div>
+        <div class="list-group">
+            {% for post in posts %}
+            <div class="list-group-item">
+                <div class="row align-items-center">
+                    {% if post.postimage_set.all %}
+                    {% for i in post.postimage_set.all|slice:":1" %}
+                    <div class="g_squre col-auto">
+                        <img src="{{i.images.url}}" class="rounded post-thumbnail" alt="썸네일">
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    <div class="col">
+                        <h5>
+                            {% if post.post_likes_set.count > 3 %}
+                            <span class="badge bg-danger me-1">인기</span>
+                            {% endif %}
+                            {% if post.created == today %}
+                            <span class="badge bg-success me-2">NEW</span>
+                            {% endif %}
+                            {{post.title}}
+                        </h5>
+                        <p class="text mb-2">{{post.content|truncatechars:10}}</p>
+                        <small class="text me-2">
+                            <i class="bi bi-person"></i> {{ post.author.username }}
+                            <i class="bi bi-clock"></i> {{ post.created_at|timesince }}전
+                            <i class="bi bi-chat"></i> {{ post.comment_set.all.count|default:0 }}
+                            <i class="bi bi-heart"></i> {{ post.post_likes_set.all.count|default:0 }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="list-group-item">
+                <div class="text-center">
+                    게시판 글이 없습니다
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+        <div class="card-footer text-center">
+            <button class="btn btn-secondary">
+                <i class="bi bi-arrow-down-circle"></i> 더보기
+            </button>
+        </div>
+    </div>
+
+    <!-- 자유 게시판 -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-light">
+            <h4 class="mb-0">자유 게시판</h4>
+        </div>
+        <div class="list-group list-group-flush">
+            {% for post in free_posts %}
+            <div class="list-group-item">
+                <h6>{{post.title}}</h6>
+                <small class="text-muted">
+                    <i class="bi bi-person"></i> {{ post.author.username }}
+                    <i class="bi bi-clock"></i> {{ post.created_at|timesince }}전
+                    <i class="bi bi-chat"></i> {{ post.comment_set.all.count|default:0 }}
+                </small>
+            </div>
+            {% empty %}
+            <div class="list-group-item">
+                <div class="text-center">
+                    게시판 글이 없습니다
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="card-footer text-center">
+            <button class="btn btn-secondary">
+                <i class="bi bi-arrow-down-circle"></i> 더보기
+            </button>
+        </div>
+    </div>
+
+    <!-- 요청 게시판 -->
+    <div class="card mb-5">
+        <div class="card-header">
+            <h4 class="mb-0">요청 게시판</h4>
+        </div>
+        <div class="list-group">
+            {% for post in request_posts %}
+            <div class="list-group-item">
+                <div class="row">
+                    {% if post.postimage_set.all %}
+                    {% for i in post.postimage_set.all|slice:":1" %}
+                    <div class="g_squre col-auto">
+                        <img src="{{i.images.url}}" class="rounded post-thumbnail" alt="썸네일">
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    <div class="col">
+                        <h5>
+                            {% if post.comment_set.all.count == 0 %}
+                            <span class="badge bg-primary me-2">요청</span>
+                            {% else %}
+                            <span class="badge bg-warning text-dark me-2">답변</span>
+                            {% endif %}
+
+                            {{post.title}}
+                        </h5>
+                        <p class="text-muted mb-2">{{post.content|truncatechars:10}}</p>
+                        <small class="text-muted">
+                            <i class="bi bi-person"></i> {{ post.author.username }}
+                            <i class="bi bi-clock"></i> {{ post.created_at|timesince }}전
+                            <i class="bi bi-chat"></i> {{ post.comment_set.all.count|default:0 }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="list-group-item">
+                <div class="text-center">
+                    게시판 글이 없습니다
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="card-footer text-center">
+            <button class="btn btn-secondary">
+                <i class="bi bi-arrow-down-circle"></i> 더보기
+            </button>
+        </div>
+    </div>
+    <!-- 마라톤 후기 게시판  -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-light">
+            <h4 class="mb-0">마라톤 후기 게시판</h4>
+        </div>
+        <div class="list-group list-group-flush">
+            {% for post in marathon_posts %}
+            <div class="list-group-item">
+                <h6>{{post.title}}</h6>
+                <small class="text-muted">
+                    <i class="bi bi-person"></i> {{ post.author.username }}
+                    <i class="bi bi-clock"></i> {{ post.created_at|timesince }}전
+                    <i class="bi bi-chat"></i> {{ post.comment_set.all.count|default:0 }}
+                </small>
+            </div>
+            {% empty %}
+            <div class="list-group-item">
+                <div class="text-center">
+                    게시판 글이 없습니다
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="card-footer text-center">
+            <button class="btn btn-secondary">
+                <i class="bi bi-arrow-down-circle"></i> 더보기
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- 글쓰기 버튼 (Bootstrap으로 위치 고정) -->
+<div class="position-fixed bottom-0 end-0 p-4">
+    <a href="{% url 'community:add_post' %}">
+        <button class="btn btn-primary btn-lg rounded-circle shadow-lg">
+            <i class="bi bi-pencil-fill"></i>
+        </button>
+    </a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+    .col-auto:has(.post-thumbnail) {
+        width: 100px;
+        height: 100px;
+    }
+</style>
+{% endblock %}
 <!-- https://inpa.tistory.com/entry/BootStrap5-%F0%9F%93%9A-%EB%B0%98%EC%9D%91%ED%98%95-%EC%8B%9C%EC%8A%A4%ED%85%9C-%EC%A0%95%EB%A6%AC-%EA%B7%B8%EB%A6%AC%EB%93%9C -->
