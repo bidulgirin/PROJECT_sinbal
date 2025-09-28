@@ -10,8 +10,11 @@ urlpatterns = [
     path("post/", views.add_post, name = "add_post"),
     # 커뮤니티 글 수정하기
     path("post/<int:id>/", views.edit_post, name = "edit_post"),
-    # 커뮤니티 글 상세페이지
+    # 커뮤니티 글 삭제하기
     path("post/delete/<int:id>/", views.delete_post, name = "delete_post"),
     # 커뮤니티 상세페이지
-    path("post_detail/<int:id>/", views.product_detail, name = "product_detail"),
+    path("post_detail/<int:id>/", views.post_detail, name = "post_detail"),
+    # 커뮤니티 검색 
+    path("search/", views.community_search, name = "community_search"),
+
 ]

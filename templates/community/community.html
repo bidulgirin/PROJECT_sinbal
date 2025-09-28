@@ -17,7 +17,7 @@
                 </div>
                 <div class="list-group">
                     {% for post in weeks_best_posts %}
-                    <a href="{% url 'community:product_detail' id=post.id %}" class="list-group-item">
+                    <a href="{% url 'community:post_detail' id=post.id %}" class="list-group-item">
                         <div class="d-flex justify-content-between">
                             <span>{{post.title}}</span>
                             <span class="badge bg-danger">{{post.comment_set.all.count|default:0}}</span>
@@ -43,7 +43,7 @@
                 </div>
                 <div class="list-group">
                     {% for post in best_posts %}
-                    <a href="{% url 'community:product_detail' id=post.id %}" class="list-group-item">
+                    <a href="{% url 'community:post_detail' id=post.id %}" class="list-group-item">
                         <span class="badge bg-secondary me-2">{{post.index}}</span>
                         {{post.title}}
                         {% if post.views > 3 %}
@@ -99,7 +99,7 @@
                             {% if post.created == today %}
                             <span class="badge bg-success me-2">NEW</span>
                             {% endif %}
-                            <a href="{% url 'community:product_detail' id=post.id %}">{{post.title}}</a>
+                            <a href="{% url 'community:post_detail' id=post.id %}">{{post.title}}</a>
                         </h5>
                         <p class="text mb-2">{{post.content|truncatechars:10}}</p>
                         <small class="text me-2">
@@ -135,7 +135,7 @@
         <div class="list-group list-group-flush">
             {% for post in free_posts %}
             <div class="list-group-item">
-                <h6><a href="{% url 'community:product_detail' id=post.id %}">{{post.title}}</a></h6>
+                <h6><a href="{% url 'community:post_detail' id=post.id %}">{{post.title}}</a></h6>
                 <small class="text-muted">
                     <i class="bi bi-person"></i> {{ post.author.username }}
                     <i class="bi bi-clock"></i> {{ post.created_at|timesince }}전
@@ -180,7 +180,7 @@
                             {% else %}
                             <span class="badge bg-warning text-dark me-2">답변</span>
                             {% endif %}
-                            <a href="{% url 'community:product_detail' id=post.id %}">{{post.title}}</a>
+                            <a href="{% url 'community:post_detail' id=post.id %}">{{post.title}}</a>
                         </h5>
                         <p class="text-muted mb-2">{{post.content|truncatechars:10}}</p>
                         <small class="text-muted">
@@ -213,7 +213,7 @@
         <div class="list-group list-group-flush">
             {% for post in marathon_posts %}
             <div class="list-group-item">
-                <h6><a href="{% url 'community:product_detail' id=post.id %}">{{post.title}}</a></h6>
+                <h6><a href="{% url 'community:post_detail' id=post.id %}">{{post.title}}</a></h6>
                 <small class="text-muted">
                     <i class="bi bi-person"></i> {{ post.author.username }}
                     <i class="bi bi-clock"></i> {{ post.created_at|timesince }}전

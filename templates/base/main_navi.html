@@ -49,10 +49,21 @@
                 </li>
             </ul>
             <div class="search-and-icons">
-                <form class="d-flex mb-2 me-2" role="search" method="GET" action="{% url 'product' %}">
-                    <input class="form-control me-2" type="search" aria-label="Search" name="keyword" />
+                {% if request.path == "/community/" or request.path == "/community/search/" %}
+                <form class="d-flex mb-2 me-2" role="search" method="GET"
+                    action="{% url 'community:community_search' %}">
+                    <input class="form-control me-2" type="search" aria-label="Search" name="keyword"
+                        placeholder="커뮤니티 검색" />
                     <button type="submit" hidden>검색</button>
                 </form>
+                {% else %}
+                <form class="d-flex mb-2 me-2" role="search" method="GET" action="{% url 'product' %}">
+
+                    <input class="form-control me-2" type="search" aria-label="Search" name="keyword"
+                        placeholder="상품 검색" />
+                    <button type="submit" hidden>검색</button>
+                </form>
+                {% endif %}
                 <div class="user-icons d-flex mb-2">
                     <div class="profile"><i class="bi bi-person"></i></div>
                     <div class="wishlist"><i class="bi bi-heart"></i></div>

@@ -4,6 +4,7 @@ from home.models import Marathon
 from datetime import *
 from django.utils import timezone
 from community.forms import PostForm
+from django.db.models import Q # 모델의 데이터를 불러올때 조건값을 붙이기 위함 
 
 # Create your views here.
 def community(request):
@@ -54,7 +55,7 @@ def add_post(request):
                     images=image_file
             )
             # 해당 포스트의 상세페이지로 감
-            return redirect("community:product_detail", id=post.id)
+            return redirect("community:post_detail", id=post.id)
     form = PostForm()
     
     context = {
@@ -97,7 +98,7 @@ def delete_post(request, id):
     return redirect('community:community') # 일단 메인으로 돌려보내
 
 # 상세페이지
-def product_detail(request, id):
+def post_detail(request, id):
     data = Post.objects.get(id = id)
     context = {
         "data": data
@@ -112,4 +113,23 @@ def marathon(request, id ):
         "data": data
     } 
     return render(request, "community/community_marathon.html", context)
+
+
+# 상품 (검색 결과 표기)
+def community_search(request):
+    if request.method == "POST" :
+        pass
+    else : # get 으로 뭐 받아왔을때
+        # 검색했을때 
+        if request.GET.get("keyword"):
+            keyword = request.GET.get("keyword")
+            # 제목 또는 브랜드로 검색이 되야함
+            datas = Post.objects.filter( Q(title__contains = keyword) | Q(content__contains = keyword) ).order_by("-pk")
+            # 검색안했을때
+        else:
+            datas = Post.objects.all()
+    context = {
+        "datas" : datas,
+    }
+    return render(request, "community/community_search.html", context)
     
