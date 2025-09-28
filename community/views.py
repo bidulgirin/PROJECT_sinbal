@@ -125,11 +125,22 @@ def community_search(request):
             keyword = request.GET.get("keyword")
             # 제목 또는 브랜드로 검색이 되야함
             datas = Post.objects.filter( Q(title__contains = keyword) | Q(content__contains = keyword) ).order_by("-pk")
-            # 검색안했을때
+        elif request.GET.get("category"):
+            keyword = request.GET.get("category")
+             # 자유 게시판 (category=1)
+            if keyword == "all":
+                datas = Post.objects.all()
+            else: 
+                datas = Post.objects.filter(category = keyword).order_by("-pk")
+        # 검색안했을때
         else:
+            keyword = 0
             datas = Post.objects.all()
+            
+        
     context = {
         "datas" : datas,
+        "keyword": keyword,
     }
     return render(request, "community/community_search.html", context)
     

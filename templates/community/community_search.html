@@ -5,6 +5,10 @@
 <div class="container p-3">
     <div class="g_height">
         <h2 class="fw-bold">커뮤니티</h2>
+        {% if keyword %}
+        <h4>{{keyword}} 관련 게시글</h4>
+        {% endif %}
+
         <div class="border">
             {% if datas %}
             <div class="list-group">
