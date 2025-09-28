@@ -1,0 +1,23 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block head_name %}이런신발 - 커뮤니티{% endblock %}
+{% block content %}
+<!-- 상단 헤더 (Bootstrap navbar 컴포넌트) -->
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container">
+        <span class="navbar-brand mx-auto">글쓰기</span>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <!-- 글 상세페이지 -->
+    {{ data.title }}
+    <hr>
+    {% if data.postimage_set.all %}
+    {% for i in data.postimage_set.all %}
+    <img src="{{i.images.url}}" alt="">
+    {% endfor %}
+    {% endif %}
+    {{ data.content }}
+</div>
+{% endblock %}
