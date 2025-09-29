@@ -15,35 +15,40 @@ from bs4 import BeautifulSoup
 import requests
 from mall.forms import MallReviewForm # 후기 폼
 from django.db.models import Sum # 모두더하기위함
-
+from django.core.paginator import Paginator # 페이지네이션
 
 
 # Create your views here.
 # 몰 메인
 def mall_main(request):
-    products = Shoe.objects.all()[:5] # 5개만 보여주기
-    reviews = MallReview.objects.all()[:5]
+    products = Shoe.objects.all()[:6] # 5개만 보여주기
+    reviews = MallReview.objects.all()[:3]
     context = {
         "products" : products,
         "reviews" : reviews
     }
     return render(request, "mall/index.html", context)
 
-# 상품 (검색 결과 표기)
+# 상품 (검색 결과 표기) 
+# 페이지네이션 적용하기
 def mall_product(request):
-    if request.method == "POST" :
-        pass
-    else : # get 으로 뭐 받아왔을때
-        # 검색했을때 
-        if request.GET.get("keyword"):
-            keyword = request.GET.get("keyword")
-            # 제목 또는 브랜드로 검색이 되야함
-            datas = Shoe.objects.filter( Q(name__contains = keyword) | Q(brand__name__contains = keyword) ).order_by("-pk")
-            # 검색안했을때
-        else:
-            datas = Shoe.objects.all()
+   # get 으로 뭐 받아왔을때
+    # 검색했을때 
+    if request.GET.get("keyword"):
+        keyword = request.GET.get("keyword")
+        # 제목 또는 브랜드로 검색이 되야함
+        datas = Shoe.objects.filter( Q(name__contains = keyword) | Q(brand__name__contains = keyword) ).order_by("-pk")
+        # 검색안했을때
+    else:
+        datas = Shoe.objects.all()
+        
+    # 페이지네이션   
+    page = request.GET.get("page") 
+    paginator = Paginator(datas, 12) #10개씩보여주겠다
+    rooms = paginator.get_page(page)
+        
     context = {
-        "datas" : datas,
+        "datas" : rooms,
     }
     return render(request, "mall/product.html", context)
 
@@ -456,7 +461,6 @@ def crawling_shoes_page(request):
 
         print(link_arr)            
         print(price_arr)  
-        
         print(new_shoes_datas)
                  
                   
