@@ -1,5 +1,7 @@
 {% extends 'base/base.html' %}
 {% load static %}
+<!-- 콤마 쓸려고 -->
+{% load humanize %}
 {% block head_name %}이런신발 - 홈{% endblock %}
 {% block content %}
 <!-- 메인 컨테이너 -->
@@ -136,8 +138,8 @@
                                         {% endif %}
                                     </div>
                                     <div class="card-body">
-                                        <h6 class="card-title">{{hot_shoe.name}}</h6>
-                                        <p class="price">₩{{hot_shoe.price}}</p>
+                                        <h6 class="card-title">{{hot_shoe.name|truncatechars:10}}</h6>
+                                        <p class="price">₩{{hot_shoe.price|intcomma}}</p>
                                         <a class="btn btn-primary btn-sm w-100"
                                             href="{% url 'product_detail' id=hot_shoe.id %}">상세보기</a>
                                     </div>
