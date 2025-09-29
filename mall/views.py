@@ -295,10 +295,6 @@ def mall_review(request, shoe_id):
             # 평균 계산
             average = (int(total_rating['rating__sum'])+ int(request.POST["rating"])) / ( shoe_review.count() + 1)
             
-            print(total_rating)
-            print(request.POST["rating"])
-            print(shoe_review.count())
-            print(average)
             # 업데이트 시키기
             Shoe.objects.filter(id = shoe_id).update(rating=average)
                 
