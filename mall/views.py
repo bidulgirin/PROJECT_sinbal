@@ -14,6 +14,10 @@ from django.db.models import Q # 모델의 데이터를 불러올때 조건값�
 from bs4 import BeautifulSoup
 import requests
 from mall.forms import MallReviewForm # 후기 폼
+from django.db.models import Sum # 모두더하기위함
+
+
+
 # Create your views here.
 # 몰 메인
 def mall_main(request):
@@ -278,6 +282,21 @@ def mall_review(request, shoe_id):
                     review = review,
                     images = image_file
             )
+                
+            # 쓰기/수정 별점 update
+            shoe_review = MallReview.objects.filter(shoe=shoe_id)
+            # aggregate 로 컬럼의 모든 값을 더한다.
+            total_rating = shoe_review.aggregate(Sum('rating'))
+            # 평균 계산
+            average = (int(total_rating['rating__sum'])+ int(request.POST["rating"])) / ( shoe_review.count() + 1)
+            
+            print(total_rating)
+            print(request.POST["rating"])
+            print(shoe_review.count())
+            print(average)
+            # 업데이트 시키기
+            Shoe.objects.filter(id = shoe_id).update(rating=average)
+                
             return redirect('product_detail', id=shoe_id )
     else:
         # GET 했을때 
