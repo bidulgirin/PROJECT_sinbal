@@ -14,23 +14,16 @@
                     <!-- 썸네일이 여러개일때 표기 -->
                     <div class="img-selection">
                         <div class="img-thumbnail selected">
-                            <img
-                                src="https://cdn.shoemarker.co.kr/Upload/ProductImage/030402/48772_1_0500_0500.gif"
-                                alt=""
-                                width="100%"
-                            />
+                            <img src="https://cdn.shoemarker.co.kr/Upload/ProductImage/030402/48772_1_0500_0500.gif"
+                                alt="" width="100%" />
                         </div>
                         <div class="img-thumbnail">
-                            <img
-                                src="http://vignette2.wikia.nocookie.net/overwatch/images/8/85/CuteSprayAvatars-Mercy.png/revision/latest?cb=20160511194928"
-                                width="100%"
-                            />
+                            <img src="http://vignette2.wikia.nocookie.net/overwatch/images/8/85/CuteSprayAvatars-Mercy.png/revision/latest?cb=20160511194928"
+                                width="100%" />
                         </div>
                         <div class="img-thumbnail">
-                            <img
-                                src="http://vignette2.wikia.nocookie.net/overwatch/images/e/e0/CuteSprayAvatars-Pharah.png/revision/latest?cb=20160511194928"
-                                width="100%"
-                            />
+                            <img src="http://vignette2.wikia.nocookie.net/overwatch/images/e/e0/CuteSprayAvatars-Pharah.png/revision/latest?cb=20160511194928"
+                                width="100%" />
                         </div>
                     </div>
                     <!-- 썸네일이 여러개일때 표기 end -->
@@ -89,16 +82,16 @@
                             </div>
                         </div>
                         <div id="modal-{{review.id}}" style="display: none">
+                            <h4 class="flex-grow-1 p-4 fw-bold">{{ review.title }}</h4>
+                            <hr>
                             <div class="d-flex flex-wrap">
-                                <div class="">
-                                    {% for i in review.mallreviewimage_set.all %}
-                                    <img src="{{i.images.url}}" class="card-img" />
-                                    {% empty %}
-                                    <img src="{% static 'img/NO_IMG_600x600.png'%}" />
-                                    {% endfor %}
-                                </div>
-                                <div class="">{{ review.content|linebreaksbr }}</div>
+                                {% for i in review.mallreviewimage_set.all %}
+                                <img src="{{i.images.url}}" class="card-img" style="width: 50%;" />
+                                {% empty %}
+                                <img src="{% static 'img/NO_IMG_600x600.png'%}" style="width: 50%;" />
+                                {% endfor %}
                             </div>
+                            <div class="flex-grow-1 p-4">{{ review.content|linebreaksbr }}</div>
                         </div>
                         {% endfor %}
                     </div>
@@ -112,10 +105,8 @@
                     <input type="text" value="{{data.id}}" name="shoe_id" hidden />
                     <div class="l_brand">
                         <div class="l_brand_img">
-                            <img
-                                src="https://image.msscdn.net/thumbnails/images/goods_img/20250304/4851552/4851552_17412521434733_500.jpg"
-                                alt=""
-                            />
+                            <img src="https://image.msscdn.net/thumbnails/images/goods_img/20250304/4851552/4851552_17412521434733_500.jpg"
+                                alt="" />
                         </div>
                         <div class="l_brand_name">{{data.brand}}</div>
                     </div>
@@ -165,9 +156,7 @@
                                         <svg class="icon" viewBox="0 0 1024 1024">
                                             <path
                                                 d="M742.4 101.12A249.6 249.6 0 0 0 512 256a249.6 249.6 0 0 0-230.72-154.88C143.68 101.12 32 238.4 32 376.32c0 301.44 416 546.56 480 546.56s480-245.12 480-546.56c0-137.92-111.68-275.2-249.6-275.2z"
-                                                fill="#231F20"
-                                                class="heart2"
-                                            ></path>
+                                                fill="#231F20" class="heart2"></path>
                                         </svg>
                                     </label>
                                 </div>
@@ -176,12 +165,8 @@
                             <button id="cart" class="btn text-center flex-fill btn-light" type="button">
                                 장바구니
                             </button>
-                            <button
-                                id="parchase"
-                                class="btn btn-primary text-center flex-fill"
-                                type="button"
-                                style="margin-left: 1rem"
-                            >
+                            <button id="parchase" class="btn btn-primary text-center flex-fill" type="button"
+                                style="margin-left: 1rem">
                                 구매하기
                             </button>
                         </div>
@@ -207,15 +192,10 @@
     </div>
 </div>
 <!-- 모달 -->
-<div
-    class="modal fade"
-    id="modalArea"
-    tabindex="-1"
-    data-bs-backdrop="static"
-    aria-labelledby="modalArea"
-    aria-hidden="true"
->
-    <div id="closeBtn" class="fw-bold text-white text-end p-5" style="font-size: 3rem">×</div>
+<div class="modal fade" id="modalArea" tabindex="-1" data-bs-backdrop="static" aria-labelledby="modalArea"
+    aria-hidden="true">
+    <div id="closeBtn" class="fw-bold text-white" style="font-size: 3rem; position:absolute; top:10px;
+    right:30px; cursor:pointer;">×</div>
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">동적으로 모달이 들어가는 곳</div>
     </div>
