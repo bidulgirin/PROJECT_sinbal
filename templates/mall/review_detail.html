@@ -9,16 +9,8 @@
     <!-- 본인의 게시물이면 수정 버튼 나타나게 하기 -->
     {% if data.user_id == user.id %}
     <div class="d-flex justify-content-end pt-4 pb-4">
-        <a
-            href="{% url 'mall_review' shoe_id=data.shoe_id %}"
-            class="btn btn-primary"
-            >수정</a
-        >
-        <a
-            href="{% url 'mall_review_delete' id=data.id %}"
-            class="btn btn-danger"
-            style="margin-left: 5px"
-        >
+        <a href="{% url 'mall_review' shoe_id=data.shoe_id %}" class="btn btn-primary">수정</a>
+        <a href="{% url 'mall_review_delete' id=data.id %}" class="btn btn-danger" style="margin-left: 5px">
             삭제
         </a>
     </div>
@@ -26,11 +18,11 @@
     <h2 class="fw-bold pb-1">{{data.title}}</h2>
     <h5 class="text-end">❤ {{data.rating}}</h5>
     <hr />
-    <div class="row border pb-5">
+    <div class="row pb-5">
         {% if data.mallreviewimage_set.all %}
         <!--  -->
         {% for i in data.mallreviewimage_set.all %}
-        <div class="col l_img">
+        <div class="col l_img border">
             <img class="img" src="{{i.images.url}}" alt="" />
         </div>
         {% endfor %}
@@ -43,6 +35,7 @@
     .l_img {
         overflow: hidden;
     }
+
     .l_img img {
         width: 100%;
     }

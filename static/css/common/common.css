@@ -26,3 +26,18 @@ a {
 .g_height {
     min-height: 100vh;
 }
+.g_title{
+    font-weight: bold;
+}
+.g_img_box{
+    width:100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+.g_img_box img{
+    width:50%;
+}
+.g_content {
+    padding:10px;
+    min-height: 40vh;
+}

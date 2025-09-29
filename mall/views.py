@@ -14,32 +14,41 @@ from django.db.models import Q # 모델의 데이터를 불러올때 조건값�
 from bs4 import BeautifulSoup
 import requests
 from mall.forms import MallReviewForm # 후기 폼
+from django.db.models import Sum # 모두더하기위함
+from django.core.paginator import Paginator # 페이지네이션
+
+
 # Create your views here.
 # 몰 메인
 def mall_main(request):
-    products = Shoe.objects.all()[:5] # 5개만 보여주기
-    reviews = MallReview.objects.all()[:5]
+    products = Shoe.objects.all()[:6] # 5개만 보여주기
+    reviews = MallReview.objects.all()[:3]
     context = {
         "products" : products,
         "reviews" : reviews
     }
     return render(request, "mall/index.html", context)
 
-# 상품 (검색 결과 표기)
+# 상품 (검색 결과 표기) 
+# 페이지네이션 적용하기
 def mall_product(request):
-    if request.method == "POST" :
-        pass
-    else : # get 으로 뭐 받아왔을때
-        # 검색했을때 
-        if request.GET.get("keyword"):
-            keyword = request.GET.get("keyword")
-            # 제목 또는 브랜드로 검색이 되야함
-            datas = Shoe.objects.filter( Q(name__contains = keyword) | Q(brand__name__contains = keyword) ).order_by("-pk")
-            # 검색안했을때
-        else:
-            datas = Shoe.objects.all()
+   # get 으로 뭐 받아왔을때
+    # 검색했을때 
+    if request.GET.get("keyword"):
+        keyword = request.GET.get("keyword")
+        # 제목 또는 브랜드로 검색이 되야함
+        datas = Shoe.objects.filter( Q(name__contains = keyword) | Q(brand__name__contains = keyword) ).order_by("-pk")
+        # 검색안했을때
+    else:
+        datas = Shoe.objects.all()
+        
+    # 페이지네이션   
+    page = request.GET.get("page") 
+    paginator = Paginator(datas, 12) #10개씩보여주겠다
+    rooms = paginator.get_page(page)
+        
     context = {
-        "datas" : datas,
+        "datas" : rooms,
     }
     return render(request, "mall/product.html", context)
 
@@ -278,6 +287,21 @@ def mall_review(request, shoe_id):
                     review = review,
                     images = image_file
             )
+                
+            # 쓰기/수정 별점 update
+            shoe_review = MallReview.objects.filter(shoe=shoe_id)
+            # aggregate 로 컬럼의 모든 값을 더한다.
+            total_rating = shoe_review.aggregate(Sum('rating'))
+            # 평균 계산
+            average = (int(total_rating['rating__sum'])+ int(request.POST["rating"])) / ( shoe_review.count() + 1)
+            
+            print(total_rating)
+            print(request.POST["rating"])
+            print(shoe_review.count())
+            print(average)
+            # 업데이트 시키기
+            Shoe.objects.filter(id = shoe_id).update(rating=average)
+                
             return redirect('product_detail', id=shoe_id )
     else:
         # GET 했을때 
@@ -372,7 +396,7 @@ def crawling_shoes_page(request):
         # 크롤링시 Brand 모델에서도 name 이 unique key 가 되어야하고 
         # Brand 모델에 brand 값이 없을때는 create 해서 추가하는 작업이 필요
         
-        
+        new_shoes_datas = []
         brand_arr = []
         image_url_arr = []
         link_arr = []
@@ -389,15 +413,23 @@ def crawling_shoes_page(request):
             image_url_arr.append(originalUrl + image_url["src"])
             # print(image_url["src"])
             #  # link
-            # print(link)
-            #  # price
-            # print(price.get_text())
+            # price
+            price_arr.append(price.get_text(strip=True) if price else "")
             # name
             name_arr.append(name.get_text().split("|")[0].strip())
-            # new_shoes_datas.append(ExampleProduct(
-            #                         name = name.text,
-            #                         brand = brand.text,
-            #                         ))
+            
+            new_shoes_datas.append(Shoe(
+                                    name = name.text,
+                                    price = int(price.get_text(strip=True).replace(',', '')),
+                                    images = None ,
+                                    description = "설명",
+                                    source_url = "",
+                                    weight = 100,
+                                    stock = 100,
+                                    comfort = "좋음",
+                                    rating = 0,
+                                    brand_id = 1
+                                    ))
         
         # 이미지를 직접 저장할경우
         # 코드 가져온곳 : (https://dev-guardy.tistory.com/102)
@@ -429,15 +461,14 @@ def crawling_shoes_page(request):
 
         print(link_arr)            
         print(price_arr)  
-        
-        
+        print(new_shoes_datas)
                  
                   
-        # if new_shoes_datas:
-        #     # 여러개의 데이터값을..넣으려고...해봤다...
-        #     ExampleProduct.objects.bulk_create(ExampleProduct, 
-        #                                        batch_size=None, 
-        #                                        ignore_conflicts=False)
+        if new_shoes_datas:
+            # 여러개의 데이터값을..넣으려고...해봤다...
+            Shoe.objects.bulk_create(new_shoes_datas, 
+                                    batch_size=None, 
+                                    ignore_conflicts=False)
         
     return redirect("mall_main")
 
