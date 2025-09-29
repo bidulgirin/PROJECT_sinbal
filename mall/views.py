@@ -391,7 +391,7 @@ def crawling_shoes_page(request):
         # 크롤링시 Brand 모델에서도 name 이 unique key 가 되어야하고 
         # Brand 모델에 brand 값이 없을때는 create 해서 추가하는 작업이 필요
         
-        
+        new_shoes_datas = []
         brand_arr = []
         image_url_arr = []
         link_arr = []
@@ -408,15 +408,23 @@ def crawling_shoes_page(request):
             image_url_arr.append(originalUrl + image_url["src"])
             # print(image_url["src"])
             #  # link
-            # print(link)
-            #  # price
-            # print(price.get_text())
+            # price
+            price_arr.append(price.get_text(strip=True) if price else "")
             # name
             name_arr.append(name.get_text().split("|")[0].strip())
-            # new_shoes_datas.append(ExampleProduct(
-            #                         name = name.text,
-            #                         brand = brand.text,
-            #                         ))
+            
+            new_shoes_datas.append(Shoe(
+                                    name = name.text,
+                                    price = int(price.get_text(strip=True).replace(',', '')),
+                                    images = None ,
+                                    description = "설명",
+                                    source_url = "",
+                                    weight = 100,
+                                    stock = 100,
+                                    comfort = "좋음",
+                                    rating = 0,
+                                    brand_id = 1
+                                    ))
         
         # 이미지를 직접 저장할경우
         # 코드 가져온곳 : (https://dev-guardy.tistory.com/102)
@@ -449,14 +457,14 @@ def crawling_shoes_page(request):
         print(link_arr)            
         print(price_arr)  
         
-        
+        print(new_shoes_datas)
                  
                   
-        # if new_shoes_datas:
-        #     # 여러개의 데이터값을..넣으려고...해봤다...
-        #     ExampleProduct.objects.bulk_create(ExampleProduct, 
-        #                                        batch_size=None, 
-        #                                        ignore_conflicts=False)
+        if new_shoes_datas:
+            # 여러개의 데이터값을..넣으려고...해봤다...
+            Shoe.objects.bulk_create(new_shoes_datas, 
+                                    batch_size=None, 
+                                    ignore_conflicts=False)
         
     return redirect("mall_main")
 
