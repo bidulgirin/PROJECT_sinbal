@@ -23,4 +23,28 @@
         <button onClick="location.href=''">CART</button>
     </div>
 </div>
+<script>
+// 체크한 상품 총 가격 계산하기 ( jquery code )
+let totalCost = 0;
+
+$(function () {
+    $("#total").text(totalCost);
+});
+// 체크박스
+$("input[name='check[]']").change(function () {
+    calculator();
+});
+// 계산해줌
+function calculator() {
+    totalCost = 0;
+    $("#total").text(totalCost);
+    $("#wish-list input:checked").each(function () {
+        totalCost +=
+            parseInt($(this).attr("data-price")) *
+            parseInt($(this).attr("data-quantity"));
+
+        $("#total").text(totalCost);
+    });
+}
+</script>
 {% endblock %}

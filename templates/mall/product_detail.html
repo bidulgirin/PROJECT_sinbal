@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="{% static 'css/mall/style.css' %}" />
 <!-- 콘텐츠 영억 -->
 <div class="container l_product bg-light">
-    <div class="d-flex">
+    <div class="d-flex justify-content-center">
         <div class="flex-fill l_pr">
             {% if data.images.count > 1 %}
             <div class="l_pr_sumbnail">
@@ -41,60 +41,65 @@
             </div>
             {% else %}
             <div class="l_pr_sumbnail" style="padding-left: 0px">
-                <div class="wrapper">
+                <div class="g_squre">
                     {% if data.images %}
-                    <div class="big-img">
-                        <img src="{{data.images.url}}" class="display-img" />
-                    </div>
+                    <img src="{{data.images.url}}" class="display-img" />
                     {% else %}
-                    <div>
-                        <img
-                            src="{% static 'img/NO_IMG_600x600.png'%}"
-                            class="display-img"
-                        />
-                    </div>
+                    <img src="{% static 'img/NO_IMG_600x600.png'%}" class="display-img" />
                     {% endif %}
                 </div>
             </div>
             {% endif %}
             <div id="tab_container">
                 <div class="d-flex tabs-container">
-                    <button class="btn active flex-fill" data-id="detail">
-                        상세보기
-                    </button>
-                    <button class="btn flex-fill" data-id="reviews">
-                        후기 ({{reviews.count|default:0 }}) 개
-                    </button>
+                    <button class="btn active flex-fill" data-id="detail">상세보기</button>
+                    <button class="btn flex-fill" data-id="reviews">후기 ({{reviews.count|default:0 }}) 개</button>
                 </div>
                 <div class="tabs-content">
                     <!-- item 1 -->
                     <div class="content active" id="detail">
-                        <div class="product_detail">
-                            <!-- 크롤링 해올수있으면 해오기 -->
-                            <img
-                                src="https://cdn.shoemarker.co.kr/Upload/Shoemarker/PBdetail/whever/WV25311/common.jpg"
-                                alt=""
-                            />
+                        {% if data.images %}
+                        <div class="g_squre">
+                            <img src="{{data.images.url}}" />
                         </div>
+                        {% endif %}
+                        <div class="product_detail">{{ data.description | linebreaksbr }}</div>
                     </div>
                     <!-- 후기컨텐츠 -->
-                    <div class="content" id="reviews">
+                    <div class="content row" id="reviews">
                         <!-- 만약 이 상품의 후기글을 쓰려면 -->
-                        <div class="d-flex">
-                            <a href="{% url 'mall_review' shoe_id=data.id %}">
-                                후기글쓰러가기
+                        <div class="d-flex justify-content-center pt-3 pb-3 bg-white">
+                            <a class="btn btn-primary" href="{% url 'mall_review' shoe_id=data.id %}">
+                                후기 쓰러가기
                             </a>
                         </div>
                         {% for review in reviews %}
-                        <div class="l_review_img">
-                            {% for i in review.mallreviewimage_set.all %}
-                            <img src="{{i.images.url}}" alt="" />
-                            {% empty %}
-                            <img src="" alt="" />
-                            {% endfor %}
+                        <div class="col-xs-6 card w-50 modalBtn" id="{{review.id}}">
+                            <div class="g_squre">
+                                {% for i in review.mallreviewimage_set.all|slice:":1" %}
+                                <img src="{{i.images.url}}" class="card-img" />
+                                {% empty %}
+                                <img src="{% static 'img/NO_IMG_600x600.png'%}" />
+                                {% endfor %}
+                            </div>
+                            <div class="card-body">
+                                <div class="fw-bold fs-3">{{ review.title|truncatechars:10 }}</div>
+                                <div>★{{ review.rating }}</div>
+                                <div>{{ review.content|truncatechars:20 }}</div>
+                            </div>
                         </div>
-                        <div>{{ review.title }}</div>
-                        <div>{{ review.content }}</div>
+                        <div id="modal-{{review.id}}" style="display: none">
+                            <div class="d-flex flex-wrap">
+                                <div class="">
+                                    {% for i in review.mallreviewimage_set.all %}
+                                    <img src="{{i.images.url}}" class="card-img" />
+                                    {% empty %}
+                                    <img src="{% static 'img/NO_IMG_600x600.png'%}" />
+                                    {% endfor %}
+                                </div>
+                                <div class="">{{ review.content|linebreaksbr }}</div>
+                            </div>
+                        </div>
                         {% endfor %}
                     </div>
                 </div>
@@ -104,12 +109,7 @@
             <form id="form">
                 {% csrf_token %}
                 <div>
-                    <input
-                        type="text"
-                        value="{{data.id}}"
-                        name="shoe_id"
-                        hidden
-                    />
+                    <input type="text" value="{{data.id}}" name="shoe_id" hidden />
                     <div class="l_brand">
                         <div class="l_brand_img">
                             <img
@@ -122,17 +122,10 @@
                     <hr />
                     <div class="l_category">{{data.category}}</div>
                     <div class="l_name fs-2 fw-bold pb-1">{{data.name}}</div>
-                    <div class="l_star pb-1">별점 {{data.rating}}</div>
-                    <div class="l_price fw-bold fs-3 pb-1">
-                        {{data.price|intcomma}} 원
-                    </div>
+                    <div class="l_star pb-5">별점 {{data.rating}}</div>
+                    <div class="l_price fw-bold fs-3 pb-5">{{data.price|intcomma}} 원</div>
                     <div class="l_options">
-                        <select
-                            name="size"
-                            id="size"
-                            class="form-select mb-3"
-                            aria-label=""
-                        >
+                        <select name="size" id="size" class="form-select mb-3" aria-label="">
                             <option value="220">220</option>
                             <option value="225">225</option>
                             <option value="230">230</option>
@@ -149,65 +142,27 @@
                         </select>
                         <div class="count mb-3">
                             <!-- 개수입력 quantity -->
-                            <input
-                                id="quantity"
-                                type="text"
-                                name="quantity"
-                                value="0"
-                                hidden
-                            />
-                            <div
-                                class="center d-flex justify-content-center align-items-center"
-                            >
-                                <button
-                                    id="decr"
-                                    class="btn btn-dark"
-                                    type="button"
-                                >
-                                    -
-                                </button>
-                                <span id="print" class="flex-fill text-center">
-                                    0
-                                </span>
-                                <button
-                                    id="incr"
-                                    class="btn btn-dark"
-                                    type="button"
-                                >
-                                    +
-                                </button>
+                            <input id="quantity" type="text" name="quantity" value="0" hidden />
+                            <div class="center d-flex justify-content-center align-items-center">
+                                <button id="decr" class="btn btn-dark" type="button">-</button>
+                                <span id="print" class="flex-fill text-center"> 0 </span>
+                                <button id="incr" class="btn btn-dark" type="button">+</button>
                             </div>
                         </div>
                     </div>
                     <div class="l_options">
-                        <div
-                            class="d-flex justify-content-center align-items-center"
-                        >
+                        <div class="d-flex justify-content-center align-items-center">
                             <div class="flex-fill">
                                 <div class="heart">
                                     찜
                                     <label for="checkbox">
                                         <!-- if 너의 찜목록에 shoe_id 가 잇으면? -->
                                         {% if wish %}
-                                        <input
-                                            type="checkbox"
-                                            id="checkbox"
-                                            hidden
-                                            checked
-                                            data-shoe="{{data.id}}"
-                                        />
+                                        <input type="checkbox" id="checkbox" hidden checked data-shoe="{{data.id}}" />
                                         {% else %}
-                                        <input
-                                            type="checkbox"
-                                            id="checkbox"
-                                            hidden
-                                            data-shoe="{{data.id}}"
-                                        />
+                                        <input type="checkbox" id="checkbox" hidden data-shoe="{{data.id}}" />
                                         {% endif %}
-                                        <svg
-                                            class="icon"
-                                            viewBox="0 0 1024 1024"
-                                        >
+                                        <svg class="icon" viewBox="0 0 1024 1024">
                                             <path
                                                 d="M742.4 101.12A249.6 249.6 0 0 0 512 256a249.6 249.6 0 0 0-230.72-154.88C143.68 101.12 32 238.4 32 376.32c0 301.44 416 546.56 480 546.56s480-245.12 480-546.56c0-137.92-111.68-275.2-249.6-275.2z"
                                                 fill="#231F20"
@@ -218,17 +173,14 @@
                                 </div>
                             </div>
 
-                            <button
-                                id="cart"
-                                class="btn text-center flex-fill btn-light"
-                                type="button"
-                            >
+                            <button id="cart" class="btn text-center flex-fill btn-light" type="button">
                                 장바구니
                             </button>
                             <button
                                 id="parchase"
                                 class="btn btn-primary text-center flex-fill"
                                 type="button"
+                                style="margin-left: 1rem"
                             >
                                 구매하기
                             </button>
@@ -242,15 +194,10 @@
                 {% if messages %}
                 <div class="messages">
                     {% for message in messages %}
-                    <div
-                        class="alert alert-{% if message.tag %}{{ message.tags }}{% endif %}"
-                        role="alert"
-                    >
+                    <div class="alert alert-{% if message.tag %}{{ message.tags }}{% endif %}" role="alert">
                         {{ message }}
                         <div>
-                            <a href="{% url 'cart' %}" class="btn btn-primary">
-                                장바구니로 가기
-                            </a>
+                            <a href="{% url 'cart' %}" class="btn btn-primary"> 장바구니로 가기 </a>
                         </div>
                     </div>
                     {% endfor %} {% endif %}
@@ -259,14 +206,59 @@
         </div>
     </div>
 </div>
+<!-- 모달 -->
+<div
+    class="modal fade"
+    id="modalArea"
+    tabindex="-1"
+    data-bs-backdrop="static"
+    aria-labelledby="modalArea"
+    aria-hidden="true"
+>
+    <div id="closeBtn" class="fw-bold text-white text-end p-5" style="font-size: 3rem">×</div>
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">동적으로 모달이 들어가는 곳</div>
+    </div>
+</div>
+
 <!-- splide 슬라이더 기능  -->
 <script>
     // 변수로 쓸것들
     const cart_add_url = "{% url 'cart_add' %}";
     const shoe_id = "{{data.id}}";
     const mall_wishlist_add = "{% url 'mall_wishlist_add' shoe_id=data.id %}";
-    const mall_wishlist_remove =
-        "{% url 'mall_wishlist_remove' shoe_id=data.id %}";
+    const mall_wishlist_remove = "{% url 'mall_wishlist_remove' shoe_id=data.id %}";
+
+    // 실행
+    $(function () {
+        // Access to XMLHttpRequest at 'file:///C:/Users/Seokbong/Desktop/test/testModal.html' from origin 'null' has been blocked by CORS policy: Cross origin requests are only supported for protocol schemes: http, data, chrome, chrome-extension, chrome-untrusted, https.
+        // Loacal에서는 CORS policy 문제 발생함.
+        $(document).on("click", ".modalBtn", function () {
+            // 모달의 id값 가져오기
+            // [id].html 지정
+            let modal = this.getAttribute("id");
+            let content = $(`#modal-${modal}`); // 해당 하는 content 가져오기
+            console.log(content);
+
+            let filePath = "./" + modal + ".html";
+
+            // modalArea 안의 .modal-content에 [id].html 로드 후 모달 show
+            $("#modalArea")
+                .find(".modal-content")
+                .load(filePath, function () {
+                    $("#modalArea").modal("show");
+                    content.show();
+                    $("#modalArea .modal-content").html(content);
+                });
+        });
+
+        // 모달 종료(hide) 버튼
+        $(document).on("click", "#closeBtn", function () {
+            $("#modalArea").modal("hide");
+            content.hide();
+            $(`#modalArea #${modal}`).remove(); // 안에있는돔없애기
+        });
+    });
 </script>
 <script src="{% static 'js/mall/script.js' %}"></script>
 <script></script>

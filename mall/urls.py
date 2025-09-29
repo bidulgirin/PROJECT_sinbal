@@ -1,13 +1,11 @@
 from django.urls import path
 from mall import views
-
 urlpatterns = [
     # 몰 메인
     path("", views.mall_main, name="mall_main"),
     # 상품(모두보기,런닝화종류1,런닝화종류2)
     path("product/", views.mall_product, name="product"),
     # 상품상세
-    #path("product_detail/<str:category>/<int:id>/", views.mall_product_detail, name="product_detail"),
     path("product_detail/<int:id>/", views.mall_product_detail, name="product_detail"),
     # 장바구니
     path("cart/", views.mall_cart, name="cart"),
@@ -29,6 +27,8 @@ urlpatterns = [
     path("mall_review_detail/<int:review_id>/", views.mall_review_detail, name="mall_review_detail"),
     # 쇼핑몰 후기 삭제 
     path("mall_review_delete/<int:id>/", views.mall_review_delete, name="mall_review_delete"),
+    # 쇼핑몰 후기 각 사진 삭제
+    path("mall_review_delete_img/<int:img_id>/", views.review_delete_img, name="review_delete_img"),
     # 찜 추가
     path("mall_wishlist_add/<int:shoe_id>/", views.mall_wishlist_add, name="mall_wishlist_add"),
     # 찜 삭제

@@ -9,10 +9,23 @@ class MallReviewForm(forms.ModelForm):
           'content',
           #'rating',
         ]
+
+        labels = {
+            "title" : "제목",
+            "content" : "내용",
+        }
+
         widgets = {
             "content": forms.Textarea(
                 attrs = {
-                    "placeholder":"발 볼 크기가 딱 맞아용... ",
+                    "class" : "form-control",
+                    "placeholder":"내용",
+                }
+            ),
+            "title" : forms.TextInput(
+                attrs={
+                    "class" : "form-control",
+                    "placeholder":"제목",
                 }
             )
         }

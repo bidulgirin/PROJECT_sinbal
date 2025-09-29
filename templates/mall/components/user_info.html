@@ -1,86 +1,34 @@
-<h1>배송지(유저정보자동으로불러오기)</h1>
-<div>
-    <!-- 아이디 말고 실제 이름 -->
-    <label for="">이름</label>
-    <input
-        type="text"
-        name="name"
-        placeholder="이름"
-        value="{{user.username}}"
-        required
-        autofocus
-    />
+<h4 class="fw-bold">사용자 정보</h4>
+<div class="pb-3">
+    <label for="name">이름</label>
+    <input type="text" name="name" class="form-control" placeholder="이름" value="{{user.username}}" required autofocus />
 </div>
-<div>
-    <label for="">주소</label>
-    <input
-        type="text"
-        id="postcode"
-        placeholder="우편번호"
-        name="addr_num"
-        required
-    />
-    <input
-        type="button"
-        onclick="DaumPostcode()"
-        value="우편번호 찾기"
-        required
-    /><br />
-    <input
-        type="text"
-        id="address"
-        placeholder="주소"
-        name="address"
-        required
-    /><br />
-    <input
-        type="text"
-        id="detailAddress"
-        placeholder="상세주소"
-        name="detail_address"
-        required
-    />
-</div>
-<div>
+<div class="pb-3">
     <label for="phone">전화번호</label>
-    <input
-        type="text"
-        name="phone"
-        id="phone"
-        placeholder="010-1234-5678"
-        required
-    />
+    <input type="text" name="phone" id="phone" class="form-control" placeholder="010-1234-5678" value="" required />
 </div>
-<div>
-    <label for="">요청사항</label>
-    <input
-        type="text"
-        name="order_message"
-        placeholder="ex)문 앞에 놔두세요."
-    />
+<div class="form-group pb-3">
+    <label for="postcode">주소</label>
+    <input type="text" id="postcode" class="form-control" placeholder="우편번호" name="addr_num" required readonly />
+    <input type="button" class="btn btn-primary" onclick="DaumPostcode()" value="우편번호 찾기" required /><br />
+    <input type="text" id="address" class="form-control" placeholder="주소" name="address" required />
+    <input type="text" id="detailAddress" class="form-control" placeholder="상세주소" name="detail_address" required />
 </div>
-<h1>결제수단</h1>
-<div>
-    <label for="naver">
-        <input
-            id="naver"
-            type="checkbox"
-            name="pay_method"
-            value="1"
-            checked
-            onclick="checkOnlyOne(this)"
-        />
-        네이버페이
-    </label>
-    <br />
-    <label for="cash">
-        <input
-            id="cash"
-            type="checkbox"
-            name="pay_method"
-            value="2"
-            onclick="checkOnlyOne(this)"
-        />
-        무통장입금
-    </label>
+<div class="pb-3">
+    <label for="order_message">요청사항</label>
+    <input type="text" name="order_message" class="form-control" placeholder="ex)문 앞에 놔두세요." />
+</div>
+<div class="pb-3">
+    <h4 class="fw-bold">결제수단</h4>
+    <div>
+        <label for="naver">
+            <input id="naver" type="checkbox" name="pay_method" value="1" checked onclick="checkOnlyOne(this)" />
+            네이버페이
+        </label>
+        <br />
+        <label for="cash">
+            <input id="cash" type="checkbox" name="pay_method" value="2" onclick="checkOnlyOne(this)" />
+            무통장입금
+        </label>
+    </div>
 </div>

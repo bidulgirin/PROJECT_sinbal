@@ -192,12 +192,3 @@ li {
 .display-img {
     width: 100%;
 }
-
-.l_review_img {
-    display: flex;
-    width: 50%;
-    overflow: hidden;
-}
-.l_review_img img {
-    width: 100%;
-}

@@ -4,55 +4,55 @@
 {% load humanize %} {% block content %}
 <link rel="stylesheet" href="{% static 'css/mall/style.css' %}" />
 <!-- 콘텐츠 영억 -->
-<div class="container">
-    <h2 class="fw-bold">검색결과</h2>
-    <ul class="d-flex cards flex-wrap">
-        {% for data in datas %}
-        <li class="card" style="width: 18rem">
-            <div class="product-list">
-                <!-- LSH START -->
-                <div class="ly-img">
-                    <a href="{% url 'product_detail' id=data.id %}">
-                        {% if data.images %}
-                        <img
-                            src="{{data.images.url}}"
-                            class="card-img-top display-img"
-                        />
-                        {% else %}
-                        <img
-                            class="display-img card-img-top"
-                            src="{% static 'img/NO_IMG_600x600.png'%}"
-                        />
-                        {% endif %}
-                    </a>
-                </div>
-                <div class="card-body">
-                    <div class="ly-brand">
-                        <div class="fw-bold">{{data.brand}}</div>
+<div class="container p-3">
+    <div class="g_height">
+        <h2 class="fw-bold">쇼핑몰</h2>
+        {% if datas %}
+        <div class="d-flex cards flex-wrap">
+            {% for data in datas %}
+            <div class="card" style="width: 18rem">
+                <div class="product-list">
+                    <!-- LSH START -->
+                    <div class="ly-img">
+                        <a href="{% url 'product_detail' id=data.id %}">
+                            {% if data.images %}
+                            <img src="{{data.images.url}}" class="card-img-top display-img" />
+                            {% else %}
+                            <img class="display-img card-img-top" src="{% static 'img/NO_IMG_600x600.png'%}" />
+                            {% endif %}
+                        </a>
                     </div>
-                    <div class="card-title">
-                        <div class="">
-                            <a href="#!">{{data.name}}</a>
+                    <div class="card-body">
+                        <div class="ly-brand">
+                            <div class="fw-bold">{{data.brand}}</div>
+                        </div>
+                        <div class="card-title">
+                            <div class="">
+                                <a href="#!">{{data.name}}</a>
+                            </div>
+                        </div>
+                        <div class="ly-price">
+                            <span class="fw-bold fs-6">{{data.price|intcomma}} 원</span>
                         </div>
                     </div>
-                    <div class="ly-price">
-                        <span class="fw-bold fs-6"
-                            >{{data.price|intcomma}} 원</span
-                        >
-                    </div>
+                    <!-- LSH END -->
                 </div>
-                <!-- LSH END -->
             </div>
-        </li>
-        {% endfor %}
-    </ul>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div style="justify-content:center; text-align: center; align-items:center;">
+            <div class="">
+                데이터가 없습니다
+            </div>
+        </div>
+        {% endif %}
+    </div>
     <!-- 페이지 네이션 -->
     <nav aria-label="...">
         <ul class="pagination justify-content-center">
             <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1" aria-disabled="true"
-                    >Previous</a
-                >
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
             </li>
             <li class="page-item active">
                 <a class="page-link" href="#">1</a>
@@ -66,6 +66,7 @@
             </li>
         </ul>
     </nav>
+
 </div>
 
 {% endblock %}

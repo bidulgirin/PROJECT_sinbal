@@ -2,39 +2,56 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="ko">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <!-- 검색 키워드 -->
-        <meta name="Keywords" content="런닝화, 신발, 런닝" />
-        <!-- 검색 결과에 표시되는 문자 지정 -->
-        <meta name="Description" content="런닝전문 쇼핑몰 커뮤니티 이런신발" />
-        <!-- 부트스트랩 css -->
-        <link
-            rel="stylesheet"
-            href="{% static 'css/bootstrap/bootstrap.min.css'%}"
-        />
-        <!-- jQuery js 연결 -->
-        <script src="{% static 'js/jquery/jquery-3.7.1.min.js' %}"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <!-- 공통 css -->
-        <link rel="stylesheet" href="{% static 'css/common/common.css' %}" />
-        <link rel="stylesheet" href="{% static 'css/common/main_navi.css' %}" />
-        <link
-            rel="stylesheet"
-            href="{% static 'css/common/star_rating.css' %}"
-        />
-        <title>{% block head_name %}Sinbal{% endblock %}</title>
-    </head>
 
-    <body>
-        <!-- 메인 네비 영역 -->
-        {% include 'base/main_navi.html' %}
-        <!-- 컨텐츠 영역 -->
-        {% block content %}{% endblock %}
-        <!-- 푸터 영역 -->
-        {% block footer %}{% endblock %}
-    </body>
-    <!-- 부트스트랩 js 연결 -->
-    <script src="{% static 'js/bootstrap/bootstrap.min.js'%}"></script>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- 검색 키워드 -->
+    <meta name="Keywords" content="런닝화, 신발, 런닝" />
+    <!-- 검색 결과에 표시되는 문자 지정 -->
+    <meta name="Description" content="런닝전문 쇼핑몰 커뮤니티 이런신발" />
+    <!-- 부트스트랩 css -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css'%}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <!-- jQuery js 연결 -->
+    <script src="{% static 'js/jquery/jquery-3.7.1.min.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- 공통 css -->
+    <link rel="stylesheet" href="{% static 'css/common/common.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/common/main_navi.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/common/star_rating.css' %}" />
+    <link rel="apple-touch-icon" sizes="57x57" href="{% static 'img/favicon/apple-icon-57x57.png' %}" />
+    <link rel="apple-touch-icon" sizes="60x60" href="{% static 'img/favicon/apple-icon-60x60.png' %}" />
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'img/favicon/apple-icon-72x72.png' %}" />
+    <link rel="apple-touch-icon" sizes="76x76" href="{% static 'img/favicon/apple-icon-76x76.png' %}" />
+    <link rel="apple-touch-icon" sizes="114x114" href="{% static 'img/favicon/apple-icon-114x114.png' %}" />
+    <link rel="apple-touch-icon" sizes="120x120" href="{% static 'img/favicon/apple-icon-120x120.png' %}" />
+    <link rel="apple-touch-icon" sizes="144x144" href="{% static 'img/favicon/apple-icon-144x144.png' %}" />
+    <link rel="apple-touch-icon" sizes="152x152" href="{% static 'img/favicon/apple-icon-152x152.png' %}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/favicon/apple-icon-180x180.png' %}" />
+    <link rel="icon" type="image/png" sizes="192x192" href="{% static 'img/favicon/android-icon-192x192.png' %}" />
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon/favicon-32x32.png' %}" />
+    <link rel="icon" type="image/png" sizes="96x96" href="{% static 'img/favicon/favicon-96x96.png' %}" />
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon/favicon-16x16.png' %}" />
+    <link rel="manifest" href="{% static 'img/favicon/manifest.json' %}" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="msapplication-TileImage" content="{% static 'img/favicon/ms-icon-144x144.png' %}" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <title>{% block head_name %}이런신발{% endblock %}</title>
+</head>
+
+<body>
+    <!-- 메인 네비 영역 -->
+    {% include 'base/main_navi.html' %}
+    <!-- 컨텐츠 영역 -->
+    {% block content %}{% endblock %}
+    <!-- 푸터 영역 -->
+    {% block footer %}{% endblock %}
+</body>
+<!-- 부트스트랩 js 연결 -->
+<script src="{% static 'js/bootstrap/bootstrap.min.js'%}"></script>
+
 </html>

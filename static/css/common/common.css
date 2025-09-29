@@ -1,4 +1,28 @@
+body {
+    background-color: #f8f9fa;
+}
+
 a {
     color: #181818cc;
     text-decoration: none;
+}
+
+.g_squre {
+    position: relative;
+}
+.g_squre::after {
+    display: block;
+    content: "";
+    padding-bottom: 100%;
+}
+.g_squre img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.g_height {
+    min-height: 100vh;
 }

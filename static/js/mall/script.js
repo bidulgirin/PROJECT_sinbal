@@ -105,7 +105,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // 장바구니를 클릭할경우
     cart.addEventListener("click", (e) => {
         e.preventDefault();
-
+        // 유저가 로그인했는지 체크
+        user_login_check();
         if (quantity.value == 0) {
             alert("수량을 선택해주세요");
             return false;
@@ -120,6 +121,9 @@ document.addEventListener("DOMContentLoaded", function () {
         e.preventDefault();
         const size = Number(document.getElementById("size").value);
         const quantity_ = Number(document.getElementById("quantity").value);
+
+        // 유저가 로그인했는지 체크
+        user_login_check();
 
         if (quantity_ == 0) {
             alert("수량을 선택해주세요");

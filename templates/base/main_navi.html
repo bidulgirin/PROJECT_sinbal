@@ -1,69 +1,40 @@
 {% load static %} {% block main_navi %}
-<link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css"
-/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css" />
 <nav class="navbar navbar-expand-md bg-body-tertiary">
     <div class="container-xl">
-        <a class="navbar-brand" href="#">
-            <img
-                src="https://codingyaar.com/wp-content/uploads/coding-yaar-logo.png"
-                alt=""
-            />
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <img src="https://codingyaar.com/wp-content/uploads/coding-yaar-logo.png" alt="" />
         </a>
-        <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-        >
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <!-- 쿼리스트링으로 처리할것임  -->
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#"
-                        >Home</a
-                    >
+                    <a class="nav-link" href="{% url 'home' %}">
+                        <i class="bi bi-house"></i> 홈
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#"
-                        >Community</a
-                    >
+                    <a class="nav-link" href="{% url 'community:community' %}">
+                        <i class="bi bi-flag"></i> 커뮤니티
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'mall_main' %}">
+                        <i class="bi bi-cart"></i> 쇼핑몰
+                    </a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a
-                        class="nav-link dropdown-toggle"
-                        href="{% url 'mall_main' %}"
-                        role="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                    >
-                        Mall
+                    {% if user.id %}
+                    <a class="nav-link dropdown-toggle" href="{% url 'profile' id=user.id %}" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person"></i> 마이페이지
                     </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a
-                                class="dropdown-item"
-                                href="/mall/product/example/"
-                                >slug</a
-                            >
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a
-                        class="nav-link dropdown-toggle"
-                        href="{% url 'mall_main' %}"
-                        role="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                    >
-                        Mypage
-                    </a>
+                    {% endif %}
+
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#">장바구니</a></li>
                         <li>
@@ -78,20 +49,21 @@
                 </li>
             </ul>
             <div class="search-and-icons">
-                <form
-                    class="d-flex mb-2 me-2"
-                    role="search"
-                    method="GET"
-                    action="{% url 'product' %}"
-                >
-                    <input
-                        class="form-control me-2"
-                        type="search"
-                        aria-label="Search"
-                        name="keyword"
-                    />
+                {% if request.path == "/community/" or request.path == "/community/search/" %}
+                <form class="d-flex mb-2 me-2" role="search" method="GET"
+                    action="{% url 'community:community_search' %}">
+                    <input class="form-control me-2" type="search" aria-label="Search" name="keyword"
+                        placeholder="커뮤니티 검색" />
                     <button type="submit" hidden>검색</button>
                 </form>
+                {% else %}
+                <form class="d-flex mb-2 me-2" role="search" method="GET" action="{% url 'product' %}">
+
+                    <input class="form-control me-2" type="search" aria-label="Search" name="keyword"
+                        placeholder="상품 검색" />
+                    <button type="submit" hidden>검색</button>
+                </form>
+                {% endif %}
                 <div class="user-icons d-flex mb-2">
                     <div class="profile"><i class="bi bi-person"></i></div>
                     <div class="wishlist"><i class="bi bi-heart"></i></div>
@@ -101,5 +73,36 @@
         </div>
     </div>
 </nav>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container d-flex justify-content-center text-light">
+        <span class="navbar-brand mx-auto">{% block head_name %}{% endblock %}</span>
+        {% if user.is_authenticated %}
+        <a href="{% url 'logout' %}"><button class="btn btn-outline-light">로그아웃</button></a>
+        {% else %}
+        <a href="{% url 'login' %}"><button class="btn btn-outline-light">로그인</button></a>
+        {% endif %}
+    </div>
+    <div>
+</nav>
+{% if user.id %}
+<script>
+    var user_login = true; // 로그인 상태임
+</script>
+{% else %}
+<script>
+    var user_login = false; // 로그인 상태 아님
+</script>
+{% endif %}
+<script>
+    function user_login_check() {
+        if (!user_login) {
+            alert("로그인을 해주세요");
+            window.location.href = "/users/";
+            return false;
+
+        }
+        return true;
+    }
+</script>
 
 {% endblock %}

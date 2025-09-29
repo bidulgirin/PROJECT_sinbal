@@ -1,6 +1,5 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
-home/__pycache__/
 *.py[codz]
 *$py.class
 
@@ -207,16 +206,6 @@ marimo/_static/
 marimo/_lsp/
 __marimo__/
 
-migrations/
+migrations/ 
 bootstrap-icons-1.13.1/
-users/__init__.py
-users/migrations/0001_initial.py
-home/models.py
-community/models.py
-community/migrations/0001_initial.py
-community/migrations/0002_user_size.py
-community/migrations/0003_rename_created_at_user_created.py
-community/migrations/0004_rename_created_user_created_at.py
-community/migrations/0005_alter_user_created_at.py
-community/migrations/0006_delete_user.py
 media/

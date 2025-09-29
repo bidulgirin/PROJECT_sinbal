@@ -1,27 +1,63 @@
 <!-- 구매 완료 페이지 -->
-{% extends 'base/base.html' %} {% load static %} {% block content %}
+{% extends 'base/base.html' %} {% load static %}
+
+<!-- humanize -->
+{% load humanize %} {% block content %}
 <!-- 콘텐츠 영억 -->
-<div>
+<div class="d-flex justify-content-center align-item-center w-100" style="min-height: 100vh">
     <div class="container">
-        <h2>감사합니다 구매가 완료되었습니다</h2>
-        <h4 class="fw-bold">배송 정보</h4>
-        <div>이름 : {{data.name}}</div>
-        <div>
-            주소 : ({{data.addr_num}} ){{data.address}} {{data.detail_address}}
+        <div class="g_squre text-center" style="width: 100px; height: 100px; overflow: hidden; margin: 0 auto">
+            <img src="{% static 'img/mall/check.gif' %}" alt="" style="transform: translateY(12px)" />
         </div>
-        <div>전화번호 : {{data.phone}}</div>
-        <div>요청사항 : {{data.order_message}}</div>
-        <hr />
-        <h4 class="fw-bold">결제정보</h4>
-        <div>결제 : {{data.status}}</div>
-        <div>
-            결제수단 : {% if pay_method == 1 %}
-            <span>카드</span>
-            {% else %}
-            <span>무통장입금</span>
-            {% endif %}
+        <h2 class="text-center fw-bold pb-5">감사합니다 <br />구매가 완료되었습니다</h2>
+
+        <div class="border p-3 mw-60">
+            <h4 class="fw-bold">배송 정보</h4>
+            <table class="table">
+                <tr>
+                    <td class="t_title">이름</td>
+                    <td>{{data.name}}</td>
+                </tr>
+                <tr>
+                    <td class="t_title">주소</td>
+                    <td>({{data.addr_num}}){{data.address}} {{data.detail_address}}</td>
+                </tr>
+                <tr>
+                    <td class="t_title">전화번호</td>
+                    <td>{{data.phone}}</td>
+                </tr>
+                <tr>
+                    <td class="t_title">요청사항</td>
+                    <td>{{data.order_message}}</td>
+                </tr>
+            </table>
+            <h4 class="fw-bold">결제정보</h4>
+            <table class="table">
+                <tr>
+                    <td class="t_title">결제</td>
+                    <td>{{data.status}}</td>
+                </tr>
+                <tr>
+                    <td class="t_title">결제수단</td>
+                    <td>
+                        {% if pay_method == 1 %}
+                        <span>카드</span>
+                        {% else %}
+                        <span>무통장입금</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="t_title">총 가격</td>
+                    <td>{{data.total_price|intcomma }}원</td>
+                </tr>
+            </table>
         </div>
-        <div>총 가격 : {{data.total_price}}</div>
     </div>
 </div>
+<style>
+    .t_title {
+        width: 100px;
+    }
+</style>
 {% endblock %}

@@ -9,40 +9,37 @@
             <div class="card h-100">
                 <!-- LSH START -->
                 <a href="{% url 'product_detail' id=product.id %}">
-                    {% if product.images %}
-                    <img
-                        class="card-img-top"
-                        src="{{product.images.url}}"
-                        alt="{{product.name}}"
-                    />
-                    {% else %}
-                    <img
-                        class="card-img-top"
-                        src="{% static 'img/NO_IMG_600x600.png' %}"
-                        alt="{{product.name}}"
-                    />
-                    {% endif %}
+                    <div class="g_squre">
+                        {% if product.images %}
+                        <img class="card-img-top" src="{{product.images.url}}" alt="{{product.name}}" />
+                        {% else %}
+                        <img class="card-img-top" src="{% static 'img/NO_IMG_600x600.png' %}" alt="{{product.name}}" />
+                        {% endif %}
+                    </div>
                 </a>
                 <div class="card-body">
                     <div class="ly-brand">
                         <div class="fw-bold">{{product.brand}}</div>
                     </div>
-                    <a
-                        class="card-title"
-                        href="{% url 'product_detail' id=product.id %}"
+                    <a class="card-title" href="{% url 'product_detail' id=product.id %}"
                         >{{product.name|truncatechars:10}}
                     </a>
                     <div class="ly-price">
-                        <span class="fw-bold fs-3"
-                            >{{product.price|intcomma}}원</span
-                        >
+                        <span class="fw-bold fs-3">{{product.price|intcomma}}원</span>
                     </div>
                 </div>
                 <!-- LSH END -->
             </div>
         </div>
         {% empty %}
-        <li class="col h-100">아직 상품이 등록되지 않았습니다</li>
+        <li class="col h-100">
+            <p>아직 상품이 등록되지 않았습니다</p>
+            {% if user.is_admin %}
+            <p>
+                <a href="/admin/home/shoe/" class="btn btn-primary">등록하러가기</a>
+            </p>
+            {% endif %}
+        </li>
         {% endfor %}
     </div>
 </div>

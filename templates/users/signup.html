@@ -1,13 +1,134 @@
-{% extends 'base.html' %}
-
+{% extends 'base/base.html' %}
+{% load static %}
+{% block head_name %}이런신발 - 로그인{% endblock %}
 {% block content %}
-<div id="signup">
-    <form method="POST" enctype="multipart/form-data">
-        <h1>Pystagram</h1>
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-signup">회원가입</button>
-        <a href="{% url 'users:login' %}">로그인 페이지로 이동</a>
-    </form>
+<style>
+    body {
+        min-height: 100vh;
+        background-color: rgb(235, 235, 235);
+    }
+
+    .input-form {
+        max-width: 680px;
+
+        margin-top: 80px;
+        padding: 32px;
+
+        background: #fff;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        -webkit-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
+        -moz-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
+        box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15)
+    }
+</style>
+
+<div class="container">
+    <div class="input-form-backgroud row">
+        <div class="input-form col-md-12 mx-auto">
+            <h4 class="mb-3">회원가입</h4>
+            {% if form.errors %}
+            {{ form.errors }}
+            {% endif %}
+            <form method="POST" action="{% url 'signup' %}">
+                {% csrf_token %}
+                <div class="row">
+
+                    <!-- 이름 -->
+                    <div class="col-md-6 mb-3">
+                        <label for="name">* 이름</label>
+                        {{ form.username }}
+                    </div>
+
+                    <!-- 닉네임 -->
+                    <div class="col-md-6 mb-3">
+                        <label for="nickname">* 닉네임</label>
+                        {{ form.nickname }}
+                    </div>
+                </div>
+
+                <!-- 이메일 -->
+                <div class="mb-3">
+                    <label for="email">* 이메일</label>
+                    {{ form.email }}
+                </div>
+
+                <!-- 주소 -->
+                <div class="mb-3">
+                    <label for="address">* 주소</label>
+                    {{ form.address }}
+                </div>
+
+                <!-- 비밀번호 -->
+                <div class="mb-3">
+                    <label for="password">* 비밀번호<span class="text-muted"></span></label>
+                    {{ form.password }}
+                </div>
+
+                <!-- 비밀번호 확인 -->
+                <div class="mb-3">
+                    <label for="password2">* 비밀번호 확인<span class="text-muted"></span></label>
+                    {{ form.password2 }}
+                </div>
+
+                <div class="row">
+
+                    <!-- 발볼 사이즈 -->
+                    <div class="col-md-5 mt-1">
+                        <label>발볼 크기</label>
+                        <div class="mt-2">
+                            {% for radio in form.ball_foot %}
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault">
+                                <label class="form-check-label" for="flexRadioDefault1">
+                                    {{ radio.choice_label }}
+                                </label>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- 신발 사이즈 -->
+                    <div class="col-md-4 mt-1">
+                        <label for="code">신발 사이즈</label>
+                        <div class="mt-1">
+                            {{ form.shoe_size }}
+                        </div>
+                    </div>
+
+                    <!-- 성별 -->
+                    <div class="col-md-5">
+                        <label>성별</label>
+                        <div class="mt-2">
+                            {% for radio in form.gender %}
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault2">
+                                <label class="form-check-label" for="flexRadioDefault2  ">
+                                    {{ radio.choice_label }}
+                                </label>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <hr class="mb-2 mt-3">
+                    <div class="mb-3">
+                        <small>※ 발볼과 신발 사이즈를 입력하실 경우, 추천 신발 정보를 받아보실 수 있습니다.</small>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="aggrement" required>
+                        <label class="custom-control-label" for="aggrement">개인정보 수집 및 이용에 동의합니다.</label>
+                    </div>
+                    <div class="mb-4"></div>
+                    <div class="container d-flex justify-content-center">
+                        <button class="btn btn-primary btn-signup btn-lg btn-block" type="submit">가입 완료</button>
+                    </div>
+            </form>
+        </div>
+    </div>
+    <footer class="my-3 text-center text-small">
+        <p class="mb-1">&copy; 이런신발</p>
+    </footer>
 </div>
 {% endblock %}
