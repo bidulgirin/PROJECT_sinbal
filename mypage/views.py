@@ -1,17 +1,17 @@
 from django.shortcuts import render, redirect
-from home.models import User, OrderItem
+from home.models import User, OrderItem, Review
 from mypage.models import WishList
-from community.models import Comment, Post
+from community.models import Comment
 
 # Create your views here.
 def Profile(request, id):
     user = User.objects.get(id = id)
     comments = Comment.objects.filter(id=user.id).order_by("-created_at")
-    posts = Post.objects.filter(id=user.id).order_by("-updated_at")
+    reviews = Review.objects.filter(id=user.id).order_by("-created_at")
     context = {
         "user" : user,
         "comments" : comments,
-        "reviews" : posts
+        "reviews" : reviews
     }
 
     return render(request, "users/profile.html", context)
