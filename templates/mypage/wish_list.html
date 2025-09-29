@@ -2,30 +2,25 @@
 {% extends 'base/base.html' %}
 <!-- content 안에 아래 내용 쑤셔 넣을 예정 -->
 {% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/mypage/heart.css' %}">
 <div class="row" id="wish-list">
     <div class="col-8">
-        <!-- 체크박스를 누르면 정보를 보내는 폼 작성 -->
-        <form action="/" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
         {% for wish in wishes %}
         <div>
-            <input type='checkbox' id="c{ wish.id }" name='check[]'
-            value='{ wish.id }' data-price="{{ wish.shoe.price }}" 
-            data-quantity="{{ wish.quantity }}" /> 
-                {{ wish.shoe.images }}
-                {{ wish.shoe.name }}
-                {{ wish.shoe.price }}
-                {{ wish.user.size }}
-                {{ wish.quantity }}
+            <span><a href="/product_detail/{{ wish.shoe.id }}/">{{ wish.shoe.images }}</a></span>
+            <span><a href="/product_detail/{{ wish.shoe.id }}/">{{ wish.shoe.name }}</a></span>
+            {{ wish.shoe.price }}
+            <form method="POST">
+            {% csrf_token %}
+            <a href="/mypage/{{ user.id }}/delete/">찜 해제</a>
+            </form>
         </div>
         {% endfor %}
-        </form>
     </div>
-    <!-- 장바구니 사이트로 이동하는 버튼 -->
+    <!-- cart 사이트로 이동하는 버튼 -->
     <div class="col-4">
-        <li id="total">{{ TotPrice }}</li>
-        <div><button onclick="deleter()" type="button">삭제</button></form></div>
-        <a type="button" href="">장바구니</a>
+        <button onClick="location.href=''">CART</button>
     </div>
 </div>
 <script>
