@@ -28,9 +28,24 @@
         {% endfor %}
         {% endif %}
     </div>
-    <div>
+    <div class = "mt-4">
         {{ data.content }}
     </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <span>댓글 목록 ({{ post.comment_set.all|length }})</span>
+    <!-- 댓글 입력창 -->
+    <h3>댓글 입력</h3>
+    <form action="{% url 'community:comments_create' data.id %}" method="POST">
+        {% csrf_token %}
+        {{ comment_form }}
+        <input type ="submit">
+</form>
+
 </div>
 <script>
     // 삭제 버튼 누르면 해당 id 값과 action 슥~ 보내기

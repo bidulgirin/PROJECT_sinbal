@@ -1,6 +1,5 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from users.models import User, UserBio
 
 # Create your forms here.
@@ -154,8 +153,8 @@ class SignupForm(forms.Form):
         nickname = self.cleaned_data.get("nickname")
         profile_image = self.cleaned_data.get("image")
         short_description = self.cleaned_data.get("short_description")
-        address = self.cleaned_data.get("address"),
-        gender = self.cleaned_data.get("gender"),
+        address = self.cleaned_data.get("address")
+        gender = self.cleaned_data.get("gender")
         shoe_size = self.cleaned_data.get("shoe_size")
         ball_foot = self.cleaned_data.get("ball_foot")
         favorite_brand = self.cleaned_data.get("favorite_brand")
@@ -165,23 +164,25 @@ class SignupForm(forms.Form):
             email=email,
             password=password,
             nickname=nickname,
+            gender=gender,
+            address=address
         )
         
-        user.short_description = short_description
-        user.address=address
-        user.gender=gender
+        if short_description:
+            user.short_description = short_description
         if profile_image:
-            user.profile_image=profile_image
+            user.profile_image = profile_image
         
         user.save()
 
-        user_bio = UserBio.objects.create(
-            user=user,
-            shoe_size=shoe_size,
-            ball_foot=ball_foot,
-            favorite_brand=favorite_brand
-        )
-        user_bio.save() #이거 없었음 
+        if shoe_size:
+            user_bio = UserBio.objects.create(
+                user=user,
+                shoe_size=shoe_size,
+                ball_foot=ball_foot,
+                favorite_brand=favorite_brand
+            )
+            user_bio.save() #이거 없었음 
 
         return user
 

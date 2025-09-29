@@ -13,8 +13,7 @@ class CustomUserAdmin(UserAdmin):
         ("권한", {"fields": ("is_active", "is_staff", "is_superuser", "is_admin")}),
         ("중요한 일정", {"fields": ("last_login", "date_joined")}),
     ]
-    
-    
+    ordering = ('email',)
     
 @admin.register(UserBio)
 class UserBioAdmin(admin.ModelAdmin):
