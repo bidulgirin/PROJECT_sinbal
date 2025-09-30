@@ -66,11 +66,14 @@ def mall_product_detail(request, id):
     return render(request, "mall/product_detail.html", context)
 # 찜 등록
 def mall_wishlist_add(request, shoe_id):
-   
-    conn_user = request.user
+    
+    #conn_user = request.user
+    conn_user = User.objects.get(id=request.user.id)
+    shoe = Shoe.objects.get(id=shoe_id)
+
     wishlist = WishList.objects.create(
-        shoe_id = shoe_id,
-        user_id = conn_user.id,
+        shoe = shoe,
+        user = conn_user,
     )
     wishlist.save()
 
