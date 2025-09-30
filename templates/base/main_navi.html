@@ -3,7 +3,7 @@
 <nav class="navbar navbar-expand-md bg-body-tertiary">
     <div class="container-xl">
         <a class="navbar-brand" href="{% url 'home' %}">
-            <img src="https://codingyaar.com/wp-content/uploads/coding-yaar-logo.png" alt="" />
+            <img src="{% static 'img/logo.png' %}" alt="" />
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,11 +64,14 @@
                     <button type="submit" hidden>검색</button>
                 </form>
                 {% endif %}
+                <!-- 로그인한 유저만 보이게 -->
+                {% if user.id %}
                 <div class="user-icons d-flex mb-2">
-                    <div class="profile"><i class="bi bi-person"></i></div>
-                    <div class="wishlist"><i class="bi bi-heart"></i></div>
-                    <div class="cart"><i class="bi bi-cart3"></i></div>
+                    <div class="profile"><a href="{% url 'profile' id=user.id %}"><i class="bi bi-person"></i></a></div>
+                    <div class="wishlist"><a href="{% url 'mywish' id=user.id %}"><i class="bi bi-heart"></i></a></div>
+                    <div class="cart"><a href="{% url 'orderlist' id=user.id %}"><i class="bi bi-cart3"></i></a></div>
                 </div>
+                {% endif %}
             </div>
         </div>
     </div>
