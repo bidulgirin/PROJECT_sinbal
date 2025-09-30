@@ -1,6 +1,8 @@
 from django.urls import path
-from community import views 
+from community import views
+
 app_name = "community"
+
 urlpatterns = [
     # 커뮤니티 메인
     path("", views.community, name = "community"),
@@ -16,5 +18,7 @@ urlpatterns = [
     path("post_detail/<int:id>/", views.post_detail, name = "post_detail"),
     # 커뮤니티 검색 
     path("search/", views.community_search, name = "community_search"),
+    # 댓글 추가
+    path("post_detail/<int:id>/comment_add/", views.comments_create, name = "comments_create"),
 
 ]

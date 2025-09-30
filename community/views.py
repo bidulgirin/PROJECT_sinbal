@@ -3,8 +3,10 @@ from community.models import Post, Comment, PostImage
 from home.models import Marathon
 from datetime import *
 from django.utils import timezone
-from community.forms import PostForm
+from community.forms import PostForm, CommentForm
 from django.db.models import Q # 모델의 데이터를 불러올때 조건값을 붙이기 위함 
+from django.views.decorators.http import require_POST
+
 from django.core.paginator import Paginator # 페이지네이션
 # Create your views here.
 def community(request):
@@ -100,9 +102,13 @@ def delete_post(request, id):
 # 상세페이지
 def post_detail(request, id):
     data = Post.objects.get(id = id)
+    comment = CommentForm()
+    
     context = {
-        "data": data
+        "data": data,
+        "comment" : comment,
     }
+    
     return render(request, "community/community_post_detail.html", context)
 
 
@@ -148,4 +154,13 @@ def community_search(request):
         "keyword": keyword,
     }
     return render(request, "community/community_search.html", context)
-    
+
+@require_POST
+def comments_create(request, id):
+    if request.user.is_authenticated :
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit = False)
+            comment.post_id = id
+            comment.save()
+        return redirect("community:post_detail", id)

@@ -1,5 +1,5 @@
 from django import forms
-from community.models import Post
+from community.models import Post, Comment
 
 class PostForm(forms.ModelForm):
     class Meta:
@@ -29,3 +29,10 @@ class PostForm(forms.ModelForm):
                 "placeholder": "내용을 입력하세요"}),
         }
 
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = [
+            "content",
+            "post"
+        ]

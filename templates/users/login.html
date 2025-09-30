@@ -68,9 +68,18 @@
                     </div>
                 </div>
                 <button class="btn btn-primary btn-signup btn-lg btn-block mt-3" type="submit">로그인</button>
-            </div>
         </form>
 
+        {% if messages %}
+        {% for message in messages%}
+        <div class="alert alert-warning alert-dismissible fade show text-center mt-3" role="alert" s>
+            {{message}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        
+        </div>
         <div class="line mt-3">또는</div>
 
         <div class="mt-5 d-flex flex-column  align-items-center">
@@ -105,7 +114,7 @@
                     </button>
                 </div>
             </div>
-            <div class="mt-4">
+            <div class="mt-4 mb-5">
                 <span style="font-size:small;">이런신발이 처음이신가요?</span>
                 <a href="{% url 'signup' %}" style="color: #585959;"><span
                         style="font-size:small; font-weight:bold;">회원가입하기</span></button></a>

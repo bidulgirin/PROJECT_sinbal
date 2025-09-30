@@ -4,9 +4,9 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseU
 class UserManager(BaseUserManager):
     use_in_migrations = True    
 
-    def create_user(self, nickname, email, username, password=None):
+    def create_user(self, nickname, email, username, gender, address, password=None):
         if not email:
-            raise ValueError("must haveu user email")
+            raise ValueError("must have user email")
         
         if not password:
             raise ValueError("must have password")
@@ -17,23 +17,27 @@ class UserManager(BaseUserManager):
         user = self.model(
             nickname = nickname,
             email = self.normalize_email(email),
-            username=username,
+            username = username,
+            gender = gender,
+            address = address,
         )
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, nickname, email, username, password=None): # is_staff, ... 등등을 보내주기위한 매개변수
+    def create_superuser(self, nickname, email, username, gender, address, password=None): # is_staff, ... 등등을 보내주기위한 매개변수
         user = self.create_user(
             nickname=nickname,
             email=email,
             username=username,
-            password=password
+            password=password,
+            gender=gender,
+            address=address,
         )
         user.is_staff = True
         user.is_superuser = True
         user.is_admin = True
-        user.save(using=self.db)
+        user.save(using=self._db)
         
         return user
 
@@ -41,7 +45,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = "email" # 로그인 ID로 사용할 필드임~
-    REQUIRED_FIELDS = ["nickname", "username"]  # createsuperuser 할때 필요한거
+    REQUIRED_FIELDS = ["nickname", "username", "gender", "address"]  # createsuperuser 할때 필요한거
     
     username = models.CharField("사용자 이름", max_length=5, unique=False)
     is_staff = models.BooleanField(default=False)

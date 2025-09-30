@@ -243,11 +243,19 @@
 <!-- 로그인 한 사람만 보이게 -->
 {% if user.id %}
 <div class="position-fixed bottom-0 end-0 p-4">
+    {% if user.is_authenticated %}
     <a href="{% url 'community:add_post' %}">
         <button class="btn btn-primary btn-lg rounded-circle shadow-lg">
             <i class="bi bi-pencil-fill"></i>
         </button>
     </a>
+    {% else %}
+    <a href="/users/">
+        <button class="btn btn-primary btn-lg rounded-circle shadow-lg">
+            <i class="bi bi-pencil-fill"></i>
+        </button>
+    </a>
+    {% endif %}
 </div>
 {% endif %}
 

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
-from django.contrib import auth
+from django.contrib import auth, messages
 from django.urls import reverse
 from users.forms import SignupForm, LoginForm
 
@@ -27,7 +27,7 @@ def login(request):
                 auth_login(request, user)
                 return redirect("/")
             else:
-                form.add_error(None, "입력한 ID 혹은 PASSWORD에 해당하는 사용자가 없습니다")
+                messages.error(request, "회원정보가 일치하지 않습니다.")
         
         else:
             print(form.errors)
@@ -46,15 +46,15 @@ def signup(request):
         form = SignupForm(data = request.POST)
         
         if form.is_valid():
-            print("테스트2")
             user = form.save()
             auth_login(request, user)
             # 홈으로
             return redirect("home")
         else:
             print(form.errors)
-    
-    form = SignupForm()
+    else:
+        form = SignupForm()
+        
     context = {"form" : form}
     return render(request, 'users/signup.html', context)
 
