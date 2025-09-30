@@ -209,3 +209,4 @@ __marimo__/
 migrations/ 
 bootstrap-icons-1.13.1/
 media/
+.gitignore
