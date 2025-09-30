@@ -76,24 +76,30 @@
             <!--  -->
             <table class="table">
                 <tr>
-                    <td>사진</td>
-                    <td>상품</td>
-                    <td>글</td>
-                    <td>수정</td>
-                    <td>삭제</td>
+                    <td scope="col">상품</td>
+                    <td scope="col">리뷰이미지</td>
+                    <td scope="col">글내용</td>
+                    <td scope="col">수정</td>
+                    <td scope="col">삭제</td>
                 </tr>
                 {% for i in reviews %}
                 <tr>
+                    <td>{{i.shoe.name}}</td>
                     <td>
-                        {% if i.reviewimages_set.all %}
+                        {% if i.mallreviewimage_set.all %}
                         <!--  -->
-                        {% for x in i.reviewimages_set.all %}
-                        <img src="{{x.images.url}}" alt="" />
+                        {% for x in i.mallreviewimage_set.all|slice:1 %}
+                        <div class="col l_img border" style="width:100px; height:100px;overflow:hidden;">
+                            <img class="img" src="{{x.images.url}}" style="width:100%;" alt="" />
+                        </div>
+                        {% endfor %}
                         <!--  -->
-                        {% endfor %} {% endif %}
+                        {% endif %}
                     </td>
-                    <td>{{i.name}}</td>
-                    <td><a href="{% url 'mall_review_detail' review_id=i.id%}"> {{i.content|truncatechars:10}}</a></td>
+                    <td><a href="{% url 'mall_review_detail' review_id=i.id%}">
+                            <span class="fw-bold">{{i.title}}</span>
+                            <br />
+                            {{i.content|truncatechars:10}}</a></td>
                     <td><a href="{% url 'mall_review' shoe_id=i.shoe_id %}" class="btn btn-warning">수정</a></td>
                     <td><a href="{% url 'mall_review_delete' id=i.id %}" class="btn btn-danger">삭제</a></td>
                 </tr>

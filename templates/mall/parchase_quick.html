@@ -30,12 +30,7 @@
                             {% if data.images %}
                             <img src="{{data.images.url}}" alt="{{data.name}}" width="60px" heihgt="60px" />
                             {% else %}
-                            <img
-                                src="{% static 'img/NO_IMG_600x600.png' %}"
-                                alt="{{data.name}}"
-                                width="60px"
-                                heihgt="60px"
-                            />
+                            <img src="{% static 'img/no_img.png' %}" alt="{{data.name}}" width="60px" heihgt="60px" />
 
                             {% endif %}
                         </td>

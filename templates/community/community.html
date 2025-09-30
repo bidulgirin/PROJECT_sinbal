@@ -88,7 +88,7 @@
                         {% if post.postimage_set.all %}
                         <!-- for -->
                         {% for i in post.postimage_set.all|slice:":1" %}
-                        <div class="g_squre col-auto">
+                        <div class="g_square col-auto">
                             <img src="{{i.images.url}}" class="rounded post-thumbnail" alt="썸네일" />
                         </div>
                         {% endfor %}
@@ -169,7 +169,7 @@
                 <div class="list-group-item">
                     <div class="row">
                         {% if post.postimage_set.all %} {% for i in post.postimage_set.all|slice:":1" %}
-                        <div class="g_squre col-auto">
+                        <div class="g_square col-auto">
                             <img src="{{i.images.url}}" class="rounded post-thumbnail" alt="썸네일" />
                         </div>
                         {% endfor %} {% endif %}
@@ -217,7 +217,7 @@
                 <div class="list-group-item">
                     <div class="row">
                         {% if post.postimage_set.all %} {% for i in post.postimage_set.all|slice:":1" %}
-                        <div class="g_squre col-auto">
+                        <div class="g_square col-auto">
                             <img src="{{i.images.url}}" class="rounded post-thumbnail" alt="썸네일" />
                         </div>
                         {% endfor %} {% endif %}

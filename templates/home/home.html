@@ -57,11 +57,11 @@
                             {% for hot_shoe in hot_shoes %}
                             <div class="col-md-6 col-lg-4">
                                 <div class="card h-100">
-                                    <div class="g_squre">
+                                    <div class="g_square">
                                         {% if hot_shoe.images %}
                                         <img src="{{hot_shoe.images.url}}" class="card-img-top" />
                                         {% else %}
-                                        <img src="{% static 'img/NO_IMG_600x600.png'%}" class="card-img-top" />
+                                        <img src="{% static 'img/no_img.png'%}" class="card-img-top" />
                                         {% endif %}
                                     </div>
                                     <div class="card-body">
