@@ -1,5 +1,19 @@
 <!-- 슬라이드 -->
 {% load static %}
+<link rel="stylesheet" href="{% static 'css/splide/splide.min.css'%}">
+<style>
+    .l_slide {
+        width: 100%;
+        height: 40vh;
+        background-color: black;
+    }
+
+    .l_slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+</style>
 <section class="splide" aria-labelledby="carousel-heading">
     <div class="splide__track">
         <ul class="splide__list">
@@ -15,3 +29,14 @@
         </ul>
     </div>
 </section>
+<!-- splide 슬라이더 기능  -->
+<script src="{% static 'js/splide/splide.min.js'%}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const elms = document.getElementsByClassName('splide');
+
+        for (let i = 0; i < elms.length; i++) {
+            new Splide(elms[i]).mount();
+        }
+    });
+</script>
