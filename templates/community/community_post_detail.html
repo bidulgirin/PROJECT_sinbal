@@ -17,7 +17,7 @@
 
     <!-- 글 상세페이지 -->
     <h1 class="g_title">{{ data.title }}</h1>
-    <div>조회수 : {{data.views}} | 좋아요 : {{data.post_likes_set.all|length}}</div>
+    <div class="text-secondary">조회수 : {{data.views}} | 좋아요 수 : {{ data.like_users.count }}</div>
     <hr />
     <div class="g_img_box">
         {% if data.postimage_set.all %} {% for i in data.postimage_set.all %}
@@ -25,31 +25,56 @@
         {% endfor %} {% endif %}
     </div>
     <div class="mt-4">
-        <div class="g_content">{{ data.content }}</div>
+        <div class="">{{ data.content|linebreaksbr }}</div>
     </div>
-    <div class="g_likes">좋아요</div>
+    <div class="l_heart pt-3 pb-3 cursor">
+        <form action="{% url 'community:post_like' post_id=data.id %}">
+            <div class="flex-fill">
+                <button class="heart">
+                    좋아요
+                    <label for="checkbox">
+                        <!-- if 너의 찜목록에 shoe_id 가 잇으면? -->
+                        {% if user in data.like_users.all %}
+                        <input type="checkbox" id="checkbox" hidden checked data-shoe="{{data.id}}" />
+                        {% else %}
+                        <input type="checkbox" id="checkbox" hidden data-shoe="{{data.id}}" />
+                        {% endif %}
+                        <svg class="icon" viewBox="0 0 1024 1024">
+                            <path
+                                d="M742.4 101.12A249.6 249.6 0 0 0 512 256a249.6 249.6 0 0 0-230.72-154.88C143.68 101.12 32 238.4 32 376.32c0 301.44 416 546.56 480 546.56s480-245.12 480-546.56c0-137.92-111.68-275.2-249.6-275.2z"
+                                fill="#231F20"
+                                class="heart2"
+                            ></path>
+                        </svg>
+                    </label>
+                </button>
+            </div>
+        </form>
+    </div>
     <div class="g_comment">
         <!-- 댓글 입력창 -->
         <h4 class="fw-bold">댓글입력</h4>
         <form action="{% url 'community:comments_create' id=data.id %}" method="POST">
             {% csrf_token %} {{ form.content }}
             <input type="hidden" name="post" value="{{ data.id }}" />
-            <button type="submit" class="btn btn-primary">등록</button>
+            <button type="submit" class="btn btn-outline-primary w-100">등록</button>
         </form>
-        <span>댓글 목록 ({{ data.comments.all|length }})</span>
+        <h5 class="fw-bold pt-3">댓글 목록 ({{ data.comments.all|length }})</h5>
         {% if data.comments.all %}
-        <!--  -->
+        <!-- 댓글이 있다면 -->
         {% for i in data.comments.all %}
-        <!--  -->
-        <div><span class="fw-bold">{{ i.author.username }}</span> 님의 댓글</div>
-        <div>
-            {{ i.content }}
-            <!-- 자신의 댓글만 삭제할수있도록 -->
+        <!-- 돌려돌려 돌림판~ -->
+        <div class="pt-3 pb-3">
             {% if user.id == i.author_id %}
-            <form id="comment_delete_form">
+            <form id="comment_delete_form" style="text-align: right">
                 <button class="btn btn-danger comment_delete_btn" data-id="{{i.id}}">삭제</button>
             </form>
             {% endif %}
+            <span class="fw-bold">{{ i.author.username }}</span> 님의 댓글
+            <p class="text-secondary">{{ i.content|linebreaksbr }}</p>
+            <!-- 자신의 댓글만 삭제할수있도록 -->
+
+            <hr />
         </div>
         <!--  -->
         {% endfor %}
@@ -92,5 +117,12 @@
             form.submit();
         }
     </script>
+    <style>
+        .heart {
+            padding: 0;
+            background-color: rgba(255, 0, 0, 0);
+            border: 0px;
+        }
+    </style>
     {% endblock %}
 </div>

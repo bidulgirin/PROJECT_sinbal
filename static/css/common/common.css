@@ -1,5 +1,13 @@
+@font-face {
+    font-family: "Pretendard";
+    src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Thin.woff") format("woff");
+    font-weight: 100;
+    font-display: swap;
+}
+
 body {
     background-color: #f8f9fa;
+    font-family: "Pretendard" !important;
 }
 
 a {
@@ -26,18 +34,74 @@ a {
 .g_height {
     min-height: 100vh;
 }
-.g_title{
+.g_title {
     font-weight: bold;
 }
-.g_img_box{
-    width:100%;
+.g_img_box {
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
 }
-.g_img_box img{
-    width:50%;
+.g_img_box img {
+    width: 50%;
 }
 .g_content {
-    padding:10px;
+    padding: 10px;
     min-height: 40vh;
+}
+
+.heart {
+    height: 30px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    gap: 3px;
+    /*사용자정의: var 함수로 핸들링*/
+    --c: #ff6b81;
+}
+.heart svg {
+    width: 30px;
+    position: relative;
+}
+.heart .heart2 {
+    fill: #eee;
+    stroke: var(--c);
+    stroke-width: 40px;
+    stroke-dasharray: 3000;
+    stroke-dashoffset: 3000;
+}
+.heart #checkbox:checked + svg .heart2 {
+    animation: drawHeart 0.5s linear forwards;
+}
+.heart #checkbox:checked + svg {
+    animation: beat 0.6s linear forwards;
+}
+/* 찜 애니메이션 효과 */
+@keyframes drawHeart {
+    0% {
+        stroke-dashoffset: 2600;
+    }
+    80% {
+        fill: #eee;
+        stroke-dashoffset: 0;
+    }
+    100% {
+        fill: var(--c);
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes beat {
+    0% {
+        transform: scale(1);
+    }
+    70% {
+        transform: scale(1);
+    }
+    80% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
 }

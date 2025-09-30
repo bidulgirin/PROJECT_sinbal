@@ -23,4 +23,5 @@ urlpatterns = [
     # 댓글 삭제
     path("post_detail/<int:id>/comment_remove/", views.comment_delete, name = "comment_delete"),
     # 좋아요 기능
+    path("post_detail/<int:post_id>/like/", views.post_like, name="post_like")
 ]

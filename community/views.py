@@ -158,6 +158,7 @@ def community_search(request):
     }
     return render(request, "community/community_search.html", context)
 
+# 댓글 쓰기  
 @require_POST
 def comments_create(request, id):
     # 어떤 게시물에 쓰는지 확인
@@ -172,8 +173,25 @@ def comments_create(request, id):
                 print(comment_form.errors)
 
         return redirect("community:post_detail", id)
-    
+# 댓글 삭제    
 def comment_delete(reqeust,id):
     delete_comment_data = Comment.objects.get(id=id)
     delete_comment_data.delete()
     return redirect("community:post_detail", id=delete_comment_data.post_id)
+
+# 게시물에 좋아요 기능
+
+# 좋아요 기능
+def post_like(request, post_id):
+    post = Post.objects.get(id = post_id) # 모델에서 데이터 꺼냄
+    user = request.user # 사용자
+
+    # 역참조해서
+    if user.like_posts.filter(id = post.id).exists():
+        # 좋아요 관계 삭제
+        user.like_posts.remove(post) 
+    else:
+        user.like_posts.add(post) # 다대다관계에서 관계를 추가할땐!!!!! adddddddddddd
+
+    # next 라는 값으로 전달되었다면 해당 위치로, 아니면 피드페이지로~ 분기 처리
+    return redirect("community:post_detail", id=post_id)
