@@ -198,9 +198,9 @@ def post_like(request, post_id):
     else:
         user.like_posts.add(post) # 다대다관계에서 관계를 추가할땐!!!!! adddddddddddd
 
-     # 조회수 기능(좋아요누른다고 올라가지 않도록)
-    # if user.id != post.author_id:
-    #     Post.objects.filter(id = post_id).update(views = post.views )
+    # 조회수 기능(좋아요누른다고 올라가지 않도록)
+    if user.id != post.author_id:
+        Post.objects.filter(id = post_id).update(views = post.views - 1)
 
     # next 라는 값으로 전달되었다면 해당 위치로, 아니면 피드페이지로~ 분기 처리
     return redirect("community:post_detail", id=post_id)
