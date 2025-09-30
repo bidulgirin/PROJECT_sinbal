@@ -1,28 +1,30 @@
 {% load static %}
 <div class="container-fluid">
     <h2 class="pt-3 pb-3 fw-bold">REVIEWS</h2>
-    <div class="row">
+    <div class="row start">
         {% for review in reviews %}
-        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 border">
-            <a href="{% url 'mall_review_detail' review_id=review.id %}">
-                <div class="g_squre">
-                    {% if review.mallreviewimage_set.all %}
-                    <!-- 이미지중 한개만 출력 -->
-                    {% for i in review.mallreviewimage_set.all|slice:":1" %}
-                    <img class="card-img-top" src="{{ i.images.url }}" alt="{{review.title}}" />
-                    {% endfor %} {% else %}
-                    <img class="card-img-top" src="{% static 'img/NO_IMG_600x600.png' %}" alt="{{review.title}}" />
-                    {% endif %}
+        <div class="pb-3 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <div class="card h-100">
+                <a href="{% url 'mall_review_detail' review_id=review.id %}">
+                    <div class="g_squre">
+                        {% if review.mallreviewimage_set.all %}
+                        <!-- 이미지중 한개만 출력 -->
+                        {% for i in review.mallreviewimage_set.all|slice:":1" %}
+                        <img class="card-img-top" src="{{ i.images.url }}" alt="{{review.title}}" />
+                        {% endfor %} {% else %}
+                        <img class="card-img-top" src="{% static 'img/NO_IMG_600x600.png' %}" alt="{{review.title}}" />
+                        {% endif %}
+                    </div>
+                </a>
+                <div class="ly-content p-2">
+                    <div class="rating">★ {{review.rating}}</div>
+                    <div class="ly-name fw-bold fs-5">{{review.title}}</div>
+                    <p>{{review.content | truncatechars:30}}</p>
                 </div>
-            </a>
-            <div class="ly-content p-2">
-                <div class="rating">★ {{review.rating}}</div>
-                <div class="ly-name fw-bold fs-5">네오런닝화</div>
-                <p>{{review.content | truncatechars:30}}</p>
             </div>
         </div>
         {% empty %}
-        <li>아직 리뷰가 없습니다.</li>
+        <div class="text-center p-5" style="min-height: 30vh">아직 리뷰가 없습니다.</div>
         {% endfor %}
     </div>
 </div>
