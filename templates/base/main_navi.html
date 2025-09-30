@@ -36,15 +36,11 @@
                     {% endif %}
 
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">장바구니</a></li>
-                        <li>
-                            <a class="dropdown-item" href="#">나의주문목록</a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="#">위시리스트</a>
-                        </li>
-                        <li><a class="dropdown-item" href="#">내글관리</a></li>
-                        <li><a class="dropdown-item" href="">정보수정</a></li>
+                        <li class="dropdown-item"><a href="{% url 'profile' id=user.id %}">프로필</a></li>
+                        <li class="dropdown-item"><a href="{% url 'cartlist' %}">장바구니</a></li>
+                        <li class="dropdown-item"><a href="{% url 'orderlist' id=user.id %}">주문목록</a></li>
+                        <li class="dropdown-item"><a href="{% url 'mywish' id=user.id %}">위시리스트</a></li>
+                        <li class="dropdown-item"><a href="{% url 'mycommunty' %}">내글관리</a></li>
                     </ul>
                 </li>
             </ul>
