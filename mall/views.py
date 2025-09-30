@@ -81,8 +81,14 @@ def mall_wishlist_add(request, shoe_id):
 
 # 찜 삭제
 def mall_wishlist_remove(request, shoe_id):
+    referer = request.META.get('HTTP_REFERER', '/')
+    conn_user_id = request.user.id
+    
     WishList.objects.get(shoe_id=shoe_id).delete()
-    return redirect("product_detail", id=shoe_id)
+    if 'mypage' in referer:  
+        return redirect('mywish', id=conn_user_id)
+    else:
+        return redirect("product_detail", id=shoe_id)
 
 
 # 상품장바구니
@@ -135,10 +141,15 @@ def mall_cart_add(request):
 
 # 장바구니 삭제
 def mall_cart_remove(request, id):
+    # 현재 url 이 뭔지
+    referer = request.META.get('HTTP_REFERER', '/')
     # Cart 에서 등록된 상품 id 를 가져온다
     delete_data = Cart.objects.get(id = id)
     delete_data.delete()
-    return redirect('cart') # 본인 장바구니로 돌려보냄
+    if 'mypage' in referer:
+        return redirect('cartlist')
+    else: 
+        return redirect('cart') # 본인 장바구니로 돌려보냄
 
 # 바로 구매하기
 def mall_quick_parchase(request):
@@ -327,11 +338,13 @@ def mall_review_detail(request, review_id):
 
 def mall_review_delete(request, id):
     referer = request.META.get('HTTP_REFERER', '/')
-    print(referer)
     delete_data = MallReview.objects.get(id = id)
     delete_data.delete()
-    # 그 이전페이지로 돌아가면 좋을텐디~
-    return redirect('mall_main')
+    
+    if 'mypage' in referer:  
+        return redirect('mycommunty')   # 예: 마이페이지에서 삭제했을 경우
+    else:  
+        return redirect('product_detail', id=delete_data.shoe.id)  # 상세페이지에서 삭제했을 경우
 
 # 후기 이미지 삭제
 def review_delete_img(request, img_id):

@@ -16,7 +16,7 @@
                     <div class="row align-items-center">
                         {% if data.postimage_set.all %}
                         {% for i in data.postimage_set.all|slice:":1" %}
-                        <div class="g_squre col-auto" style="width:100px; height:100px;">
+                        <div class="g_square col-auto" style="width:100px; height:100px;">
                             <img src="{{i.images.url}}" class="rounded post-thumbnail" alt="썸네일">
                         </div>
                         {% endfor %}

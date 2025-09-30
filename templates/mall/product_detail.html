@@ -34,11 +34,11 @@
             </div>
             {% else %}
             <div class="l_pr_sumbnail" style="padding-left: 0px">
-                <div class="g_squre">
+                <div class="g_square">
                     {% if data.images %}
                     <img src="{{data.images.url}}" class="display-img" />
                     {% else %}
-                    <img src="{% static 'img/NO_IMG_600x600.png'%}" class="display-img" />
+                    <img src="{% static 'img/no_img.png'%}" class="display-img" />
                     {% endif %}
                 </div>
             </div>
@@ -52,7 +52,7 @@
                     <!-- item 1 -->
                     <div class="content active" id="detail">
                         {% if data.images %}
-                        <div class="g_squre">
+                        <div class="g_square">
                             <img src="{{data.images.url}}" />
                         </div>
                         {% endif %}
@@ -68,11 +68,11 @@
                         </div>
                         {% for review in reviews %}
                         <div class="col-xs-6 card w-50 modalBtn" id="{{review.id}}">
-                            <div class="g_squre">
+                            <div class="g_square">
                                 {% for i in review.mallreviewimage_set.all|slice:":1" %}
                                 <img src="{{i.images.url}}" class="card-img" />
                                 {% empty %}
-                                <img src="{% static 'img/NO_IMG_600x600.png'%}" />
+                                <img src="{% static 'img/no_img.png'%}" />
                                 {% endfor %}
                             </div>
                             <div class="card-body">
@@ -88,7 +88,7 @@
                                 {% for i in review.mallreviewimage_set.all %}
                                 <img src="{{i.images.url}}" class="card-img" style="width: 50%" />
                                 {% empty %}
-                                <img src="{% static 'img/NO_IMG_600x600.png'%}" style="width: 50%" />
+                                <img src="{% static 'img/no_img.png'%}" style="width: 50%" />
                                 {% endfor %}
                             </div>
                             <div class="flex-grow-1 p-4">{{ review.content|linebreaksbr }}</div>

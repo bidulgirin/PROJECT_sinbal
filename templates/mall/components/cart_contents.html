@@ -27,25 +27,15 @@
                         {% for data in cart_datas %}
                         <tr>
                             <td>
-                                <input
-                                    type="checkbox"
-                                    name="shoe_id[]"
-                                    id="{{data.shoe.id}}"
-                                    value="{{data.id}}"
-                                    data-price="{{data.shoe.price}}"
-                                    data-count="{{data.quantity}}"
-                                />
+                                <input type="checkbox" name="shoe_id[]" id="{{data.shoe.id}}" value="{{data.id}}"
+                                    data-price="{{data.shoe.price}}" data-count="{{data.quantity}}" />
                             </td>
                             <td>
                                 {% if data.shoe.images %}
-                                <img
-                                    src="{{data.shoe.images.url}}"
-                                    alt="{{data.shoe.name}}"
-                                    width="60px"
-                                    heihgt="60px"
-                                />
+                                <img src="{{data.shoe.images.url}}" alt="{{data.shoe.name}}" width="60px"
+                                    heihgt="60px" />
                                 {% else %}
-                                <img src="{% static 'img/NO_IMG_600x600.png' %}" width="60px" heihgt="60px" />
+                                <img src="{% static 'img/no_img.png' %}" width="60px" heihgt="60px" />
                                 {% endif %}
                             </td>
 

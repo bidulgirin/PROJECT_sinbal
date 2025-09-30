@@ -26,8 +26,7 @@
                             <img src="{{ wish.shoe.images.url }}" alt="" style="width: 80px; height: 80px" />
                         </a>
                         {% else %}
-                        <img src="{% static 'img/NO_IMG_600x600.png' %}" style="width: 80px; height: 80px"
-                            alt="이미지없음" />
+                        <img src="{% static 'img/no_img.png' %}" style="width: 80px; height: 80px" alt="이미지없음" />
                         {% endif %}
                     </td>
                     <td><a href="/product_detail/{{ wish.shoe.id }}/">{{ wish.shoe.name }}</a></td>

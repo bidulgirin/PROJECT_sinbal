@@ -92,6 +92,7 @@ def edit_post(request, id):
     context = {
         "form" : form, 
         "is_update" : is_update,
+        "data":data,
     }
     return render(request, "community/community_post.html", context)
 
@@ -118,7 +119,12 @@ def post_detail(request, id):
     }
     
     return render(request, "community/community_post_detail.html", context)
-
+# 후기 이미지 삭제
+def post_delete_img(request, img_id):
+    delete_data = PostImage.objects.get(id = img_id)
+    delete_data.delete()
+    post_id = delete_data.post_id
+    return redirect("community:edit_post", id=post_id)
 
 # 마라톤 상세페이지
 def marathon(request, id ):

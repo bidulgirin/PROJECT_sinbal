@@ -9,7 +9,7 @@
     <section class="myPage-main">
         <h1 class="myPage-title fw-bold">내 글보기</h1>
         <div class="pt-3 pb-3">
-            <h5 class="text-secondary">내가 쓴 글</h5>
+            <h5 class="text-secondary">내 커뮤니티 글</h5>
             <!--  -->
             {% if posts %}
             <!--  -->
@@ -23,7 +23,15 @@
                 </tr>
                 {% for i in posts %}
                 <tr>
-                    <td>{{ i.images.url}}</td>
+                    <td>
+                        <div class="g_square border">
+                            {% if i.images %}
+                            <img src="{{i.images.url}}" alt="">
+                            {% else %}
+                            <img src="{% static 'img/no_img.png' %}" alt="">
+                            {% endif %}
+                        </div>
+                    </td>
                     <td><a href="{% url 'community:post_detail' id=i.id %}">{{i.title}}</a></td>
                     <td>{{i.content|truncatechars:20}}</td>
                     <td><a href="{% url 'community:edit_post' id=i.id %}" class="btn btn-warning">수정</a></td>
@@ -48,13 +56,13 @@
             {% for i in comments %}
             <table class="table">
                 <tr>
-                    <td>게시글</td>
-                    <td>내용</td>
+                    <td>게시글제목</td>
+                    <td>댓글</td>
                     <td>삭제</td>
                 </tr>
                 <tr>
                     <td>
-                        <a href="{% url 'community:post_detail' id=i.post_id %}">{{i.post_set.title}}</a>
+                        <a href="{% url 'community:post_detail' id=i.post_id %}">{{i.post.title}}</a>
                     </td>
                     <td><a href="{% url 'community:post_detail' id=i.post_id %}">{{i.content|truncatechars:10}}</a></td>
                     <td><a href="{% url 'community:delete_post' id=i.id %}" class="btn btn-danger">삭제</a></td>
@@ -76,24 +84,30 @@
             <!--  -->
             <table class="table">
                 <tr>
-                    <td>사진</td>
-                    <td>상품</td>
-                    <td>글</td>
-                    <td>수정</td>
-                    <td>삭제</td>
+                    <td scope="col">상품</td>
+                    <td scope="col">리뷰이미지</td>
+                    <td scope="col">글내용</td>
+                    <td scope="col">수정</td>
+                    <td scope="col">삭제</td>
                 </tr>
                 {% for i in reviews %}
                 <tr>
+                    <td>{{i.shoe.name}}</td>
                     <td>
-                        {% if i.reviewimages_set.all %}
+                        {% if i.mallreviewimage_set.all %}
                         <!--  -->
-                        {% for x in i.reviewimages_set.all %}
-                        <img src="{{x.images.url}}" alt="" />
+                        {% for x in i.mallreviewimage_set.all|slice:1 %}
+                        <div class="col l_img border" style="width:100px; height:100px;overflow:hidden;">
+                            <img class="img" src="{{x.images.url}}" style="width:100%;" alt="" />
+                        </div>
+                        {% endfor %}
                         <!--  -->
-                        {% endfor %} {% endif %}
+                        {% endif %}
                     </td>
-                    <td>{{i.name}}</td>
-                    <td><a href="{% url 'mall_review_detail' review_id=i.id%}"> {{i.content|truncatechars:10}}</a></td>
+                    <td><a href="{% url 'mall_review_detail' review_id=i.id%}">
+                            <span class="fw-bold">{{i.title}}</span>
+                            <br />
+                            {{i.content|truncatechars:10}}</a></td>
                     <td><a href="{% url 'mall_review' shoe_id=i.shoe_id %}" class="btn btn-warning">수정</a></td>
                     <td><a href="{% url 'mall_review_delete' id=i.id %}" class="btn btn-danger">삭제</a></td>
                 </tr>

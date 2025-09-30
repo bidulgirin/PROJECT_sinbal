@@ -6,13 +6,13 @@
         <div class="pb-3 col-lg-4 col-md-4 col-sm-4 col-xs-12">
             <div class="card h-100">
                 <a href="{% url 'mall_review_detail' review_id=review.id %}">
-                    <div class="g_squre">
+                    <div class="g_square">
                         {% if review.mallreviewimage_set.all %}
                         <!-- 이미지중 한개만 출력 -->
                         {% for i in review.mallreviewimage_set.all|slice:":1" %}
                         <img class="card-img-top" src="{{ i.images.url }}" alt="{{review.title}}" />
                         {% endfor %} {% else %}
-                        <img class="card-img-top" src="{% static 'img/NO_IMG_600x600.png' %}" alt="{{review.title}}" />
+                        <img class="card-img-top" src="{% static 'img/no_img.png' %}" alt="{{review.title}}" />
                         {% endif %}
                     </div>
                 </a>
@@ -29,6 +29,5 @@
     </div>
 </div>
 <style>
-    .l_img_wrap {
-    }
+    .l_img_wrap {}
 </style>

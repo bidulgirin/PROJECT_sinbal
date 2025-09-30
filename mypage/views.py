@@ -6,7 +6,7 @@ from mypage.models import WishList
 from community.models import Comment, Post
 from users.models import User, UserBio
 from django.contrib.auth.decorators import login_required
-
+from users.models import User
 
 # Create your views here.
 @login_required(login_url = "login")
@@ -16,7 +16,12 @@ def Profile(request, id):
     if request.user.id != user.id:
         return redirect("/")
     
-    userbio = UserBio.objects.get(user_id = id)
+    # 관리자계정일경우에 에러나는거
+    try: 
+        userbio = UserBio.objects.get(user_id = id)
+    except:
+        userbio = [{}]
+    
     comments = Comment.objects.filter(id=user.id).order_by("-created_at")
     reviews = Review.objects.filter(id=user.id).order_by("-created_at")
     
@@ -69,14 +74,13 @@ def WishDelete(request, id):
     conn_user = request.user.id
     return redirect(f"/mypage/{conn_user}/mywish/")
 
-
 # 내글 보기
 def MyCommunty(request):
     conn_user = request.user
     # 내 포스트
     posts = Post.objects.filter(author_id = conn_user.id)
     # 내 리뷰
-    reviews = MallReview.objects.filter(id = conn_user.id)
+    reviews = MallReview.objects.filter(user= conn_user.id)
     # 내 댓글
     comments = Comment.objects.filter(author_id = conn_user.id)
 

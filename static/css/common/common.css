@@ -15,15 +15,15 @@ a {
     text-decoration: none;
 }
 
-.g_squre {
+.g_square {
     position: relative;
 }
-.g_squre::after {
+.g_square::after {
     display: block;
     content: "";
     padding-bottom: 100%;
 }
-.g_squre img {
+.g_square img {
     position: absolute;
     top: 0;
     left: 0;
