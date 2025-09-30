@@ -42,9 +42,10 @@ def community(request):
 
 # 포스트 게시하기
 def add_post(request):
+    # create 인지 update 인지 판단
+
     if request.method == "POST":
         form = PostForm(request.POST)
-        
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
@@ -61,13 +62,13 @@ def add_post(request):
     form = PostForm()
     
     context = {
-        "form": form
+        "form": form,
     }
     return render(request, "community/community_post.html", context)
 
 # 글 수정
 def edit_post(request, id):
-    
+    is_update = 0
     data = Post.objects.get(id = id)
     
     if request.method == "POST":
@@ -84,11 +85,13 @@ def edit_post(request, id):
                     images=image_file
             )
             # 해당 포스트의 상세페이지로 감
-            return redirect("community:product_detail", id=post.id)
+            return redirect("community:post_detail", id=post.id)
     else:
         form = PostForm(instance = data)
+        is_update = 1
     context = {
         "form" : form, 
+        "is_update" : is_update,
     }
     return render(request, "community/community_post.html", context)
 
