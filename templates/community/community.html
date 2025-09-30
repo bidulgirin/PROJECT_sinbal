@@ -1,7 +1,5 @@
-{% extends 'base/base.html' %}
-{% load static %}
-{% block head_name %}이런신발 - 커뮤니티{% endblock %}
-{% block content %}
+{% extends 'base/base.html' %} {% load static %} {% block head_name %}이런신발 - 커뮤니티{% endblock %} {% block content
+%}
 <!-- 서브 네비 (로그인/로그아웃) -->
 <!-- 메인 컨테이너 -->
 <div class="container mt-4">
@@ -11,9 +9,7 @@
         <div class="col-lg-6 mb-3">
             <div class="card shadow-sm">
                 <div class="card-header bg-danger text-white">
-                    <h5 class="mb-0">
-                        <i class="bi bi-suit-heart-fill"></i> 일주일 좋아요 인기글
-                    </h5>
+                    <h5 class="mb-0"><i class="bi bi-suit-heart-fill"></i> 일주일 좋아요 인기글</h5>
                 </div>
                 <div class="list-group">
                     {% for post in weeks_best_posts %}
@@ -28,7 +24,6 @@
                         <span>아직 게시글이 없습니다</span>
                     </div>
                     {% endfor %}
-
                 </div>
             </div>
         </div>
@@ -37,16 +32,13 @@
         <div class="col-lg-6 mb-3">
             <div class="card shadow-sm">
                 <div class="card-header bg-warning text-dark">
-                    <h5 class="mb-0">
-                        <i class="bi bi-fire"></i> 실시간 인기글
-                    </h5>
+                    <h5 class="mb-0"><i class="bi bi-fire"></i> 실시간 인기글</h5>
                 </div>
                 <div class="list-group">
                     {% for post in best_posts %}
                     <a href="{% url 'community:post_detail' id=post.id %}" class="list-group-item">
                         <span class="badge bg-secondary me-2">{{post.index}}</span>
-                        {{post.title}}
-                        {% if post.views > 3 %}
+                        {{post.title}} {% if post.views > 3 %}
                         <span class="badge bg-warning">HOT</span>
                         {% endif %}
                     </a>
@@ -68,6 +60,9 @@
             <a class="nav-link" data-target="tab-free" href="#">자유</a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" data-target="tab-request" href="#">요청</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" data-target="tab-review" href="#">신발 리뷰</a>
         </li>
         <li class="nav-item">
@@ -85,41 +80,35 @@
                 {% for post in posts %}
                 <div class="list-group-item">
                     <div class="row align-items-center">
-                        {% if post.postimage_set.all %}
-                        {% for i in post.postimage_set.all|slice:":1" %}
+                        {% if post.postimage_set.all %} {% for i in post.postimage_set.all|slice:":1" %}
                         <div class="g_squre col-auto">
-                            <img src="{{i.images.url}}" class="rounded post-thumbnail" alt="썸네일">
+                            <img src="{{i.images.url}}" class="rounded post-thumbnail" alt="썸네일" />
                         </div>
-                        {% endfor %}
-                        {% endif %}
+                        {% endfor %} {% endif %}
                         <div class="col">
                             <h5>
                                 {% if post.post_likes_set.count > 3 %}
                                 <span class="badge bg-danger me-1">인기</span>
-                                {% endif %}
-                                {% if post.created == today %}
+                                {% endif %} {% if post.created == today %}
                                 <span class="badge bg-success me-2">NEW</span>
                                 {% endif %}
                                 <a href="{% url 'community:post_detail' id=post.id %}">{{post.title}}</a>
                             </h5>
                             <p class="text mb-2">{{post.content|truncatechars:10}}</p>
                             <small class="text me-2">
-                                <i class="bi bi-person"></i> {{ post.author.username }}
-                                <i class="bi bi-clock"></i> {{ post.created_at|timesince }}전
-                                <i class="bi bi-chat"></i> {{ post.comment_set.all.count|default:0 }}
-                                <i class="bi bi-heart"></i> {{ post.post_likes_set.all.count|default:0 }}
+                                <i class="bi bi-person"></i> {{ post.author.username }} <i class="bi bi-clock"></i> {{
+                                post.created_at|timesince }}전 <i class="bi bi-chat"></i> {{
+                                post.comment_set.all.count|default:0 }} <i class="bi bi-heart"></i> {{
+                                post.post_likes_set.all.count|default:0 }}
                             </small>
                         </div>
                     </div>
                 </div>
                 {% empty %}
                 <div class="list-group-item">
-                    <div class="text-center">
-                        게시판 글이 없습니다
-                    </div>
+                    <div class="text-center">게시판 글이 없습니다</div>
                 </div>
                 {% endfor %}
-
             </div>
             <div class="card-footer text-center">
                 <a class="btn btn-secondary" href="/community/search/?category=">
@@ -127,7 +116,6 @@
                 </a>
             </div>
         </div>
-
         <!-- 자유 게시판 -->
         <div id="tab-free" class="card shadow-sm mb-4 tab-content">
             <div class="card-header bg-light">
@@ -138,16 +126,14 @@
                 <div class="list-group-item">
                     <h6><a href="{% url 'community:post_detail' id=post.id %}">{{post.title}}</a></h6>
                     <small class="text-muted">
-                        <i class="bi bi-person"></i> {{ post.author.username }}
-                        <i class="bi bi-clock"></i> {{ post.created_at|timesince }}전
-                        <i class="bi bi-chat"></i> {{ post.comment_set.all.count|default:0 }}
+                        <i class="bi bi-person"></i> {{ post.author.username }} <i class="bi bi-clock"></i> {{
+                        post.created_at|timesince }}전 <i class="bi bi-chat"></i> {{
+                        post.comment_set.all.count|default:0 }}
                     </small>
                 </div>
                 {% empty %}
                 <div class="list-group-item">
-                    <div class="text-center">
-                        게시판 글이 없습니다
-                    </div>
+                    <div class="text-center">게시판 글이 없습니다</div>
                 </div>
                 {% endfor %}
             </div>
@@ -157,9 +143,8 @@
                 </a>
             </div>
         </div>
-
         <!-- 요청 게시판 -->
-        <div id="tab-review" class="card mb-5 tab-content">
+        <div id="tab-request" class="card mb-5 tab-content">
             <div class="card-header">
                 <h4 class="mb-0">요청 게시판</h4>
             </div>
@@ -167,13 +152,11 @@
                 {% for post in request_posts %}
                 <div class="list-group-item">
                     <div class="row">
-                        {% if post.postimage_set.all %}
-                        {% for i in post.postimage_set.all|slice:":1" %}
+                        {% if post.postimage_set.all %} {% for i in post.postimage_set.all|slice:":1" %}
                         <div class="g_squre col-auto">
-                            <img src="{{i.images.url}}" class="rounded post-thumbnail" alt="썸네일">
+                            <img src="{{i.images.url}}" class="rounded post-thumbnail" alt="썸네일" />
                         </div>
-                        {% endfor %}
-                        {% endif %}
+                        {% endfor %} {% endif %}
                         <div class="col">
                             <h5>
                                 {% if post.comment_set.all.count == 0 %}
@@ -185,18 +168,55 @@
                             </h5>
                             <p class="text-muted mb-2">{{post.content|truncatechars:10}}</p>
                             <small class="text-muted">
-                                <i class="bi bi-person"></i> {{ post.author.username }}
-                                <i class="bi bi-clock"></i> {{ post.created_at|timesince }}전
-                                <i class="bi bi-chat"></i> {{ post.comment_set.all.count|default:0 }}
+                                <i class="bi bi-person"></i> {{ post.author.username }} <i class="bi bi-clock"></i> {{
+                                post.created_at|timesince }}전 <i class="bi bi-chat"></i> {{
+                                post.comment_set.all.count|default:0 }}
                             </small>
                         </div>
                     </div>
                 </div>
                 {% empty %}
                 <div class="list-group-item">
-                    <div class="text-center">
-                        게시판 글이 없습니다
+                    <div class="text-center">게시판 글이 없습니다</div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="card-footer text-center">
+                <a class="btn btn-secondary" href="/community/search/?category=request">
+                    <i class="bi bi-arrow-down-circle"></i> 더보기
+                </a>
+            </div>
+        </div>
+        <!-- 신발리뷰 게시판 -->
+        <div id="tab-review" class="card mb-5 tab-content">
+            <div class="card-header">
+                <h4 class="mb-0">신발리뷰 게시판</h4>
+            </div>
+            <div class="list-group">
+                {% for post in review_posts %}
+                <div class="list-group-item">
+                    <div class="row">
+                        {% if post.postimage_set.all %} {% for i in post.postimage_set.all|slice:":1" %}
+                        <div class="g_squre col-auto">
+                            <img src="{{i.images.url}}" class="rounded post-thumbnail" alt="썸네일" />
+                        </div>
+                        {% endfor %} {% endif %}
+                        <div class="col">
+                            <h5>
+                                <a href="{% url 'community:post_detail' id=post.id %}">{{post.title}}</a>
+                            </h5>
+                            <p class="text-muted mb-2">{{post.content|truncatechars:10}}</p>
+                            <small class="text-muted">
+                                <i class="bi bi-person"></i> {{ post.author.username }} <i class="bi bi-clock"></i> {{
+                                post.created_at|timesince }}전 <i class="bi bi-chat"></i> {{
+                                post.comment_set.all.count|default:0 }}
+                            </small>
+                        </div>
                     </div>
+                </div>
+                {% empty %}
+                <div class="list-group-item">
+                    <div class="text-center">게시판 글이 없습니다</div>
                 </div>
                 {% endfor %}
             </div>
@@ -216,16 +236,14 @@
                 <div class="list-group-item">
                     <h6><a href="{% url 'community:post_detail' id=post.id %}">{{post.title}}</a></h6>
                     <small class="text-muted">
-                        <i class="bi bi-person"></i> {{ post.author.username }}
-                        <i class="bi bi-clock"></i> {{ post.created_at|timesince }}전
-                        <i class="bi bi-chat"></i> {{ post.comment_set.all.count|default:0 }}
+                        <i class="bi bi-person"></i> {{ post.author.username }} <i class="bi bi-clock"></i> {{
+                        post.created_at|timesince }}전 <i class="bi bi-chat"></i> {{
+                        post.comment_set.all.count|default:0 }}
                     </small>
                 </div>
                 {% empty %}
                 <div class="list-group-item">
-                    <div class="text-center">
-                        게시판 글이 없습니다
-                    </div>
+                    <div class="text-center">게시판 글이 없습니다</div>
                 </div>
                 {% endfor %}
             </div>
@@ -236,7 +254,6 @@
             </div>
         </div>
     </div>
-
 </div>
 
 <!-- 글쓰기 버튼 (Bootstrap으로 위치 고정) -->
@@ -276,20 +293,20 @@
 <script>
     // 탭 메뉴
 
-    document.querySelectorAll('#tabMenu .nav-link').forEach(tab => {
-        tab.addEventListener('click', function (e) {
+    document.querySelectorAll("#tabMenu .nav-link").forEach((tab) => {
+        tab.addEventListener("click", function (e) {
             e.preventDefault();
 
             // 탭 active 클래스 관리
-            document.querySelectorAll('#tabMenu .nav-link')
-                .forEach(link => link.classList.remove('active'));
-            this.classList.add('active');
+            document.querySelectorAll("#tabMenu .nav-link").forEach((link) => link.classList.remove("active"));
+            this.classList.add("active");
 
             // 컨텐츠 active 관리
-            document.querySelectorAll('#tabContents .tab-content')
-                .forEach(content => content.classList.remove('active'));
-            const targetId = this.getAttribute('data-target');
-            document.getElementById(targetId).classList.add('active');
+            document
+                .querySelectorAll("#tabContents .tab-content")
+                .forEach((content) => content.classList.remove("active"));
+            const targetId = this.getAttribute("data-target");
+            document.getElementById(targetId).classList.add("active");
         });
     });
 </script>
