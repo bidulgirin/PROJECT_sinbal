@@ -33,7 +33,6 @@
         <form action="{% url 'community:post_like' post_id=data.id %}">
             <div class="flex-fill">
                 <button class="heart">
-                    좋아요
                     <label for="checkbox">
                         <!-- if 너의 찜목록에 shoe_id 가 잇으면? -->
                         {% if user in data.like_users.all %}
@@ -44,11 +43,11 @@
                         <svg class="icon" viewBox="0 0 1024 1024">
                             <path
                                 d="M742.4 101.12A249.6 249.6 0 0 0 512 256a249.6 249.6 0 0 0-230.72-154.88C143.68 101.12 32 238.4 32 376.32c0 301.44 416 546.56 480 546.56s480-245.12 480-546.56c0-137.92-111.68-275.2-249.6-275.2z"
-                                fill="#231F20"
-                                class="heart2"
-                            ></path>
+                                fill="#231F20" class="heart2"></path>
                         </svg>
                     </label>
+                    <br>
+                    <span class="text-secondary">좋아요!</span>
                 </button>
             </div>
         </form>
@@ -59,7 +58,7 @@
         <form action="{% url 'community:comments_create' id=data.id %}" method="POST">
             {% csrf_token %} {{ form.content }}
             <input type="hidden" name="post" value="{{ data.id }}" />
-            <button type="submit" class="btn btn-outline-primary w-100">등록</button>
+            <button type="submit" class="btn btn-outline-primary w-100 mt-3">등록</button>
         </form>
         <h5 class="fw-bold pt-3">댓글 목록 ({{ data.comments.all|length }})</h5>
         {% if data.comments.all %}
@@ -67,13 +66,22 @@
         {% for i in data.comments.all %}
         <!-- 돌려돌려 돌림판~ -->
         <div class="pt-3 pb-3">
-            {% if user.id == i.author_id %}
-            <form id="comment_delete_form" style="text-align: right">
-                <button class="btn btn-danger comment_delete_btn" data-id="{{i.id}}">삭제</button>
-            </form>
-            {% endif %}
-            <span class="fw-bold">{{ i.author.username }}</span> 님의 댓글
-            <p class="text-secondary">{{ i.content|linebreaksbr }}</p>
+            <div class="l_commment_user">
+                <img src="{% static 'img/human.jpg' %}" alt="">
+                <div>
+                    <span class="fw-bold">{{ i.author.username }}</span><br />
+                    <span class="text-secondary">{{ i.author.created_at }}</span>
+                </div>
+            </div>
+            <div class="l_comment_contents">
+                <p class="text-secondary">{{ i.content|linebreaksbr }}</p>
+                {% if user.id == i.author_id %}
+                <form id="comment_delete_form" style="text-align: right">
+                    <button class="btn btn-danger comment_delete_btn" data-id="{{i.id}}">삭제</button>
+                </form>
+                {% endif %}
+            </div>
+
             <!-- 자신의 댓글만 삭제할수있도록 -->
 
             <hr />
@@ -121,10 +129,44 @@
     </script>
     <style>
         .heart {
-            padding: 0;
-            background-color: rgba(255, 0, 0, 0);
-            border: 0px;
+            padding: .5rem;
+            box-sizing: border-box;
+            height: auto;
+            text-align: center;
+            border: 0;
+            display: block;
+            background-color: #00000000;
+        }
+
+        .l_commment_user {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .l_comment_contents {
+            align-items: center;
+            display: flex;
+            gap: 10px;
+        }
+
+        .l_comment_contents p {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px 10px;
+            margin-top: 10px;
+            border: 1px solid #dcdcdc;
+            flex: 1;
+        }
+
+        .l_commment_user img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 1px solid #dcdcdc;
         }
     </style>
+
     {% endblock %}
 </div>
