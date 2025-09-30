@@ -106,9 +106,11 @@ def delete_post(request, id):
 def post_detail(request, id):
     data = Post.objects.get(id = id)
     commentForm = CommentForm()
-    
-    # 조회수 기능
-    Post.objects.filter(id = id).update(views = data.views + 1 )
+    conn_id = request.user.id or None
+
+    # 조회수 기능(본인글이면 올라가지 않게)
+    if conn_id != data.author_id:
+        Post.objects.filter(id = id).update(views = data.views + 1 )
     
     context = {
         "data": data,
@@ -195,6 +197,10 @@ def post_like(request, post_id):
         user.like_posts.remove(post) 
     else:
         user.like_posts.add(post) # 다대다관계에서 관계를 추가할땐!!!!! adddddddddddd
+
+     # 조회수 기능(좋아요누른다고 올라가지 않도록)
+    # if user.id != post.author_id:
+    #     Post.objects.filter(id = post_id).update(views = post.views )
 
     # next 라는 값으로 전달되었다면 해당 위치로, 아니면 피드페이지로~ 분기 처리
     return redirect("community:post_detail", id=post_id)

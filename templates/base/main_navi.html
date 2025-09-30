@@ -62,11 +62,11 @@
                 {% endif %}
                 <!-- 로그인한 유저만 보이게 -->
                 {% if user.id %}
-                <div class="user-icons d-flex mb-2">
+                <!-- <div class="user-icons d-flex mb-2">
                     <div class="profile"><a href="{% url 'profile' id=user.id %}"><i class="bi bi-person"></i></a></div>
                     <div class="wishlist"><a href="{% url 'mywish' id=user.id %}"><i class="bi bi-heart"></i></a></div>
                     <div class="cart"><a href="{% url 'orderlist' id=user.id %}"><i class="bi bi-cart3"></i></a></div>
-                </div>
+                </div> -->
                 {% endif %}
             </div>
         </div>
