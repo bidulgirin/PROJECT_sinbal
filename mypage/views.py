@@ -85,4 +85,4 @@ def MyCommunty(request):
         "reviews" : reviews,
         "comments" : comments,
     }
-    return render(request, "mypage/my_communty.html", context)
+    return render(request, "mypage/my_post.html", context)

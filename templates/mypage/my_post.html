@@ -4,12 +4,12 @@
 {% load static %}
 <!--  -->
 {% block content %}
-<section class="myPage-content">
+<section class="myPage-content container-xl">
     {% include 'base/mypage_navi.html' %}
     <section class="myPage-main">
         <h1 class="myPage-title fw-bold">내 글보기</h1>
-        <div>
-            <h4 class="text-secondary">내가 쓴 글</h4>
+        <div class="pt-3 pb-3">
+            <h5 class="text-secondary">내가 쓴 글</h5>
             <!--  -->
             {% if posts %}
             <!--  -->
@@ -36,11 +36,12 @@
             <!--  -->
             {% else %}
             <!--  -->
-            <div class="text-center">글이 없습니다.</div>
+            <div class="text-center text-secondary">글이 없습니다</div>
             {% endif %}
         </div>
-        <div>
-            <h4 class="text-secondary">내가 쓴 댓글</h4>
+        <hr>
+        <div class="pt-3 pb-3">
+            <h5 class="text-secondary">내가 쓴 댓글</h5>
             <!--  -->
             {% if comments %}
             <!--  -->
@@ -64,11 +65,12 @@
             <!--  -->
             {% else %}
             <!--  -->
-            <div class="text-center">댓글이 없습니다.</div>
+            <div class="text-center text-secondary">댓글이 없습니다</div>
             {% endif %}
         </div>
-        <div>
-            <h4 class="text-secondary">내가 쓴 리뷰</h4>
+        <hr>
+        <div class="pt-3 pb-3">
+            <h5 class="text-secondary">내가 쓴 리뷰</h5>
             <!--  -->
             {% if reviews %}
             <!--  -->
@@ -99,7 +101,7 @@
                 <!--  -->
                 {% else %}
                 <tr colspan="3">
-                    <div class="text-center">리뷰가 없습니다.</div>
+                    <div class="text-center text-secondary">리뷰가 없습니다</div>
                 </tr>
                 {% endif %}
             </table>

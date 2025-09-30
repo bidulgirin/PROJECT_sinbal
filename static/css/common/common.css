@@ -64,7 +64,7 @@ a {
     position: relative;
 }
 .heart .heart2 {
-    fill: #eee;
+    fill: #bbbbbb;
     stroke: var(--c);
     stroke-width: 40px;
     stroke-dasharray: 3000;

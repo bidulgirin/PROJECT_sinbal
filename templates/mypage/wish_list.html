@@ -4,7 +4,7 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/mypage/heart.css' %}" />
 
-<section class="myPage-content">
+<section class="myPage-content container-xl">
     {% include 'base/mypage_navi.html' %}
     <section class="myPage-main">
         <h1 class="myPage-title fw-bold">내 위시리스트</h1>
@@ -26,11 +26,8 @@
                             <img src="{{ wish.shoe.images.url }}" alt="" style="width: 80px; height: 80px" />
                         </a>
                         {% else %}
-                        <img
-                            src="{% static 'img/NO_IMG_600x600.png' %}"
-                            style="width: 80px; height: 80px"
-                            alt="이미지없음"
-                        />
+                        <img src="{% static 'img/NO_IMG_600x600.png' %}" style="width: 80px; height: 80px"
+                            alt="이미지없음" />
                         {% endif %}
                     </td>
                     <td><a href="/product_detail/{{ wish.shoe.id }}/">{{ wish.shoe.name }}</a></td>
@@ -38,9 +35,8 @@
                     <td>
                         <form method="POST">
                             {% csrf_token %}
-                            <a class="btn btn-danger" href="{% url 'mall_wishlist_remove' shoe_id=wish.shoe.id %}"
-                                >찜 해제</a
-                            >
+                            <a class="btn btn-danger" href="{% url 'mall_wishlist_remove' shoe_id=wish.shoe.id %}">찜
+                                해제</a>
                         </form>
                     </td>
                 </tr>
