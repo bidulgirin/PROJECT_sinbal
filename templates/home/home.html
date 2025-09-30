@@ -2,52 +2,10 @@
 <!-- 콤마 쓸려고 -->
 {% load humanize %} {% block head_name %}이런신발 - 홈{% endblock %} {% block content %}
 <!-- 메인 컨테이너 -->
+{% include 'mall/components/main_slide.html'%}
 <div class="container mt-4 g_height">
     <!-- 메인 이미지 (Bootstrap 이미지 클래스 활용) -->
     <div class="mb-5">
-        <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner" style="width: 1300px; height: 487px">
-                <div class="carousel-item active">
-                    <img
-                        src="https://the-edit.co.kr/wp-content/uploads/2022/09/1400_2_1400_6hoka_2.jpg"
-                        class="d-block w-100"
-                        alt="..."
-                    />
-                </div>
-                <div class="carousel-item">
-                    <img
-                        src="https://the-edit.co.kr/wp-content/uploads/2022/09/1400_adidas2.0.jpg"
-                        class="d-block w-100"
-                        alt="..."
-                    />
-                </div>
-                <div class="carousel-item">
-                    <img
-                        src="https://the-edit.co.kr/wp-content/uploads/2022/09/1400_2_under.jpg"
-                        class="d-block w-100"
-                        alt="..."
-                    />
-                </div>
-            </div>
-            <button
-                class="carousel-control-prev"
-                type="button"
-                data-bs-target="#carouselExampleAutoplaying"
-                data-bs-slide="prev"
-            >
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button
-                class="carousel-control-next"
-                type="button"
-                data-bs-target="#carouselExampleAutoplaying"
-                data-bs-slide="next"
-            >
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
 
         <!-- 메인 콘텐츠 영역 -->
         <div class="row mt-4">
@@ -109,11 +67,8 @@
                                     <div class="card-body">
                                         <h6 class="card-title">{{hot_shoe.name|truncatechars:10}}</h6>
                                         <p class="price">₩{{hot_shoe.price|intcomma}}</p>
-                                        <a
-                                            class="btn btn-primary btn-sm w-100"
-                                            href="{% url 'product_detail' id=hot_shoe.id %}"
-                                            >상세보기</a
-                                        >
+                                        <a class="btn btn-primary btn-sm w-100"
+                                            href="{% url 'product_detail' id=hot_shoe.id %}">상세보기</a>
                                     </div>
                                 </div>
                             </div>
@@ -159,11 +114,8 @@
                     {% if recommend_shoe %}
                     <!-- 배너 영역 -->
                     <div class="card-body p-2">
-                        <a
-                            class="bg-light rounded text-center l_sponsor"
-                            style="height: 400px"
-                            href="{% url 'product_detail' id=recommend_shoe.id %}"
-                        >
+                        <a class="bg-light rounded text-center l_sponsor" style="height: 400px"
+                            href="{% url 'product_detail' id=recommend_shoe.id %}">
                             {% if recommend_shoe.images %}
                             <img src="{{recommend_shoe.images.url}}" alt="{{recommend_shoe.name}}" />
                             {% endif %}
