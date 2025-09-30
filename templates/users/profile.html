@@ -5,108 +5,63 @@
 <link rel="stylesheet" href="{% static 'css/mypage/style.css' %}" />
 
 <!-- 개인정보 -->
-<section class="myPage-content">
+<section class="myPage-content container-xl">
     {% include 'base/mypage_navi.html' %}
 
-    <section class="myPage-main">
+    <section class="myPage-main ">
         <h1 class="myPage-title fw-bold">내 정보</h1>
-        <span class="myPage-subject" style="font-size: medium; font-weight: 400"
-            >원하는 회원 정보를 수정할 수 있습니다</span
-        >
+        <!-- <span class="myPage-subject" style="font-size: medium; font-weight: 400">원하는 회원 정보를 수정할 수 있습니다</span> -->
 
         <div class="input-form-backgroud row">
-            <div class="input-form col-md-12">
-                <!-- 이름 -->
-                <div class="mb-3">
-                    <label
-                        for="username"
-                        style="padding-left: 80px; color: rgb(121, 117, 235); font-size: large; font-weight: bold"
-                        >이름</label
-                    >
-                    <span style="font-size: large; margin-left: 200px; font-weight: bold">{{ user.username }}</span>
-                    <hr class="hr-1" />
-                </div>
-
-                <!-- 닉네임 -->
-                <div class="mb-3">
-                    <label
-                        for="nickname"
-                        style="padding-left: 80px; color: rgb(121, 117, 235); font-size: large; font-weight: bold"
-                        >닉네임</label
-                    >
-                    <span style="font-size: large; margin-left: 165px; font-weight: bold">{{ user.nickname }}</span>
-                    <hr class="hr-1" />
-                </div>
-
-                <!-- 이메일 -->
-                <div class="mb-3">
-                    <label
-                        for="email"
-                        style="padding-left: 80px; color: rgb(121, 117, 235); font-size: large; font-weight: bold"
-                        >이메일</label
-                    >
-                    <span style="font-size: large; margin-left: 120px; font-weight: bold">{{ user.email }}</span>
-                    <hr class="hr-1" />
-                </div>
-
-                <!-- 주소 -->
-                <div class="mb-3">
-                    <label
-                        for="username"
-                        style="padding-left: 80px; color: rgb(121, 117, 235); font-size: large; font-weight: bold"
-                        >주소</label
-                    >
-                    <span style="font-size: large; margin-left: 150px; font-weight: bold">{{ user.address }}</span>
-                    <hr class="hr-1" />
-                </div>
-
-                <!-- 발볼 크기 -->
-                <div class="mb-3">
-                    <label
-                        for="username"
-                        style="padding-left: 80px; color: rgb(121, 117, 235); font-size: large; font-weight: bold"
-                        >발볼 크기</label
-                    >
-                    <span style="font-size: large; margin-left: 150px; font-weight: bold">{{ userbio.ball_foot }}</span>
-                    <hr class="hr-1" />
-                </div>
-
-                <!-- 신발 사이즈 -->
-                <div class="mb-3">
-                    <label
-                        for="username"
-                        style="padding-left: 80px; color: rgb(121, 117, 235); font-size: large; font-weight: bold"
-                        >사이즈</label
-                    >
-                    <span style="font-size: large; margin-left: 190px; font-weight: bold">{{ userbio.shoe_size }}</span>
-                    <hr class="hr-1" />
-                </div>
-
-                <!-- 성별 -->
-                <div class="mb-3">
-                    <label
-                        for="username"
-                        style="padding-left: 80px; color: rgb(121, 117, 235); font-size: large; font-weight: bold"
-                        >성별</label
-                    >
-                    <span style="font-size: large; margin-left: 203px; font-weight: bold">{{ user.gender }}</span>
-                    <hr class="hr-1" />
-                </div>
-
-                <!-- 선호 브랜드 -->
-                <div class="mb-3">
-                    <label
-                        for="username"
-                        style="padding-left: 80px; color: rgb(121, 117, 235); font-size: large; font-weight: bold"
-                        >브랜드</label
-                    >
-                    <span style="font-size: large; margin-left: 180px; font-weight: 600"
-                        >{{ userbio.favorite_brand }}</span
-                    >
-                    <hr class="hr-1" />
-                </div>
-            </div>
+            <table class="table">
+                <tr>
+                    <td class="l_title">이름</td>
+                    <td class="l_content">{{ user.username }}</td>
+                </tr>
+                <tr>
+                    <td class="l_title">닉네임</td>
+                    <td class="l_content">{{ user.nickname }}</td>
+                </tr>
+                <tr>
+                    <td class="l_title">이메일</td>
+                    <td class="l_content">{{ user.email }}</td>
+                </tr>
+                <tr>
+                    <td class="l_title">주소</td>
+                    <td class="l_content">{{ user.address }}</td>
+                </tr>
+                <tr>
+                    <td class="l_title">발볼 크기 </td>
+                    <td class="l_content">{{ userbio.ball_foot }}</td>
+                </tr>
+                <tr>
+                    <td class="l_title">사이즈 </td>
+                    <td class="l_content">{{ userbio.shoe_size }}</td>
+                </tr>
+                <tr>
+                    <td class="l_title">성별</td>
+                    <td class="l_content">{{ user.gender }}</td>
+                </tr>
+                <tr>
+                    <td class="l_title">브랜드</td>
+                    <td class="l_content">{{ userbio.favorite_brand}}</td>
+                </tr>
+            </table>
         </div>
     </section>
 </section>
+<style>
+    td.l_title {
+        width: 200px;
+        color: rgb(121, 117, 235);
+        font-size: large;
+        font-weight: bold
+    }
+
+    .l_content {
+        font-size: large;
+        margin-left: 180px;
+        font-weight: 600
+    }
+</style>
 {% endblock %}
