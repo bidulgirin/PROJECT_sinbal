@@ -102,11 +102,14 @@ def delete_post(request, id):
 # 상세페이지
 def post_detail(request, id):
     data = Post.objects.get(id = id)
-    comment = CommentForm()
+    commentForm = CommentForm()
+    
+    # 조회수 기능
+    Post.objects.filter(id = id).update(views = data.views + 1 )
     
     context = {
         "data": data,
-        "comment" : comment,
+        "form" : commentForm,
     }
     
     return render(request, "community/community_post_detail.html", context)
@@ -157,10 +160,20 @@ def community_search(request):
 
 @require_POST
 def comments_create(request, id):
+    # 어떤 게시물에 쓰는지 확인
     if request.user.is_authenticated :
-        comment_form = CommentForm(request.POST)
-        if comment_form.is_valid():
-            comment = comment_form.save(commit = False)
-            comment.post_id = id
-            comment.save()
+        if request.method == "POST":
+            comment_form = CommentForm(data = request.POST)
+            if comment_form.is_valid():
+                comment = comment_form.save(commit = False)
+                comment.author_id = request.user.id
+                comment.save()
+            else:
+                print(comment_form.errors)
+
         return redirect("community:post_detail", id)
+    
+def comment_delete(reqeust,id):
+    delete_comment_data = Comment.objects.get(id=id)
+    delete_comment_data.delete()
+    return redirect("community:post_detail", id=delete_comment_data.post_id)

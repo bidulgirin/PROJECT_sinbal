@@ -1,9 +1,10 @@
-{% extends 'base/base.html' %}
-{% load static %}
+{% extends 'base/base.html' %} {% load static %}
+<!-- head title -->
 {% block head_name %}이런신발 - 커뮤니티{% endblock %}
-{% block content %}
+<!-- 컨텐츠 -->
+{% block content%}
 <!-- 상단 헤더 (Bootstrap navbar 컴포넌트) -->
-<div class="container mt-4" style="min-height: 100vh;">
+<div class="container mt-4" style="min-height: 100vh">
     <!-- 수정/삭제 버튼 -->
     <!-- 본인글에서만보이게 -->
     {% if data.author_id == user.id %}
@@ -12,56 +13,84 @@
         <button type="button" class="btn btn-danger delete_btn">삭제</button>
     </div>
     {% endif %}
-    <form method="POST" id="form">
-        {% csrf_token %}
-    </form>
+    <form method="POST" id="form">{% csrf_token %}</form>
 
     <!-- 글 상세페이지 -->
-    <h1 class="g_title">
-        {{ data.title }}
-    </h1>
-    <hr>
+    <h1 class="g_title">{{ data.title }}</h1>
+    <div>조회수 : {{data.views}} | 좋아요 : {{data.post_likes_set.all|length}}</div>
+    <hr />
     <div class="g_img_box">
-        {% if data.postimage_set.all %}
-        {% for i in data.postimage_set.all %}
-        <img src="{{i.images.url}}" alt="">
+        {% if data.postimage_set.all %} {% for i in data.postimage_set.all %}
+        <img src="{{i.images.url}}" alt="" />
+        {% endfor %} {% endif %}
+    </div>
+    <div class="mt-4">
+        <div class="g_content">{{ data.content }}</div>
+    </div>
+    <div class="g_likes">좋아요</div>
+    <div class="g_comment">
+        <!-- 댓글 입력창 -->
+        <h4 class="fw-bold">댓글입력</h4>
+        <form action="{% url 'community:comments_create' id=data.id %}" method="POST">
+            {% csrf_token %} {{ form.content }}
+            <input type="hidden" name="post" value="{{ data.id }}" />
+            <button type="submit" class="btn btn-primary">등록</button>
+        </form>
+        <span>댓글 목록 ({{ data.comments.all|length }})</span>
+        {% if data.comments.all %}
+        <!--  -->
+        {% for i in data.comments.all %}
+        <!--  -->
+        <div><span class="fw-bold">{{ i.author.username }}</span> 님의 댓글</div>
+        <div>
+            {{ i.content }}
+            <!-- 자신의 댓글만 삭제할수있도록 -->
+            {% if user.id == i.author_id %}
+            <form id="comment_delete_form">
+                <button class="btn btn-danger comment_delete_btn" data-id="{{i.id}}">삭제</button>
+            </form>
+            {% endif %}
+        </div>
+        <!--  -->
         {% endfor %}
+        <!--  -->
         {% endif %}
     </div>
-    <div class = "mt-4">
-    <div class="g_content">
-        {{ data.content }}
-    </div>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <span>댓글 목록 ({{ post.comment_set.all|length }})</span>
-    <!-- 댓글 입력창 -->
-    <h3>댓글 입력</h3>
-    <form action="{% url 'community:comments_create' data.id %}" method="POST">
-        {% csrf_token %}
-        {{ comment_form }}
-        <input type ="submit">
-</form>
-
-</div>
-<script>
-    // 삭제 버튼 누르면 해당 id 값과 action 슥~ 보내기
-    const delete_btns = document.querySelector(".delete_btn");
-    delete_btns.addEventListener("click", () => {
-        const delete_row_id = Number("{{data.id}}");
-        if (confirm("글을 삭제하시겠습니까?")) {
-            delete_data(delete_row_id);
+    <script>
+        // 삭제 버튼 누르면 해당 id 값과 action 슥~ 보내기
+        const delete_btns = document.querySelector(".delete_btn");
+        delete_btns.addEventListener("click", () => {
+            const delete_row_id = Number("{{data.id}}");
+            if (confirm("글을 삭제하시겠습니까?")) {
+                delete_data(delete_row_id);
+            }
+        });
+        function delete_data(id) {
+            const form = document.querySelector("#form");
+            form.action = `/community/post/delete/${id}/`;
+            form.method = "GET";
+            form.submit();
         }
-    });
-    function delete_data(id) {
-        const form = document.querySelector("#form");
-        form.action = `/community/post/delete/${id}/`;
-        form.method = "GET";
-        form.submit();
-    }
-</script>
-{% endblock %}
+
+        // 댓글 삭제 버튼
+
+        // 삭제 버튼 누르면 해당 id 값과 action 슥~ 보내기
+        const comment_delete_btns = document.querySelectorAll(".comment_delete_btn");
+        comment_delete_btns.forEach((e) => {
+            e.addEventListener("click", () => {
+                const delete_row_id = e.getAttribute("data-id");
+                if (confirm("댓글을 삭제하시겠습니까?")) {
+                    delete_comment_data(delete_row_id);
+                }
+            });
+        });
+        // 함수가 작동할때만 form 의 내용을 변경해주는 방식을 사용합니다.
+        function delete_comment_data(id) {
+            const form = document.querySelector("#comment_delete_form");
+            form.action = `/community/post_detail/${id}/comment_remove/`;
+            form.method = "GET";
+            form.submit();
+        }
+    </script>
+    {% endblock %}
+</div>
