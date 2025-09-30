@@ -21,14 +21,14 @@ class Post(models.Model):
     image = models.ImageField(upload_to = "posts/", blank = True, null = True, verbose_name = "이미지")
     created_at = models.DateTimeField(auto_now_add = True, verbose_name = "작성일")
     updated_at = models.DateTimeField(auto_now = True, verbose_name = "수정일")
-    likes = models.ManyToManyField(User, related_name = "like_posts", blank = True)
+    #likes = models.ManyToManyField(User, related_name = "like_posts", blank = True)
     views = models.PositiveIntegerField(default = 0, verbose_name = "조회수")
             
     def __str__(self):
         return self.title
 
 class Comment(models.Model):
-    author = models.ForeignKey("users.User", on_delete = models.CASCADE, verbose_name = "작성자")
+    author = models.ForeignKey("users.User", on_delete = models.CASCADE, verbose_name = "작성자", related_name = "author")
     post = models.ForeignKey(Post, on_delete = models.CASCADE, related_name = "comments")
     content = models.TextField(verbose_name = "댓글 내용")
     created_at = models.DateTimeField(auto_now_add = True, verbose_name = "작성일")

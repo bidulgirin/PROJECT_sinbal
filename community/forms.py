@@ -36,3 +36,12 @@ class CommentForm(forms.ModelForm):
             "content",
             "post"
         ]
+
+        widgets = {
+            "content": forms.Textarea(
+                attrs = {
+                    "class" : "form-control",
+                    "placeholder":"내용",
+                }
+            ),
+        }

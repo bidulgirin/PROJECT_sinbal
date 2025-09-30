@@ -60,6 +60,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     created_at = models.DateTimeField(auto_now_add=True)
     address = models.CharField("상세주소", max_length=100, default='', blank=True)
 
+    like_posts = models.ManyToManyField(
+        "community.Post", # posts 앱에 있는 Post 모델과의 관계 
+        verbose_name = "좋아요 누른 Post 목록",
+        related_name = "like_users", # 중요 point!!!! 
+        blank = True,
+    )
+
     GENDER = (
         ("Female", "여성"),
         ("Male", "남성"),

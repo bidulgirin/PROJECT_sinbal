@@ -404,24 +404,27 @@ def crawling_shoes_page(request):
         
         originalUrl = 'https://www.shoemarker.co.kr'
         
+
+        # 1. brand 를 등록시킴 => 중복제거후 넣어야함 
+        # 2. shoe 를 등록시키는데 brand id 와 연관지어서 brand_id 를 넣어야함
+
         # zip 을 이용해서 데이터를 엮어보자 
         for brand, image_url, link, price, name in zip(brands,image_urls,links,prices,names):
-            # brand
-            brand_arr.append(brand.get_text().strip())
-            # image_url
-            image_url_arr.append(originalUrl + image_url["src"])
-            # print(image_url["src"])
-            #  # link
-            # price
-            price_arr.append(price.get_text(strip=True) if price else "")
-            # name
-            name_arr.append(name.get_text().split("|")[0].strip())
-            
+            # # brand
+            # brand_arr.append(brand.get_text().strip())
+            # # image_url
+            # image_url_arr.append(originalUrl + image_url["src"])
+            # # print(image_url["src"])
+            # #  # link
+            # # price
+            # price_arr.append(price.get_text(strip=True) if price else "")
+            # # name
+            # name_arr.append(name.get_text().split("|")[0].strip())
             new_shoes_datas.append(Shoe(
                                     name = name.text,
                                     price = int(price.get_text(strip=True).replace(',', '')),
                                     images = None ,
-                                    description = "설명",
+                                    description = "",
                                     source_url = "",
                                     weight = 100,
                                     stock = 100,
@@ -456,10 +459,6 @@ def crawling_shoes_page(request):
         #     file_name = save_folder + "/" + str(idx) + ".jpg"
         #     urllib.request.urlretrieve(i, file_name)
         
-        
-
-        print(link_arr)            
-        print(price_arr)  
         print(new_shoes_datas)
                  
                   

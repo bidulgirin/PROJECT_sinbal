@@ -20,5 +20,8 @@ urlpatterns = [
     path("search/", views.community_search, name = "community_search"),
     # 댓글 추가
     path("post_detail/<int:id>/comment_add/", views.comments_create, name = "comments_create"),
-
+    # 댓글 삭제
+    path("post_detail/<int:id>/comment_remove/", views.comment_delete, name = "comment_delete"),
+    # 좋아요 기능
+    path("post_detail/<int:post_id>/like/", views.post_like, name="post_like")
 ]
