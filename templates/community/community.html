@@ -1,5 +1,10 @@
-{% extends 'base/base.html' %} {% load static %} {% block head_name %}이런신발 - 커뮤니티{% endblock %} {% block content
-%}
+{% extends 'base/base.html' %}
+<!--  -->
+{% load static %}
+<!--  -->
+{% block head_name %}이런신발 - 커뮤니티{% endblock %}
+<!--  -->
+{% block content %}
 <!-- 서브 네비 (로그인/로그아웃) -->
 <!-- 메인 컨테이너 -->
 <div class="container mt-4">
@@ -80,11 +85,15 @@
                 {% for post in posts %}
                 <div class="list-group-item">
                     <div class="row align-items-center">
-                        {% if post.postimage_set.all %} {% for i in post.postimage_set.all|slice:":1" %}
+                        {% if post.postimage_set.all %}
+                        <!-- for -->
+                        {% for i in post.postimage_set.all|slice:":1" %}
                         <div class="g_squre col-auto">
                             <img src="{{i.images.url}}" class="rounded post-thumbnail" alt="썸네일" />
                         </div>
-                        {% endfor %} {% endif %}
+                        {% endfor %}
+                        <!-- endfor -->
+                        {% endif %}
                         <div class="col">
                             <h5>
                                 {% if post.post_likes_set.count > 3 %}
@@ -96,10 +105,13 @@
                             </h5>
                             <p class="text mb-2">{{post.content|truncatechars:10}}</p>
                             <small class="text me-2">
-                                <i class="bi bi-person"></i> {{ post.author.username }} <i class="bi bi-clock"></i> {{
-                                post.created_at|timesince }}전 <i class="bi bi-chat"></i> {{
-                                post.comment_set.all.count|default:0 }} <i class="bi bi-heart"></i> {{
-                                post.post_likes_set.all.count|default:0 }}
+                                <i class="bi bi-person"></i> {{ post.author.username }}
+                                <!--  -->
+                                <i class="bi bi-clock"></i> {{post.created_at|timesince }}전
+                                <!--  -->
+                                <i class="bi bi-chat"></i> {{ post.comment_set.all.count|default:0 }}
+                                <!--  -->
+                                <i class="bi bi-heart"></i> {{ post.post_likes_set.all.count|default:0 }}
                             </small>
                         </div>
                     </div>
@@ -126,9 +138,13 @@
                 <div class="list-group-item">
                     <h6><a href="{% url 'community:post_detail' id=post.id %}">{{post.title}}</a></h6>
                     <small class="text-muted">
-                        <i class="bi bi-person"></i> {{ post.author.username }} <i class="bi bi-clock"></i> {{
-                        post.created_at|timesince }}전 <i class="bi bi-chat"></i> {{
-                        post.comment_set.all.count|default:0 }}
+                        <i class="bi bi-person"></i> {{ post.author.username }}
+                        <!--  -->
+                        <i class="bi bi-clock"></i> {{post.created_at|timesince }}전
+                        <!--  -->
+                        <i class="bi bi-chat"></i> {{ post.comment_set.all.count|default:0 }}
+                        <!--  -->
+                        <i class="bi bi-heart"></i> {{ post.post_likes_set.all.count|default:0 }}
                     </small>
                 </div>
                 {% empty %}
@@ -168,9 +184,13 @@
                             </h5>
                             <p class="text-muted mb-2">{{post.content|truncatechars:10}}</p>
                             <small class="text-muted">
-                                <i class="bi bi-person"></i> {{ post.author.username }} <i class="bi bi-clock"></i> {{
-                                post.created_at|timesince }}전 <i class="bi bi-chat"></i> {{
-                                post.comment_set.all.count|default:0 }}
+                                <i class="bi bi-person"></i> {{ post.author.username }}
+                                <!--  -->
+                                <i class="bi bi-clock"></i> {{post.created_at|timesince }}전
+                                <!--  -->
+                                <i class="bi bi-chat"></i> {{ post.comment_set.all.count|default:0 }}
+                                <!--  -->
+                                <i class="bi bi-heart"></i> {{ post.post_likes_set.all.count|default:0 }}
                             </small>
                         </div>
                     </div>
@@ -207,9 +227,13 @@
                             </h5>
                             <p class="text-muted mb-2">{{post.content|truncatechars:10}}</p>
                             <small class="text-muted">
-                                <i class="bi bi-person"></i> {{ post.author.username }} <i class="bi bi-clock"></i> {{
-                                post.created_at|timesince }}전 <i class="bi bi-chat"></i> {{
-                                post.comment_set.all.count|default:0 }}
+                                <i class="bi bi-person"></i> {{ post.author.username }}
+                                <!--  -->
+                                <i class="bi bi-clock"></i> {{post.created_at|timesince }}전
+                                <!--  -->
+                                <i class="bi bi-chat"></i> {{ post.comment_set.all.count|default:0 }}
+                                <!--  -->
+                                <i class="bi bi-heart"></i> {{ post.post_likes_set.all.count|default:0 }}
                             </small>
                         </div>
                     </div>
@@ -236,9 +260,13 @@
                 <div class="list-group-item">
                     <h6><a href="{% url 'community:post_detail' id=post.id %}">{{post.title}}</a></h6>
                     <small class="text-muted">
-                        <i class="bi bi-person"></i> {{ post.author.username }} <i class="bi bi-clock"></i> {{
-                        post.created_at|timesince }}전 <i class="bi bi-chat"></i> {{
-                        post.comment_set.all.count|default:0 }}
+                        <i class="bi bi-person"></i> {{ post.author.username }}
+                        <!--  -->
+                        <i class="bi bi-clock"></i> {{post.created_at|timesince }}전
+                        <!--  -->
+                        <i class="bi bi-chat"></i> {{ post.comment_set.all.count|default:0 }}
+                        <!--  -->
+                        <i class="bi bi-heart"></i> {{ post.post_likes_set.all.count|default:0 }}
                     </small>
                 </div>
                 {% empty %}
