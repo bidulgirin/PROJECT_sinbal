@@ -1,0 +1,17 @@
+<!-- 주문리스트 -->
+{% extends 'base/base.html' %}
+<!--  -->
+{% load static %}
+<!--  -->
+{% block content %}
+<section class="myPage-content">
+    {% include 'base/mypage_navi.html' %}
+    <section class="myPage-main">
+        <h1 class="myPage-title fw-bold">내 주문정보</h1>
+        <!--  -->
+        <!-- 장바구니 컨텐츠 -->
+        {% include 'mall/components/cart_contents.html' %}
+    </section>
+</section>
+<!-- endblock -->
+{% endblock %}

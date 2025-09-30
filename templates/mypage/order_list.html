@@ -1,12 +1,44 @@
+<!-- 주문리스트 -->
 {% extends 'base/base.html' %}
+<!--  -->
+{% load static %}
+<!--  -->
 {% block content %}
-    <div id="order_list_row">
-        주문 Id | 사진 | 제품이름 | 가격 | 상세정보(사이즈) | 개수
-    </div>
-{% for item in items %}
-    <li>
-        {{ item.order.id }} {{ item.shoe.image_url }} {{ item.order.name }} {{ item.price }} 
-        {{ item.shoe.description }}({{ item.size }}) {{ item.quantity }}
-    </li>
-{% endfor %}
+<section class="myPage-content">
+    {% include 'base/mypage_navi.html' %}
+    <section class="myPage-main">
+        <h1 class="myPage-title fw-bold">내 주문정보</h1>
+        <div id="order_list_row">
+            {% if items %}
+            <table class="table">
+                <thead>
+                    <th>
+                        <td>주문 Id</td>
+                        <td>사진</td>
+                        <td>제품이름</td>
+                        <td>가격</td>
+                        <td>상세정보(사이즈)</td>
+                        <td>개수</td>
+                    </th>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td>{{ item.order.id }}</td>
+                        <td>{{ item.shoe.image_url }} </td>
+                        <td>{{ item.order.name }}</td>
+                        <td>{{ item.price }} </td>
+                        <td> {{ item.size }} </td>
+                        <td>{{ item.quantity }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <!-- 주문내역 없을때 -->
+            주문내역이 없습니다
+            {% endif %}
+        </div>
+    </section>
+</section>
 {% endblock %}
