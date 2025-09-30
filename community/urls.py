@@ -14,6 +14,8 @@ urlpatterns = [
     path("post/<int:id>/", views.edit_post, name = "edit_post"),
     # 커뮤니티 글 삭제하기
     path("post/delete/<int:id>/", views.delete_post, name = "delete_post"),
+     # 커뮤니티 각 사진 삭제
+    path("post_delete_img/<int:img_id>/", views.post_delete_img, name="post_delete_img"),
     # 커뮤니티 상세페이지
     path("post_detail/<int:id>/", views.post_detail, name = "post_detail"),
     # 커뮤니티 검색 

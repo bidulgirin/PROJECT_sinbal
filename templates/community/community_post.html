@@ -26,6 +26,20 @@
                 <div><small>JPG, PNG 파일을 업로드</small></div>
             </div>
 
+            {% if is_update %}
+            <!-- 이미지가 있으면 -->
+            <div class="fw-bold pb-3">등록된사진</div>
+            {% for i in data.postimage_set.all %}
+            <div>
+                <img src="{{i.images.url}}" alt="" style="width: 100px; height: 100px" />
+                <a href="{% url 'community:post_delete_img' img_id=i.id %}" class="btn btn-warning delete_btn">삭제</a>
+            </div>
+            {% empty %}
+            <div class="pt-3 pb-3">등록된 사진이 없습니다</div>
+            {% endfor %}
+            <!--  -->
+            {% endif %}
+
             <!-- 작성, 임시저장 버튼 -->
             <div class="d-flex gap-3">
                 <a class="btn btn-lg btn-outline-secondary w-50" href="javascript:history.back()">취소</a>
