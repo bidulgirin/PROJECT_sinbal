@@ -27,22 +27,23 @@
                             <input type="text" name="price[]" value="{{data.price}}" hidden />
                             <input type="text" name="shoe_size[]" value="{{size}}" hidden />
                             <input type="text" name="quantity[]" value="{{quantity}}" hidden />
+                            {% if data.images %}
                             <img src="{{data.images.url}}" alt="{{data.name}}" width="60px" heihgt="60px" />
+                            {% else %}
+                            <img
+                                src="{% static 'img/NO_IMG_600x600.png' %}"
+                                alt="{{data.name}}"
+                                width="60px"
+                                heihgt="60px"
+                            />
+
+                            {% endif %}
                         </td>
 
-                        <td>
-                            {{data.name}}
-
-                        </td>
-                        <td>
-                            {{data.price|intcomma}}
-                        </td>
-                        <td>
-                            {{size}}
-                        </td>
-                        <td>
-                            {{quantity}}
-                        </td>
+                        <td>{{data.name}}</td>
+                        <td>{{data.price|intcomma}}</td>
+                        <td>{{size}}</td>
+                        <td>{{quantity}}</td>
                     </tr>
                 </table>
             </div>

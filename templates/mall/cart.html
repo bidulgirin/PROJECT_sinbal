@@ -62,7 +62,7 @@
 
                         {% empty %}
                         <tr>
-                            <td>장바구니가 텅 비었습니다</td>
+                            <td colspan="7" class="text-center">장바구니가 텅 비었습니다</td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -72,18 +72,18 @@
                 <h4 class="fw-bold">최종 결제 금액</h4>
                 <table class="table">
                     <tr>
-                        <td>총 가격</td>
+                        <td width="100px">총 가격</td>
                         <td>
                             <span id="total_price_dom">0</span>
                             원
                         </td>
                     </tr>
                     <tr>
-                        <td>배송비</td>
+                        <td width="100px">배송비</td>
                         <td>0 원</td>
                     </tr>
                 </table>
-                <button class="btn btn-primary w-100" type="submit">구매하기</button>
+                <button id="cart_submit_btn" class="btn btn-primary w-100" type="submit">구매하기</button>
             </div>
         </div>
     </form>
@@ -106,6 +106,7 @@
             }
         }
         calculator();
+        cart_submit_btn_check();
     }
     all_check.addEventListener("click", checkbox_all_check);
 
@@ -118,6 +119,7 @@
 
     $("input[name='shoe_id[]']").change(function () {
         calculator();
+        cart_submit_btn_check();
     });
     function comma(str) {
         str = String(str);
@@ -152,5 +154,19 @@
     }
     // 기본 값 모두 체크
     $("#all_check").trigger("click");
+
+    // totalCost 가 0 이면 구매하기 버튼 비활성화
+    function cart_submit_btn_check() {
+        console.log("!!!!!!!");
+        console.log(totalCost);
+        const cart_submit_btn = document.querySelector("#cart_submit_btn");
+        if (totalCost == 0) {
+            cart_submit_btn.disabled = true;
+            console.log("disabled");
+        } else {
+            cart_submit_btn.disabled = false;
+            console.log("no");
+        }
+    }
 </script>
 {% endblock %}

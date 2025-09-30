@@ -20,8 +20,10 @@
     <div class="text-secondary">조회수 : {{data.views}} | 좋아요 수 : {{ data.like_users.count }}</div>
     <hr />
     <div class="g_img_box">
-        {% if data.postimage_set.all %} {% for i in data.postimage_set.all %}
-        <img src="{{i.images.url}}" alt="" />
+        {% if data.postimage_set.all %}
+        <!-- 이미지가 있을경우 -->
+        {% for i in data.postimage_set.all %}
+        <img src="{{i.images.url}}" alt="{{i.title}}_이미지" />
         {% endfor %} {% endif %}
     </div>
     <div class="mt-4">
