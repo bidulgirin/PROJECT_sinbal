@@ -1,7 +1,6 @@
 from django.urls import path
 from mypage import views
 
-
 urlpatterns = [
     path("<int:id>/", views.Profile, name="profile"),
     path("<int:id>/order/", views.OrderList, name="orderlist"),
