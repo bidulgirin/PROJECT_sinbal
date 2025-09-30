@@ -54,33 +54,41 @@
         <form method="POST" action="{% url 'login' %}">
             {% csrf_token %}
             <div class="mt-5 d-flex flex-column align-items-center">
-                <div class="card" style="width:400px; background-color:rgb(255, 255, 255); border-radius: 500px;">
-                    <div class="card-body">
-                        {{ form.email }}
-                    </div>
+                <div class="card l_login_input">
+                    {{ form.email }}
                 </div>
             </div>
 
             <div class="mt-3 d-flex flex-column align-items-center">
-                <div class="card" style="width:400px; background-color:rgb(255, 255, 255); border-radius: 500px;">
-                    <div class="card-body">
-                        {{ form.password }}
-                    </div>
+                <div class="card l_login_input">
+                    {{ form.password }}
                 </div>
                 <button class="btn btn-primary btn-signup btn-lg btn-block mt-3" type="submit">로그인</button>
         </form>
 
         {% if messages %}
         {% for message in messages%}
-        <div class="alert alert-warning alert-dismissible fade show text-center mt-3" role="alert" s>
+        <div class="alert alert-warning alert-dismissible fade show text-center mt-3" role="alert">
             {{message}}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         {% endfor %}
         {% endif %}
-        
-        </div>
-        <div class="line mt-3">또는</div>
+
+    </div>
+    <style>
+        .l_login_input {
+            border: 1px solid #dcdcdc;
+            border-radius: 4px;
+            padding: 10px;
+            box-sizing: border-box;
+            max-width: 400px;
+            width: 80vw;
+            background-color: rgb(255, 255, 255);
+            border-radius: 500px;
+        }
+    </style>
+    <!-- <div class="line mt-3">또는</div>
 
         <div class="mt-5 d-flex flex-column  align-items-center">
             <div class="card" style="width:450px; background-color:rgb(165, 165, 165)">
@@ -113,15 +121,15 @@
                         <span style="color: #fafbfc; font-weight:normal;">페이스북으로 로그인</span>
                     </button>
                 </div>
-            </div>
-            <div class="mt-4 mb-5">
-                <span style="font-size:small;">이런신발이 처음이신가요?</span>
-                <a href="{% url 'signup' %}" style="color: #585959;"><span
-                        style="font-size:small; font-weight:bold;">회원가입하기</span></button></a>
-            </div>
-        </div>
-        <br>
-        <br>
+            </div> -->
+    <div class="mt-4 mb-5 text-center">
+        <span style="font-size:small;">이런신발이 처음이신가요?</span>
+        <a href="{% url 'signup' %}" style="color: #585959;"><span
+                style="font-size:small; font-weight:bold;">회원가입하기</span></button></a>
     </div>
+</div>
+<br>
+<br>
+</div>
 </div>
 {% endblock %}
