@@ -8,8 +8,11 @@
         <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner" style="width: 1300px; height: 487px">
                 <div class="carousel-item active">
-                    <img src="https://the-edit.co.kr/wp-content/uploads/2022/09/1400_2_1400_6hoka_2.jpg" class="d-block w-100"
-                        alt="...">
+                    <img
+                        src="https://the-edit.co.kr/wp-content/uploads/2022/09/1400_2_1400_6hoka_2.jpg"
+                        class="d-block w-100"
+                        alt="..."
+                    />
                 </div>
                 <div class="carousel-item">
                     <img
@@ -48,33 +51,8 @@
 
         <!-- 메인 콘텐츠 영역 -->
         <div class="row mt-4">
-            <!-- 왼쪽 사이드바 - 카테고리 -->
-            <div class="col-md-3 mb-4">
-                <div class="card">
-                    <!-- 카테고리 맨 위 글자 -->
-                    <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0"><i class="bi bi-list"></i> 카테고리</h5>
-                    </div>
-
-                    <!-- 카테고리 내 리스트 -->
-                    <div class="card-body">
-                        <div class="list-group list-group-flush">
-                            {% for category in categorys %}
-                            <a
-                                href="/mall/product/?keyword={{category.name}}"
-                                class="list-group-item list-group-item-action"
-                            >
-                                <i class="bi bi-chevron-right"></i> {{category.name}}
-                            </a>
-                            {% empty %} 카테고리가 없습니다 {% endfor %}
-                        </div>
-                        <!-- <button class="btn btn-primary btn-sm mt-3 w-100">전체 카테고리</button> -->
-                    </div>
-                </div>
-            </div>
-
             <!-- 가운데 메인 콘텐츠 -->
-            <div class="col-md-7">
+            <div class="col-md-10">
                 <!-- 커뮤니티 인기글 섹션 -->
                 <div class="card mb-4">
                     <!-- 커뮤니티 맨 위 부분 -->
