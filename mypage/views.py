@@ -1,19 +1,28 @@
-from django.shortcuts import render, redirect
-from home.models import User, OrderItem, Review
+from django.shortcuts import render, redirect, get_object_or_404
+from home.models import OrderItem, Review
 from mypage.models import WishList
 from community.models import Comment
+from users.models import User, UserBio
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
+@login_required(login_url = "login")
 def Profile(request, id):
-    user = User.objects.get(id = id)
+    
+    user = get_object_or_404(User, id = id)
+    if request.user.id != user.id:
+        return redirect("/")
+    
+    userbio = UserBio.objects.get(user_id = id)
     comments = Comment.objects.filter(id=user.id).order_by("-created_at")
     reviews = Review.objects.filter(id=user.id).order_by("-created_at")
     
     context = {
         "user" : user,
         "comments" : comments,
-        "reviews" : reviews
+        "reviews" : reviews,
+        "userbio" : userbio,
     }
 
     return render(request, "users/profile.html", context)
