@@ -5,12 +5,12 @@
 <link rel="stylesheet" href="{% static 'css/mall/style.css' %}" />
 <!-- 콘텐츠 영억 -->
 <div class="container p-3">
-    <div class="g_height">
+    <div class="">
         <h2 class="fw-bold">쇼핑몰</h2>
         {% if datas %}
-        <div class="d-flex cards flex-wrap">
+        <div class="d-flex cards flex-wrap gap-4 justify-content-between">
             {% for data in datas %}
-            <div class="card" style="width: 18rem">
+            <div class="card" style="max-width: 19rem">
                 <div class="product-list">
                     <!-- LSH START -->
                     <div class="ly-img">
@@ -48,25 +48,8 @@
         </div>
         {% endif %}
     </div>
-    <!-- 페이지 네이션 -->
-    <nav aria-label="...">
-        <ul class="pagination justify-content-center">
-            <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-            </li>
-            <li class="page-item active">
-                <a class="page-link" href="#">1</a>
-            </li>
-            <li class="page-item" aria-current="page">
-                <a class="page-link" href="#">2</a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#">Next</a>
-            </li>
-        </ul>
-    </nav>
-
+    <!-- 페이지네이션 돔 -->
+    {% include 'base/pagination.html' %}
 </div>
 
 {% endblock %}

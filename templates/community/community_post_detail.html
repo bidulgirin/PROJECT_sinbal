@@ -17,11 +17,11 @@
     </form>
 
     <!-- 글 상세페이지 -->
-    <h1>
+    <h1 class="g_title">
         {{ data.title }}
     </h1>
     <hr>
-    <div>
+    <div class="g_img_box">
         {% if data.postimage_set.all %}
         {% for i in data.postimage_set.all %}
         <img src="{{i.images.url}}" alt="">
@@ -29,6 +29,7 @@
         {% endif %}
     </div>
     <div class = "mt-4">
+    <div class="g_content">
         {{ data.content }}
     </div>
     <br>

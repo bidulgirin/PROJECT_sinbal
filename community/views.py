@@ -7,6 +7,7 @@ from community.forms import PostForm, CommentForm
 from django.db.models import Q # 모델의 데이터를 불러올때 조건값을 붙이기 위함 
 from django.views.decorators.http import require_POST
 
+from django.core.paginator import Paginator # 페이지네이션
 # Create your views here.
 def community(request):
     today = timezone.now().date()
@@ -120,7 +121,8 @@ def marathon(request, id ):
     return render(request, "community/community_marathon.html", context)
 
 
-# 상품 (검색 결과 표기)
+# 게시글 (검색 결과 표기)
+# 페이지네이션 적용하기
 def community_search(request):
     if request.method == "POST" :
         pass
@@ -141,10 +143,14 @@ def community_search(request):
         else:
             keyword = 0
             datas = Post.objects.all()
-            
+        
+    # 페이지네이션   
+    page = request.GET.get("page") 
+    paginator = Paginator(datas, 12) #10개씩보여주겠다
+    rooms = paginator.get_page(page)   
         
     context = {
-        "datas" : datas,
+        "datas" : rooms,
         "keyword": keyword,
     }
     return render(request, "community/community_search.html", context)
