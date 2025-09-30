@@ -30,6 +30,7 @@
         <div class="">{{ data.content|linebreaksbr }}</div>
     </div>
     <div class="l_heart pt-3 pb-3 cursor">
+        {% if user.id %}
         <form action="{% url 'community:post_like' post_id=data.id %}">
             <div class="flex-fill">
                 <button class="heart">
@@ -51,8 +52,10 @@
                 </button>
             </div>
         </form>
+        {% endif %}
     </div>
     <div class="g_comment">
+        {% if user.id %}
         <!-- 댓글 입력창 -->
         <h4 class="fw-bold">댓글입력</h4>
         <form action="{% url 'community:comments_create' id=data.id %}" method="POST">
@@ -61,6 +64,9 @@
             <button type="submit" class="btn btn-outline-primary w-100 mt-3">등록</button>
         </form>
         <h5 class="fw-bold pt-3">댓글 목록 ({{ data.comments.all|length }})</h5>
+        {% else %}
+        <div class="p-5 text-center bg-white">로그인을 해주세요</div>
+        {% endif %}
         {% if data.comments.all %}
         <!-- 댓글이 있다면 -->
         {% for i in data.comments.all %}

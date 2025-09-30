@@ -61,11 +61,17 @@
                     <!-- 후기컨텐츠 -->
                     <div class="content row" id="reviews">
                         <!-- 만약 이 상품의 후기글을 쓰려면 -->
+
                         <div class="d-flex justify-content-center pt-3 pb-3 bg-white">
+                            {% if user.id %}
                             <a class="btn btn-primary" href="{% url 'mall_review' shoe_id=data.id %}">
                                 후기 쓰러가기
                             </a>
+                            {% else %}
+                            <div class="text-center">로그인을 해주세요</div>
+                            {% endif %}
                         </div>
+
                         {% for review in reviews %}
                         <div class="col-xs-6 card w-50 modalBtn" id="{{review.id}}">
                             <div class="g_square">
@@ -143,6 +149,7 @@
                     </div>
                     <div class="l_options">
                         <div class="d-flex justify-content-center align-items-center">
+                            {% if user.id %}
                             <div class="flex-fill">
                                 <div class="heart">
                                     찜
@@ -161,6 +168,7 @@
                                     </label>
                                 </div>
                             </div>
+                            {% endif %}
 
                             <button id="cart" class="btn text-center flex-fill btn-light" type="button">
                                 장바구니
