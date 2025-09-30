@@ -1,9 +1,11 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/mypage/style.css' %}" />
 <section class="left-side">
     <ul class="list-group">
         <li><a href="{% url 'profile' id=user.id %}">프로필</a></li>
-        <!-- <li><a href="{% url 'cart' id=user.id %}">장바구니</a></li> -->
+        <li><a href="{% url 'cartlist' %}">장바구니</a></li>
         <li><a href="{% url 'orderlist' id=user.id %}">주문목록</a></li>
         <li><a href="{% url 'mywish' id=user.id %}">위시리스트</a></li>
-        <!-- <li><a href="{% url 'profile' id=user.id %}">내글관리</a></li> -->
+        <li><a href="{% url 'mycommunty' %}">내글관리</a></li>
     </ul>
 </section>

@@ -1,50 +1,58 @@
 <!-- base.html 기본 틀 사용 -->
-{% extends 'base/base.html' %}
+{% extends 'base/base.html' %} {% load static %}
 <!-- content 안에 아래 내용 쑤셔 넣을 예정 -->
 {% block content %}
-{% load static %}
-<link rel="stylesheet" href="{% static 'css/mypage/heart.css' %}">
-<div class="row" id="wish-list">
-    <div class="col-8">
-        {% for wish in wishes %}
-        <div>
-            <span><a href="/product_detail/{{ wish.shoe.id }}/">{{ wish.shoe.images }}</a></span>
-            <span><a href="/product_detail/{{ wish.shoe.id }}/">{{ wish.shoe.name }}</a></span>
-            {{ wish.shoe.price }}
-            <form method="POST">
-            {% csrf_token %}
-            <a href="/mypage/{{ user.id }}/delete/">찜 해제</a>
-            </form>
+<link rel="stylesheet" href="{% static 'css/mypage/heart.css' %}" />
+
+<section class="myPage-content">
+    {% include 'base/mypage_navi.html' %}
+    <section class="myPage-main">
+        <h1 class="myPage-title fw-bold">내 위시리스트</h1>
+        <div class="col-8">
+            {% if wishes %}
+            <!--  -->
+            <table class="table">
+                <tr>
+                    <td>사진</td>
+                    <td>상품이름</td>
+                    <td>가격</td>
+                    <td>찜</td>
+                </tr>
+                {% for wish in wishes %}
+                <tr>
+                    <td>
+                        {% if wish.shoe.image %}
+                        <a href="/product_detail/{{ wish.shoe.id }}/">
+                            <img src="{{ wish.shoe.images.url }}" alt="" style="width: 80px; height: 80px" />
+                        </a>
+                        {% else %}
+                        <img
+                            src="{% static 'img/NO_IMG_600x600.png' %}"
+                            style="width: 80px; height: 80px"
+                            alt="이미지없음"
+                        />
+                        {% endif %}
+                    </td>
+                    <td><a href="/product_detail/{{ wish.shoe.id }}/">{{ wish.shoe.name }}</a></td>
+                    <td>{{ wish.shoe.price }}</td>
+                    <td>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <a class="btn btn-danger" href="{% url 'mall_wishlist_remove' shoe_id=wish.shoe.id %}"
+                                >찜 해제</a
+                            >
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            <!--  -->
+            {% else %}
+            <!--  -->
+            내 위시리스트가 없습니다.
+            <!--  -->
+            {% endif %}
         </div>
-        {% endfor %}
-    </div>
-    <!-- cart 사이트로 이동하는 버튼 -->
-    <div class="col-4">
-        <button onClick="location.href=''">CART</button>
-    </div>
-</div>
-<script>
-// 체크한 상품 총 가격 계산하기 ( jquery code )
-let totalCost = 0;
-
-$(function () {
-    $("#total").text(totalCost);
-});
-// 체크박스
-$("input[name='check[]']").change(function () {
-    calculator();
-});
-// 계산해줌
-function calculator() {
-    totalCost = 0;
-    $("#total").text(totalCost);
-    $("#wish-list input:checked").each(function () {
-        totalCost +=
-            parseInt($(this).attr("data-price")) *
-            parseInt($(this).attr("data-quantity"));
-
-        $("#total").text(totalCost);
-    });
-}
-</script>
+    </section>
+</section>
 {% endblock %}
