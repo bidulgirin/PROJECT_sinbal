@@ -33,6 +33,7 @@ def mall_main(request):
 # 페이지네이션 적용하기
 def mall_product(request):
    # get 으로 뭐 받아왔을때
+    keyword = ""
     # 검색했을때 
     if request.GET.get("keyword"):
         keyword = request.GET.get("keyword")
@@ -49,6 +50,7 @@ def mall_product(request):
         
     context = {
         "datas" : rooms,
+        "keyword" : keyword,
     }
     return render(request, "mall/product.html", context)
 
