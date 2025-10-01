@@ -13,7 +13,11 @@
                 <a href="{% url 'product_detail' id=product.id %}">
                     <div class="g_square">
                         {% if product.images %}
-                        <img class="card-img-top" src="{{product.images.url}}" alt="{{product.name}}" />
+                        <img
+                            class="card-img-top"
+                            src="{{product.images|default:product.images.url}}"
+                            alt="{{product.name}}"
+                        />
                         {% else %}
                         <img class="card-img-top" src="{% static 'img/no_img.png' %}" alt="{{product.name}}" />
                         {% endif %}
@@ -23,8 +27,8 @@
                     <div class="ly-brand">
                         <div class="fw-bold">{{product.brand}}</div>
                     </div>
-                    <a class="card-title"
-                        href="{% url 'product_detail' id=product.id %}">{{product.name|truncatechars:10}}
+                    <a class="card-title" href="{% url 'product_detail' id=product.id %}"
+                        >{{product.name|truncatechars:10}}
                     </a>
                     <div class="ly-price">
                         <span class="fw-bold fs-3">{{product.price|intcomma}}원</span>

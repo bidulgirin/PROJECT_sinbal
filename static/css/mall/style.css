@@ -8,7 +8,6 @@ li {
 /* 카테고리별 상세페이지 : /mall/product/1/ */
 .l_product {
     background-color: #f8f8f8;
-    min-width: 800px;
 }
 .l_product_option {
     background-color: white;
@@ -35,8 +34,8 @@ li {
 /* 탭 style */
 
 .l_pr {
+    width: 100%;
     max-width: 550px;
-    min-width: 550px;
     .l_pr_sumnail img {
         width: 100%;
     }

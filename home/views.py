@@ -12,7 +12,9 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from webdriver_manager.chrome import ChromeDriverManager
-
+# 날짜 형식으로 바꿔주는 모듈
+import pandas as pd
+from dateutil.parser import parse
 
 # Create your views here.
 def home(request):
@@ -92,67 +94,90 @@ def marathon_dumy_data(request):
     service = ChromeService(executable_path=ChromeDriverManager().install())
 
     # 드라이버 위치 경로 입력
-    driver = webdriver.Chrome(service=service, options=options)
-    #driver = webdriver.Chrome()
-
+    #driver = webdriver.Chrome(service=service, options=options)
+    driver = webdriver.Chrome()
     driver.get(url)
-    driver.implicitly_wait(10) 
+    driver.implicitly_wait(3)
+
+    
+
+    try:
+        driver.implicitly_wait(3)
+        a_tag = driver.find_elements("td[width='29%'] a").is_displayed()
+        
+        if a_tag:
+            a_tag.click()
+        else:
+            return False
+    except:
+        print("없다!!!!")
+
 
     soup = BeautifulSoup(driver.page_source, 'html.parser')
-    
-    new_datas = []
-    print("soupsoupsoupsoup")
-    print(soup)
-    # 마라톤 대회명
-    names = soup.select("table:nth-child(2) tbody a")
-    # dates = soup.select("div.event-card-header:nth-child(1)")
-    # locations = soup.select("div.event-card-header .location-text")
-    # distances = soup.select("div.event-card-header .course-tag:nth-child(1)")
-    # prices = soup.select("div.event-card-header table tr:nth-child(3) div:nth-child(1)")
-    # website_urls = soup.select("div.event-card-header a")
 
-    #names = driver.find_elements(By.CLASS_NAME, "h3")
-    # dates = driver.find_elements("div.event-card-header:nth-child(1)")
-    # locations = driver.find_elements("div.event-card-header .location-text")
-    # distances = driver.find_elements("div.event-card-header .course-tag:nth-child(1)")
-    # prices = driver.find_elements("div.event-card-header table tr:nth-child(3) div:nth-child(1)")
-    # website_urls = driver.find_elements("div.event-card-header a")
-    
-    print("names")
-    print(names)
-
-    # print("dates")
-    # print(dates)
-    # print("locations")
-    # print(locations)
-    # print("distances")
-    # print(distances)
-    # print("prices")
-    # print(prices)
-    # print("website_urls")
-    # print(website_urls)
-
-
-    # zip 을 이용해서 데이터를 엮어보자 
-    # for name,date,location,distance,price,website_url in zip(names,dates,locations,distances,prices,website_urls):
+    # 일단 beautifulSoup 으로 땡겨오기
+    response = requests.get(url)
+    if response.status_code == 200:
+        html = response.content
+        soup = BeautifulSoup(html, 'html.parser')
+        new_datas = []
+        # 마라톤 대회명
+        names = soup.select("td[width='29%'] a")
+        dates = soup.select("td[width='100%'] table:nth-child(3) td[width='18%'] b font")
+        locations = soup.select("table[width='600'] td[width='19%'] div")
+        distances = soup.select("table[width='600'] td[width='29%'] font[color='#990000']")
+        #prices = soup.select("div.event-card-header table tr:nth-child(3) div:nth-child(1)")
         
-    #     new_datas.append(Marathon(
-    #                             name = name.text,
-    #                             date = date.text,
-    #                             location = location.text,
-    #                             distance = distance.text,
-    #                             price = price.text,
-    #                             website_url = website_url.text,
-    #                             ))
-    
-    # if new_datas:
-    #     # 여러개의 데이터값을..넣으려고...해봤다...
-    #     Marathon.objects.bulk_create(new_datas, 
-    #                             batch_size=None, 
-    #                             ignore_conflicts=False)
+        website_urls = soup.select("div.event-card-header a")
 
-    #driver.get_screenshot_as_file('capture_naver.png')    # 화면캡처
-    driver.quit() # driver 종료    
+        # prices = driver.find_elements("div.event-card-header table tr:nth-child(3) div:nth-child(1)")
+        # website_urls = driver.find_elements("div.event-card-header a")
+        
+        # 데이터 잘 들어오나 체크
+        # print("names")
+        # print(names)
+        print("dates")
+        print(dates)
+        # print("locations")
+        # print(locations)
+        # print("distances")
+        # print(distances)
+        # print("prices")
+        # print(prices)
+        # print("website_urls")
+        # print(website_urls)
+
+
+        # zip 을 이용해서 데이터를 엮어보자 
+        for name,date,location,distance in zip(names,dates,locations,distances):
+            
+            # print("name")
+            # print(name.text)
+            print("date")
+            print(date)
+            print(date.text)
+            print(pd.to_datetime(parse(f"2025/{date.text}")))
+            # print("location")
+            # print(location.text)
+            # print("distance")
+            # print(distance.text)
+
+
+            new_datas.append(Marathon(
+                                    name = name.text,
+                                    date = pd.to_datetime(parse(date.text)),
+                                    location = location.text,
+                                    distance = distance.text,
+                                    price = 0,
+                                    website_url = "",
+                                    ))
+        
+        if new_datas:
+            # 여러개의 데이터값을..넣으려고...해봤다...
+            Marathon.objects.bulk_create(new_datas, 
+                                    batch_size=None, 
+                                    ignore_conflicts=False)
+        driver.quit() # driver 종료    
     return redirect("home")
 
 

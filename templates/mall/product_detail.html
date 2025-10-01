@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="{% static 'css/mall/style.css' %}" />
 <!-- 콘텐츠 영억 -->
 <div class="container l_product bg-light">
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center flex-wrap">
         <div class="flex-fill l_pr">
             {% if data.images.count > 1 %}
             <div class="l_pr_sumbnail">
@@ -14,16 +14,23 @@
                     <!-- 썸네일이 여러개일때 표기 -->
                     <div class="img-selection">
                         <div class="img-thumbnail selected">
-                            <img src="https://cdn.shoemarker.co.kr/Upload/ProductImage/030402/48772_1_0500_0500.gif"
-                                alt="" width="100%" />
+                            <img
+                                src="https://cdn.shoemarker.co.kr/Upload/ProductImage/030402/48772_1_0500_0500.gif"
+                                alt=""
+                                width="100%"
+                            />
                         </div>
                         <div class="img-thumbnail">
-                            <img src="http://vignette2.wikia.nocookie.net/overwatch/images/8/85/CuteSprayAvatars-Mercy.png/revision/latest?cb=20160511194928"
-                                width="100%" />
+                            <img
+                                src="http://vignette2.wikia.nocookie.net/overwatch/images/8/85/CuteSprayAvatars-Mercy.png/revision/latest?cb=20160511194928"
+                                width="100%"
+                            />
                         </div>
                         <div class="img-thumbnail">
-                            <img src="http://vignette2.wikia.nocookie.net/overwatch/images/e/e0/CuteSprayAvatars-Pharah.png/revision/latest?cb=20160511194928"
-                                width="100%" />
+                            <img
+                                src="http://vignette2.wikia.nocookie.net/overwatch/images/e/e0/CuteSprayAvatars-Pharah.png/revision/latest?cb=20160511194928"
+                                width="100%"
+                            />
                         </div>
                     </div>
                     <!-- 썸네일이 여러개일때 표기 end -->
@@ -36,7 +43,7 @@
             <div class="l_pr_sumbnail" style="padding-left: 0px">
                 <div class="g_square">
                     {% if data.images %}
-                    <img src="{{data.images.url}}" class="display-img" />
+                    <img src="{{data.images|default:data.images.url}}" class="display-img" />
                     {% else %}
                     <img src="{% static 'img/no_img.png'%}" class="display-img" />
                     {% endif %}
@@ -45,23 +52,22 @@
             {% endif %}
             <div id="tab_container">
                 <div class="d-flex tabs-container">
-                    <button class="btn active flex-fill" data-id="detail">상세보기</button>
-                    <button class="btn flex-fill" data-id="reviews">후기 ({{reviews.count|default:0 }}) 개</button>
+                    <!-- <button class="btn active flex-fill" data-id="detail">상세보기</button> -->
+                    <button class="btn active flex-fill" data-id="reviews">후기 ({{reviews.count|default:0 }})</button>
                 </div>
                 <div class="tabs-content">
                     <!-- item 1 -->
-                    <div class="content active" id="detail">
+                    <!-- <div class="content active" id="detail">
                         {% if data.images %}
                         <div class="g_square">
                             <img src="{{data.images.url}}" />
                         </div>
                         {% endif %}
                         <div class="product_detail">{{ data.description | linebreaksbr }}</div>
-                    </div>
+                    </div> -->
                     <!-- 후기컨텐츠 -->
-                    <div class="content row" id="reviews">
+                    <div class="content row active" id="reviews">
                         <!-- 만약 이 상품의 후기글을 쓰려면 -->
-
                         <div class="d-flex justify-content-center pt-3 pb-3 bg-white">
                             {% if user.id %}
                             <a class="btn btn-primary" href="{% url 'mall_review' shoe_id=data.id %}">
@@ -71,24 +77,29 @@
                             <div class="text-center">로그인을 해주세요</div>
                             {% endif %}
                         </div>
-
-                        {% for review in reviews %}
-                        <div class="col-xs-6 card w-50 modalBtn" id="{{review.id}}">
-                            <div class="g_square">
-                                {% for i in review.mallreviewimage_set.all|slice:":1" %}
-                                <img src="{{i.images.url}}" class="card-img" />
-                                {% empty %}
-                                <img src="{% static 'img/no_img.png'%}" />
-                                {% endfor %}
+                        <!-- 리뷰페이지네이션 -->
+                        <div class="w-100 d-flex flex-wrap">
+                            {% for review in datas %}
+                            <div class="col-xs-6 card w-50 modalBtn cursor" id="{{review.id}}">
+                                <div class="g_square">
+                                    {% for i in review.mallreviewimage_set.all|slice:":1" %}
+                                    <img src="{{i.images.url}}" class="card-img" />
+                                    {% empty %}
+                                    <img src="{% static 'img/no_img.png'%}" />
+                                    {% endfor %}
+                                </div>
+                                <div class="card-body">
+                                    <div class="fw-bold fs-3">{{ review.title|truncatechars:10 }}</div>
+                                    <div>★{{ review.rating }}</div>
+                                    <div>{{ review.content|truncatechars:20 }}</div>
+                                </div>
                             </div>
-                            <div class="card-body">
-                                <div class="fw-bold fs-3">{{ review.title|truncatechars:10 }}</div>
-                                <div>★{{ review.rating }}</div>
-                                <div>{{ review.content|truncatechars:20 }}</div>
-                            </div>
+                            {% endfor %}
                         </div>
+                        <!--  -->
+                        {% for review in datas %}
                         <div id="modal-{{review.id}}" style="display: none">
-                            <h4 class="flex-grow-1 p-4 fw-bold">{{ review.title }}</h4>
+                            <h4 class="flex-grow-1 p-3 fw-bold">{{ review.title }}</h4>
                             <hr />
                             <div class="d-flex flex-wrap">
                                 {% for i in review.mallreviewimage_set.all %}
@@ -100,6 +111,8 @@
                             <div class="flex-grow-1 p-4">{{ review.content|linebreaksbr }}</div>
                         </div>
                         {% endfor %}
+                        <!-- 페이지네이션 돔 -->
+                        {% include 'base/pagination.html' %}
                     </div>
                 </div>
             </div>
@@ -111,8 +124,10 @@
                     <input type="text" value="{{data.id}}" name="shoe_id" hidden />
                     <div class="l_brand">
                         <div class="l_brand_img">
-                            <img src="https://image.msscdn.net/thumbnails/images/goods_img/20250304/4851552/4851552_17412521434733_500.jpg"
-                                alt="" />
+                            <img
+                                src="https://image.msscdn.net/thumbnails/images/goods_img/20250304/4851552/4851552_17412521434733_500.jpg"
+                                alt=""
+                            />
                         </div>
                         <div class="l_brand_name">{{data.brand}}</div>
                     </div>
@@ -163,7 +178,9 @@
                                         <svg class="icon" viewBox="0 0 1024 1024">
                                             <path
                                                 d="M742.4 101.12A249.6 249.6 0 0 0 512 256a249.6 249.6 0 0 0-230.72-154.88C143.68 101.12 32 238.4 32 376.32c0 301.44 416 546.56 480 546.56s480-245.12 480-546.56c0-137.92-111.68-275.2-249.6-275.2z"
-                                                fill="#231F20" class="heart2"></path>
+                                                fill="#231F20"
+                                                class="heart2"
+                                            ></path>
                                         </svg>
                                     </label>
                                 </div>
@@ -173,8 +190,12 @@
                             <button id="cart" class="btn text-center flex-fill btn-light" type="button">
                                 장바구니
                             </button>
-                            <button id="parchase" class="btn btn-primary text-center flex-fill" type="button"
-                                style="margin-left: 1rem">
+                            <button
+                                id="parchase"
+                                class="btn btn-primary text-center flex-fill"
+                                type="button"
+                                style="margin-left: 1rem"
+                            >
                                 구매하기
                             </button>
                         </div>
@@ -200,10 +221,19 @@
     </div>
 </div>
 <!-- 모달 -->
-<div class="modal fade" id="modalArea" tabindex="-1" data-bs-backdrop="static" aria-labelledby="modalArea"
-    aria-hidden="true">
-    <div id="closeBtn" class="fw-bold text-white"
-        style="font-size: 3rem; position: absolute; top: 10px; right: 30px; cursor: pointer">
+<div
+    class="modal fade"
+    id="modalArea"
+    tabindex="-1"
+    data-bs-backdrop="static"
+    aria-labelledby="modalArea"
+    aria-hidden="true"
+>
+    <div
+        id="closeBtn"
+        class="fw-bold text-white"
+        style="font-size: 3rem; position: absolute; top: 10px; right: 30px; cursor: pointer"
+    >
         ×
     </div>
     <div class="modal-dialog modal-dialog-centered modal-xl">
