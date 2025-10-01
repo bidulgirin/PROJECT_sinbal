@@ -7,7 +7,7 @@
 .myPage-content {
     display: flex;
     width: 80vw;
-    margin:0 auto;
+    margin: 0 auto;
     min-height: 700px;
     /* 
         width / height 관련 속성
@@ -27,7 +27,7 @@
 
 /* 사이드메뉴 */
 .left-side {
-    width: 25%;
+    width: 25vw;
     border-right: 2px solid #ddd;
 }
 
@@ -254,4 +254,16 @@ hr.hr-1 {
     height: 2px;
     background-image: linear-gradient(to right, rgb(145, 145, 252), rgba(45, 85, 229, 0.75), rgb(145, 145, 252));
     margin-left: 80px;
+}
+
+@media screen and (max-width: 970px) {
+    .myPage-content {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .left-side {
+        width: 100%;
+        margin-right: 0;
+        border-right: 0px;
+    }
 }

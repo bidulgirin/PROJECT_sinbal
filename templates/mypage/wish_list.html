@@ -1,5 +1,7 @@
 <!-- base.html 기본 틀 사용 -->
 {% extends 'base/base.html' %} {% load static %}
+<!-- humanize -->
+{% load humanize %}
 <!-- content 안에 아래 내용 쑤셔 넣을 예정 -->
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/mypage/heart.css' %}" />
@@ -8,7 +10,7 @@
     {% include 'base/mypage_navi.html' %}
     <section class="myPage-main">
         <h1 class="myPage-title fw-bold">내 위시리스트</h1>
-        <div class="col-8">
+        <div class="col">
             {% if wishes %}
             <!--  -->
             <table class="table">
@@ -30,12 +32,15 @@
                         {% endif %}
                     </td>
                     <td><a href="/product_detail/{{ wish.shoe.id }}/">{{ wish.shoe.name }}</a></td>
-                    <td>{{ wish.shoe.price }}</td>
+                    <td>{{ wish.shoe.price|intcomma }}원</td>
                     <td>
                         <form method="POST">
                             {% csrf_token %}
-                            <a class="btn btn-danger" href="{% url 'mall_wishlist_remove' shoe_id=wish.shoe.id %}">찜
-                                해제</a>
+                            <a
+                                class="btn btn-danger btn-sm"
+                                href="{% url 'mall_wishlist_remove' shoe_id=wish.shoe.id %}"
+                                >찜 해제</a
+                            >
                         </form>
                     </td>
                 </tr>

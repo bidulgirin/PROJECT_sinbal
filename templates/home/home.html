@@ -62,7 +62,10 @@
                                 <div class="card h-100">
                                     <div class="g_square">
                                         {% if hot_shoe.images %}
-                                        <img src="{{hot_shoe.images.url}}" class="card-img-top" />
+                                        <img
+                                            src="{{hot_shoe.images|default:hot_shoe.images.url}}"
+                                            class="card-img-top"
+                                        />
                                         {% else %}
                                         <img src="{% static 'img/no_img.png'%}" class="card-img-top" />
                                         {% endif %}

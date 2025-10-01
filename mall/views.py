@@ -21,7 +21,7 @@ from django.core.paginator import Paginator # 페이지네이션
 # Create your views here.
 # 몰 메인
 def mall_main(request):
-    products = Shoe.objects.all()[:6] # 5개만 보여주기
+    products = Shoe.objects.all().order_by("-pk")[:6] # 6개만 보여주기
     reviews = MallReview.objects.all()[:3]
     context = {
         "products" : products,
@@ -57,10 +57,16 @@ def mall_product_detail(request, id):
     data = Shoe.objects.get(id=id)
     reviews = MallReview.objects.filter(shoe_id=id)
     wish = WishList.objects.filter(shoe_id=id).exists()
-   
+    
+
+    # 리뷰 페이지 네이션
+    page = request.GET.get("page") 
+    paginator = Paginator(reviews, 4)
+    review = paginator.get_page(page)
+
     context = {
         "data" : data,
-        "reviews" : reviews,
+        "datas" : review, #리뷰페이지네이션
         "wish" : wish,
     }
     return render(request, "mall/product_detail.html", context)

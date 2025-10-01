@@ -74,7 +74,7 @@
         {% for i in data.comments.all %}
         <!-- 돌려돌려 돌림판~ -->
         <div class="pt-3 pb-3">
-            <div class="l_commment_user">
+            <div class="l_commment_user" id="comment-{{i.id}}">
                 <img src="{% static 'img/human.jpg' %}" alt="" />
                 <div>
                     <span class="fw-bold">{{ i.author.username }}</span><br />

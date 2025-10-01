@@ -26,16 +26,16 @@
                     <td>
                         <div class="g_square border">
                             {% if i.images %}
-                            <img src="{{i.images.url}}" alt="">
+                            <img src="{{i.images.url}}" alt="" />
                             {% else %}
-                            <img src="{% static 'img/no_img.png' %}" alt="">
+                            <img src="{% static 'img/no_img.png' %}" alt="" />
                             {% endif %}
                         </div>
                     </td>
                     <td><a href="{% url 'community:post_detail' id=i.id %}">{{i.title}}</a></td>
                     <td>{{i.content|truncatechars:20}}</td>
-                    <td><a href="{% url 'community:edit_post' id=i.id %}" class="btn btn-warning">수정</a></td>
-                    <td><a href="{% url 'community:delete_post' id=i.id %}" class="btn btn-danger">삭제</a></td>
+                    <td><a href="{% url 'community:edit_post' id=i.id %}" class="btn btn-sm btn-warning">수정</a></td>
+                    <td><a href="{% url 'community:delete_post' id=i.id %}" class="btn btn-sm btn-danger">삭제</a></td>
                 </tr>
                 {% endfor %}
             </table>
@@ -47,7 +47,7 @@
             <div class="text-center text-secondary">글이 없습니다</div>
             {% endif %}
         </div>
-        <hr>
+        <hr />
         <div class="pt-3 pb-3">
             <h5 class="text-secondary">내가 쓴 댓글</h5>
             <!--  -->
@@ -64,8 +64,12 @@
                     <td>
                         <a href="{% url 'community:post_detail' id=i.post_id %}">{{i.post.title}}</a>
                     </td>
-                    <td><a href="{% url 'community:post_detail' id=i.post_id %}">{{i.content|truncatechars:10}}</a></td>
-                    <td><a href="{% url 'community:delete_post' id=i.id %}" class="btn btn-danger">삭제</a></td>
+                    <td>
+                        <a href="/community/post_detail/{{i.post_id}}/#comment-{{i.id}}"
+                            >{{i.content|truncatechars:10}}</a
+                        >
+                    </td>
+                    <td><a href="{% url 'community:delete_post' id=i.id %}" class="btn btn-sm btn-danger">삭제</a></td>
                 </tr>
             </table>
             <!--  -->
@@ -76,7 +80,7 @@
             <div class="text-center text-secondary">댓글이 없습니다</div>
             {% endif %}
         </div>
-        <hr>
+        <hr />
         <div class="pt-3 pb-3">
             <h5 class="text-secondary">내가 쓴 리뷰</h5>
             <!--  -->
@@ -97,19 +101,32 @@
                         {% if i.mallreviewimage_set.all %}
                         <!--  -->
                         {% for x in i.mallreviewimage_set.all|slice:1 %}
-                        <div class="col l_img border" style="width:100px; height:100px;overflow:hidden;">
-                            <img class="img" src="{{x.images.url}}" style="width:100%;" alt="" />
+                        <div class="col l_img border" style="width: 100px; height: 100px; overflow: hidden">
+                            <img class="img" src="{{x.images.url}}" style="width: 100%" alt="" />
+                        </div>
+                        <!-- 이미지가 없으면 -->
+                        {% empty %}
+                        <div class="col l_img border" style="width: 100px; height: 100px; overflow: hidden">
+                            <img class="img" src="{% static 'img/no_img.png' %}" style="width: 100%" alt="" />
                         </div>
                         {% endfor %}
+                        <!-- 이미지가 없으면 -->
+                        {% else %}
                         <!--  -->
+                        <div class="col l_img border" style="width: 100px; height: 100px; overflow: hidden">
+                            <img class="img" src="{% static 'img/no_img.png' %}" style="width: 100%" alt="" />
+                        </div>
                         {% endif %}
                     </td>
-                    <td><a href="{% url 'mall_review_detail' review_id=i.id%}">
+                    <td>
+                        <a href="{% url 'mall_review_detail' review_id=i.id%}">
                             <span class="fw-bold">{{i.title}}</span>
                             <br />
-                            {{i.content|truncatechars:10}}</a></td>
-                    <td><a href="{% url 'mall_review' shoe_id=i.shoe_id %}" class="btn btn-warning">수정</a></td>
-                    <td><a href="{% url 'mall_review_delete' id=i.id %}" class="btn btn-danger">삭제</a></td>
+                            {{i.content|truncatechars:10}}</a
+                        >
+                    </td>
+                    <td><a href="{% url 'mall_review' shoe_id=i.shoe_id %}" class="btn btn-sm btn-warning">수정</a></td>
+                    <td><a href="{% url 'mall_review_delete' id=i.id %}" class="btn btn-sm btn-danger">삭제</a></td>
                 </tr>
                 {% endfor %}
                 <!--  -->
