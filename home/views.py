@@ -5,6 +5,7 @@ from community.models import Post
 from mypage.models import WishList
 from datetime import *
 from django.utils import timezone
+import time
 from bs4 import BeautifulSoup
 from selenium import webdriver
 import requests
@@ -107,14 +108,15 @@ def marathon_dumy_data(request):
     try:
         #a_tags = driver.find_elements('tag name',"td[width='100%'] table:nth-child(3) td[width='29%'] a")
         a_tags = driver.find_elements(By.XPATH, "//*[@face='Arial, Helvetica, sans-serif']/a")
-        print("a_tags!!!!!")
-        print(a_tags)
+        for i in a_tags:
+            print(i)
     except Exception as e: 
         print(e)
 
     for a_tag in a_tags:
         try:
             a_tag.click()
+            time.sleep(.1)
             driver.implicitly_wait(10)
 
             # 창을 바꿔주기
@@ -129,8 +131,6 @@ def marathon_dumy_data(request):
         except Exception as e: 
             print(e)
             website_urls.append("")
-
-        
 
 
         first_tab = driver.window_handles[0]

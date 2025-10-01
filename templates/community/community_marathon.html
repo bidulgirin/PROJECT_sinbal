@@ -10,7 +10,7 @@
     <hr />
     {% if data.website_url %}
     <div class="text-end">
-        <a href="{{data.website_url}}" class="btn btn-primary mb-3"> 웹사이트 보러가기 </a>
+        <a href="{{data.website_url}}" class="btn btn-primary mb-3" target="_blank"> 웹 사이트 보러가기 </a>
     </div>
     {% endif %}
 
@@ -18,7 +18,7 @@
         <h5><span class="fw-bold">지역</span> {{data.location}}</h5>
         <h5><span class="fw-bold">날짜</span> {{data.date}}</h5>
         <h5><span class="fw-bold">거리</span> {{data.distance}}km</h5>
-        <h5><span class="fw-bold">입장료</span> {{data.price}} 원</h5>
+        <!-- <h5><span class="fw-bold">입장료</span> {{data.price}} 원</h5> -->
     </div>
 </div>
 {% endblock %}
