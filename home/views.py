@@ -115,8 +115,7 @@ def marathon_dumy_data(request):
     for a_tag in a_tags:
         try:
             a_tag.click()
-            time.sleep(10)
-            driver.implicitly_wait(20)
+            driver.implicitly_wait(10)
 
             # 창을 바꿔주기
             last_tab = driver.window_handles[-1]

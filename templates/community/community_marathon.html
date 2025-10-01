@@ -1,22 +1,24 @@
 {% extends 'base/base.html' %}
+<!-- load static -->
 {% load static %}
+<!-- head name -->
 {% block head_name %}이런신발 - 마라톤일정{% endblock %}
+<!-- content -->
 {% block content %}
 <div class="container p-3">
     <h2 class="fw-bold pb-1">{{data.name}}</h2>
-    <hr>
+    <hr />
+    {% if data.website_url %}
     <div class="text-end">
-        <a href="{{data.website_url}}" class="btn btn-primary mb-3 ">
-            웹사이트 보러가기
-        </a>
+        <a href="{{data.website_url}}" class="btn btn-primary mb-3"> 웹사이트 보러가기 </a>
     </div>
-
+    {% endif %}
 
     <div class="border p-3 bg-white">
-        <h5><span class="fw-bold">지역</span> {{data.location}} </h5>
+        <h5><span class="fw-bold">지역</span> {{data.location}}</h5>
         <h5><span class="fw-bold">날짜</span> {{data.date}}</h5>
         <h5><span class="fw-bold">거리</span> {{data.distance}}km</h5>
-        <h5><span class="fw-bold">입장료</span> {{data.price}} 원 </h5>
+        <h5><span class="fw-bold">입장료</span> {{data.price}} 원</h5>
     </div>
 </div>
 {% endblock %}
