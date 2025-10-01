@@ -40,7 +40,6 @@ def OrderList(request, id):
         "items" : items
     }
     return render(request, "mypage/order_list.html", context)
-
 # 장바구니 리스트
 def CartList(request):
     conn_user = request.user
@@ -73,8 +72,7 @@ def WishDelete(request, id):
     shoe.delete()
     conn_user = request.user.id
     return redirect(f"/mypage/{conn_user}/mywish/")
-
-# 내글 보기
+# 내 글 보기
 def MyCommunty(request):
     conn_user = request.user
     # 내 포스트

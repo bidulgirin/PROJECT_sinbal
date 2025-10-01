@@ -96,7 +96,6 @@ def mall_wishlist_remove(request, shoe_id):
     else:
         return redirect("product_detail", id=shoe_id)
 
-
 # 상품장바구니
 def mall_cart(request):
     # user 정보를 불러온다.
@@ -205,7 +204,6 @@ def mall_parchase(request):
     }
     return render(request, "mall/parchase.html", context)
 
-
 # 결제정보를 입력하기 위한 함수
 def mall_order_orderitem_create(result, conn_user):
     name = result["name"]
@@ -258,7 +256,6 @@ def mall_order_orderitem_create(result, conn_user):
     order.save()
     # 리턴값으로 order_id 와 cart_id 를 return 해줌
     return {"order_id": order_id.id , "cart_ids": cart_ids }
-    
 
 # 상품결제 취소 (실제 삭제할것인가...)
 def mall_parchase_cancle(request):
