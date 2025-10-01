@@ -9,6 +9,7 @@ class SignupForm(forms.Form):
         label = "프로필 이미지", 
         required = False
     )
+    
     short_description = forms.CharField(
         label = "자기소개",
         max_length = 100,
@@ -25,7 +26,7 @@ class SignupForm(forms.Form):
         max_length = 6,
         widget = forms.TextInput(
             attrs = {"class" : "form-control",
-                    "placeholder": "이름"}
+                    "placeholder": "이름(실명)"}
             )
         )
     
@@ -55,7 +56,7 @@ class SignupForm(forms.Form):
         max_length=16,
         widget=forms.PasswordInput(
             attrs={"class": "form-control", 
-                   "placeholder": "비밀번호"}
+                   "placeholder": "비밀번호(8자리)"}
             )
         )
     
@@ -189,7 +190,7 @@ class SignupForm(forms.Form):
 class LoginForm(forms.Form):
     email = forms.EmailField(min_length=4,
                             widget = forms.TextInput(
-                            attrs = {"placeholder" : "ID",
+                            attrs = {"placeholder" : "ID(Email)",
                                     "class" : "form-control"}))
     
     password = forms.CharField(min_length = 4,
