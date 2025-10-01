@@ -24,7 +24,7 @@
                 <tr>
                     <td>
                         {% if wish.shoe.images %}
-                        <a href="/product_detail/{{ wish.shoe.id }}/">
+                        <a href="{% url 'product_detail' id=wish.shoe.id %}">
                             <img
                                 src="{{ wish.shoe.images|default:wish.shoe.images.url }}"
                                 alt=""
@@ -35,7 +35,7 @@
                         <img src="{% static 'img/no_img.png' %}" style="width: 80px; height: 80px" alt="이미지없음" />
                         {% endif %}
                     </td>
-                    <td><a href="/product_detail/{{ wish.shoe.id }}/">{{ wish.shoe.name }}</a></td>
+                    <td><a href="{% url 'product_detail' id=wish.shoe.id %}">{{ wish.shoe.name }}</a></td>
                     <td>{{ wish.shoe.price|intcomma }}원</td>
                     <td>
                         <form method="POST">
