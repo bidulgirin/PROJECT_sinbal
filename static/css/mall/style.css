@@ -42,7 +42,6 @@ li {
 }
 .content {
     display: none;
-    min-height: 800px;
 }
 .product_detail img {
     width: 100%;
