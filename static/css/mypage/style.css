@@ -6,7 +6,6 @@
 
 .myPage-content {
     display: flex;
-    width: 80vw;
     margin: 0 auto;
     min-height: 700px;
     /* 
@@ -63,7 +62,8 @@
 /* 마이페이지 공통 */
 .myPage-main {
     width: 100%;
-    padding: 50px;
+    padding: 50px 30px;
+    box-sizing: border-box;
 }
 
 /* 마이페이지 제목 */

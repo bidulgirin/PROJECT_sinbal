@@ -15,11 +15,11 @@
             <!--  -->
             <table class="table">
                 <tr>
-                    <td>사진</td>
-                    <td>제목</td>
-                    <td>내용</td>
-                    <td>수정</td>
-                    <td>삭제</td>
+                    <th scope="col" width="10%">사진</th>
+                    <th scope="col" width="10%">제목</th>
+                    <th scope="col" width="20%">내용</th>
+                    <th scope="col" width="5%">수정</th>
+                    <th scope="col" width="5%">삭제</th>
                 </tr>
                 {% for i in posts %}
                 <tr>
@@ -53,27 +53,28 @@
             <!--  -->
             {% if comments %}
             <!--  -->
-            {% for i in comments %}
             <table class="table">
                 <tr>
-                    <td>게시글제목</td>
-                    <td>댓글</td>
-                    <td>삭제</td>
+                    <th scope="col" width="30%">게시글제목</th>
+                    <th scope="col" width="50%">댓글</th>
+                    <th scope="col" width="20%">글삭제</th>
                 </tr>
+                {% for i in comments %}
                 <tr>
-                    <td>
+                    <td width="30%">
                         <a href="{% url 'community:post_detail' id=i.post_id %}">{{i.post.title}}</a>
                     </td>
-                    <td>
-                        <a href="/community/post_detail/{{i.post_id}}/#comment-{{i.id}}"
-                            >{{i.content|truncatechars:10}}</a
-                        >
+                    <td width="50%">
+                        <a
+                            href="/community/post_detail/{{i.post_id}}/#comment-{{i.id}}">{{i.content|truncatechars:10}}</a>
                     </td>
-                    <td><a href="{% url 'community:delete_post' id=i.id %}" class="btn btn-sm btn-danger">삭제</a></td>
+                    <td width="20%"><a href="{% url 'community:delete_post' id=i.id %}"
+                            class="btn btn-sm btn-danger">삭제</a></td>
                 </tr>
+                <!--  -->
+                {% endfor %}
             </table>
-            <!--  -->
-            {% endfor %}
+
             <!--  -->
             {% else %}
             <!--  -->
@@ -88,16 +89,16 @@
             <!--  -->
             <table class="table">
                 <tr>
-                    <td scope="col">상품</td>
-                    <td scope="col">리뷰이미지</td>
-                    <td scope="col">글내용</td>
-                    <td scope="col">수정</td>
-                    <td scope="col">삭제</td>
+                    <th scope="col" width="10%">상품</th>
+                    <th scope="col" width="10%">리뷰이미지</th>
+                    <th scope="col" width="20%">글내용</th>
+                    <th scope="col" width="5%">수정</th>
+                    <th scope="col" width="5%">삭제</th>
                 </tr>
                 {% for i in reviews %}
                 <tr>
-                    <td>{{i.shoe.name}}</td>
-                    <td>
+                    <td width="10%">{{i.shoe.name}}</td>
+                    <td width="10%">
                         {% if i.mallreviewimage_set.all %}
                         <!--  -->
                         {% for x in i.mallreviewimage_set.all|slice:1 %}
@@ -118,15 +119,16 @@
                         </div>
                         {% endif %}
                     </td>
-                    <td>
+                    <td width="20%">
                         <a href="{% url 'mall_review_detail' review_id=i.id%}">
                             <span class="fw-bold">{{i.title}}</span>
                             <br />
-                            {{i.content|truncatechars:10}}</a
-                        >
+                            {{i.content|truncatechars:10}}</a>
                     </td>
-                    <td><a href="{% url 'mall_review' shoe_id=i.shoe_id %}" class="btn btn-sm btn-warning">수정</a></td>
-                    <td><a href="{% url 'mall_review_delete' id=i.id %}" class="btn btn-sm btn-danger">삭제</a></td>
+                    <td width="5%"><a href="{% url 'mall_review' shoe_id=i.shoe_id %}"
+                            class="btn btn-sm btn-warning">수정</a></td>
+                    <td width="5%"><a href="{% url 'mall_review_delete' id=i.id %}" class="btn btn-sm btn-danger">삭제</a>
+                    </td>
                 </tr>
                 {% endfor %}
                 <!--  -->
