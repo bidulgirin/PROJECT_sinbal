@@ -89,14 +89,63 @@
                         </div>
                     </div>
 
+<<<<<<< HEAD
                     <!-- 신발 사이즈 -->
                     <div class="col-md-4 mt-1">
                         <label for="code">신발 사이즈</label>
                         <div class="mt-1">
+=======
+                    <!-- 이메일 -->
+                    <div class="mb-3">
+                        <label for="email">* 이메일</label>
+                        {{ form.email }}
+                    </div>
+
+                    <!-- 주소 -->
+                    <div class="mb-3">
+                        <label for="address">* 주소</label>
+                        {{ form.address }}
+                    </div>
+
+                    <!-- 비밀번호 -->
+                    <div class="mb-3">
+                        <label for="password">* 비밀번호<span class="text-muted"></span></label>
+                        {{ form.password }}
+                    </div>
+
+                    <!-- 비밀번호 확인 -->
+                    <div class="mb-3">
+                        <label for="password2">* 비밀번호 확인<span class="text-muted"></span></label>
+                        {{ form.password2 }}
+                    </div>
+
+                    <div class="row">
+
+                        <!-- 발볼 사이즈 -->
+                        <div class="col-md-5 mt-1">
+                            <label>발볼 크기</label>
+                            <div class = "mt-2">
+                                {% for radio in form.ball_foot %}
+                                    <div class="form-check form-check-inline">
+                                        {{ radio.tag }}
+                                        <label class="form-check-label" for="{{ radio.id_for_label }}">
+                                            {{ radio.choice_label }}
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <!-- 신발 사이즈 -->
+                        <div class="col-md-4 mt-1">
+                            <label for="code">신발 사이즈</label>
+                            <div class = "mt-1">
+>>>>>>> 8dc3d1c8fb218a47a4845206c1d760baceac2cae
                             {{ form.shoe_size }}
                         </div>
                     </div>
 
+<<<<<<< HEAD
                     <!-- 성별 -->
                     <div class="col-md-5">
                         <label class = "mt-3">성별</label>
@@ -109,6 +158,21 @@
                                     </label>
                                 </div>
                             {% endfor %}
+=======
+                        <!-- 성별 -->
+                        <div class="col-md-5">
+                            <label class = "mt-2">성별</label>
+                            <div class = "mt-2">
+                                {% for radio in form.gender %}
+                                    <div class="form-check form-check-inline">
+                                        {{ radio.tag }}
+                                        <label class="form-check-label" for="{{ radio.id_for_label }}">
+                                            {{ radio.choice_label }}
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            </div>                      
+>>>>>>> 8dc3d1c8fb218a47a4845206c1d760baceac2cae
                         </div>
                     </div>
 
@@ -119,6 +183,14 @@
                         {{ form.favorite_brand }}
                         </div>
                     </div>
+
+                        <!-- 선호하는 브랜드 -->
+                        <div class="col-md-4 mt-1">
+                            <label for="code" class = "mt-2">선호 브랜드</label>
+                            <div class = "mt-1">
+                            {{ form.favorite_brand }}
+                            </div>
+                        </div>
 
                     <hr class="mb-2 mt-3">
                     <div class="mb-3">

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from django.shortcuts import redirect, render
 from community.models import Post, Comment, PostImage
 from home.models import Marathon
@@ -9,6 +10,12 @@ from django.views.decorators.http import require_POST
 
 from django.core.paginator import Paginator # 페이지네이션
 # Create your views here.
+=======
+# community/views.py
+from django.shortcuts import render
+
+
+>>>>>>> 8dc3d1c8fb218a47a4845206c1d760baceac2cae
 def community(request):
     today = timezone.now().date()
     # 오늘을 기준으로 해서 인기,조회 순으로 3개만 보여줄것임

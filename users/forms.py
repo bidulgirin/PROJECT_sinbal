@@ -151,7 +151,7 @@ class SignupForm(forms.Form):
         email = self.cleaned_data.get("email")
         password = self.cleaned_data.get("password")
         nickname = self.cleaned_data.get("nickname")
-        profile_image = self.cleaned_data.get("image")
+        profile_image = self.cleaned_data.get("profile_image")
         short_description = self.cleaned_data.get("short_description")
         address = self.cleaned_data.get("address")
         gender = self.cleaned_data.get("gender")
@@ -167,12 +167,19 @@ class SignupForm(forms.Form):
             gender=gender,
             address=address
         )
+<<<<<<< HEAD
         
+=======
+    
+>>>>>>> 8dc3d1c8fb218a47a4845206c1d760baceac2cae
         if short_description:
             user.short_description = short_description
         if profile_image:
             user.profile_image = profile_image
+<<<<<<< HEAD
         
+=======
+>>>>>>> 8dc3d1c8fb218a47a4845206c1d760baceac2cae
         user.save()
 
         if shoe_size:

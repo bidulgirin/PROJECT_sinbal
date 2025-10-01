@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from django import forms
 from community.models import Post, Comment
 
@@ -29,11 +30,18 @@ class PostForm(forms.ModelForm):
                 "placeholder": "내용을 입력하세요"}),
         }
 
+=======
+# community/forms.py
+from django import forms
+from community.models import Post, Comment
+
+>>>>>>> 8dc3d1c8fb218a47a4845206c1d760baceac2cae
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = [
             "content",
+<<<<<<< HEAD
             "post"
         ]
 
@@ -45,3 +53,19 @@ class CommentForm(forms.ModelForm):
                 }
             ),
         }
+=======
+            "post",
+        ]
+        widgets = {
+            "content" : forms.Textarea(
+                attrs = {"placeholder" : "댓글 달기..."},
+            )
+        }
+        
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = [
+            "content",
+        ]
+>>>>>>> 8dc3d1c8fb218a47a4845206c1d760baceac2cae

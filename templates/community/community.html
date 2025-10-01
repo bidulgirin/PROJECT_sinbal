@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends 'base/base.html' %}
 <!--  -->
 {% load static %}
@@ -27,6 +28,129 @@
                     {% empty %}
                     <div class="text-center p-3">
                         <span>아직 게시글이 없습니다</span>
+=======
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이런신발 - 커뮤니티</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        
+        .post-thumbnail {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <!-- 상단 헤더 (Bootstrap navbar 컴포넌트) -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container d-flex justify-content-center">
+            <a href = "/" style="text-decoration: none;"><span class="navbar-brand" style="margin-left:150px;">이런신발</span></a>
+        </div>
+            {% if user.is_authenticated %}
+            <a href = "{% url 'logout' %}" ><button class ="btn btn-outline-light" style="margin-right:100px;">로그아웃</button></a>
+            {% else %}
+            <a href = "{% url 'login' %}" ><button class ="btn btn-outline-light" style="margin-right:100px;">로그인</button></a>
+            {% endif %}
+        <div>
+    </nav>
+    
+    <!-- 메뉴바 (Bootstrap navbar 기능 활용해보기) -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}">
+                        <i class="bi bi-house"></i> 홈
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">
+                        <i class="bi bi-flag"></i> 마라톤
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">
+                        <i class="bi bi-cart"></i> 쇼핑몰
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">
+                        <i class="bi bi-person"></i> 마이페이지
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 메인 컨테이너 -->
+    <div class="container mt-4">
+        <!-- 인기글 섹션 -->
+        <div class="row mb-4">
+            <!-- 좋아요 인기글 -->
+            <div class="col-lg-6 mb-3">
+                <div class="card">
+                    <div class="card-header bg-danger text-white">
+                        <h5 class="mb-0">
+                            <i class="bi bi-suit-heart-fill"></i> 일주일 좋아요 인기글
+                        </h5>
+                    </div>
+                    <div class="list-group">
+                        <a href="" class="list-group-item">
+                            <div class="d-flex justify-content-between">
+                                <span>나이키 알파플라이3 후기</span>
+                                <span class="badge bg-danger">73</span>
+                            </div>
+                        </a>
+                        <a href="" class="list-group-item">
+                            <div class="d-flex justify-content-between">
+                                <span>아식스 노바블라스트5 후기</span>
+                                <span class="badge bg-danger">60</span>
+                            </div>
+                        </a>
+                        <a href="" class="list-group-item">
+                            <div class="d-flex justify-content-between">
+                                <span>초보자 러닝화 선택기준 알려준다</span>
+                                <span class="badge bg-danger">30</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 실시간 인기글 -->
+            <div class="col-lg-6 mb-3">
+                <div class="card">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="mb-0">
+                            <i class="bi bi-fire"></i> 실시간 인기글
+                        </h5>
+                    </div>
+                    <div class="list-group">
+                        <div class="list-group-item">
+                            <span class="badge bg-secondary me-2">1</span>
+                            김효훈 수면시간 보장 시급
+                            <span class="badge bg-warning">HOT</span>
+                        </div>
+                        <div class="list-group-item">
+                            <span class="badge bg-secondary me-2">2</span>
+                            질문) 최정후 학생 팀 술 회식 안여는지?
+                        </div>
+                        <div class="list-group-item">
+                            <span class="badge bg-secondary me-2">3</span>
+                            런린이 첫 하프마라톤 완주했습니다
+                        </div>
+>>>>>>> 8dc3d1c8fb218a47a4845206c1d760baceac2cae
                     </div>
                     {% endfor %}
                 </div>
@@ -129,7 +253,11 @@
             </div>
         </div>
         <!-- 자유 게시판 -->
+<<<<<<< HEAD
         <div id="tab-free" class="card shadow-sm mb-4 tab-content">
+=======
+        <div class="card mb-4">
+>>>>>>> 8dc3d1c8fb218a47a4845206c1d760baceac2cae
             <div class="card-header bg-light">
                 <h4 class="mb-0">자유 게시판</h4>
             </div>
@@ -284,6 +412,7 @@
     </div>
 </div>
 
+<<<<<<< HEAD
 <!-- 글쓰기 버튼 (Bootstrap으로 위치 고정) -->
 <!-- 로그인 한 사람만 보이게 -->
 {% if user.id %}
@@ -303,6 +432,31 @@
     {% endif %}
 </div>
 {% endif %}
+=======
+    <!-- 글쓰기 버튼 (Bootstrap으로 위치 고정) -->
+
+    <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container d-flex justify-content-center">
+            <a href = "/" style="text-decoration: none;"><span class="navbar-brand" style="margin-left:150px;">이런신발</span></a>
+        </div>
+            {% if user.is_authenticated %}
+            <a href = "{% url 'logout' %}" ><button class ="btn btn-outline-light" style="margin-right:100px;">로그아웃</button></a>
+            {% else %}
+            <a href = "{% url 'login' %}" ><button class ="btn btn-outline-light" style="margin-right:100px;">로그인</button></a>
+            {% endif %}
+        <div>
+    </nav> -->
+
+    <div class="position-fixed bottom-0 end-0 p-4">
+        {% if user.is_authenticated %}
+        <a href = "{% url 'add_post' %}">
+            <button class="btn btn-primary btn-lg rounded-circle">
+                <i class="bi bi-pencil-fill"></i>
+            </button>
+        </a>
+        {% endif %}
+    </div>
+>>>>>>> 8dc3d1c8fb218a47a4845206c1d760baceac2cae
 
 <style>
     .col-auto:has(.post-thumbnail) {

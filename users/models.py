@@ -1,10 +1,15 @@
+# users/models.py
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 
 class UserManager(BaseUserManager):
     use_in_migrations = True    
 
+<<<<<<< HEAD
     def create_user(self, nickname, email, username, gender, address, password=None):
+=======
+    def create_user(self, username, nickname, email, address, gender, password=None):
+>>>>>>> 8dc3d1c8fb218a47a4845206c1d760baceac2cae
         if not email:
             raise ValueError("must have user email")
         

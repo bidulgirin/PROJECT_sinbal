@@ -41,7 +41,6 @@ def login(request):
     return render(request, "users/login.html", context)
 
 def signup(request):
-    
     if request.method == 'POST':
         form = SignupForm(data = request.POST)
         
