@@ -36,16 +36,15 @@ def shoes():
 
         for img in soup.select(".product-list .ly-img img"):
             imges.append(img.get("src", ""))
-    return brands, names, prices, imges
 
+    return brands, names, prices, imges
 
 a = set(shoes()[0])
 for b in a:
     c = Brand(name=b)
     c.save()
 
-
-for a in zip(shoes()[0], shoes()[1], shoes()[2], shoes()[3]):
-    if Brand(name=str(a[0])):
-        c = Shoe(brand=Brand(name=str(a[0])).id, name=a[1], price=int(a[2]), images=a[3])
-        c.save
+for d in zip(shoes()[0], shoes()[1], shoes()[2], shoes()[3]):
+    if Brand(name=d[0]):
+        f = Shoe(name=d[1], price=int(d[2]), images=d[3], brand_id = int(Brand.objects.get(name=d[0]).id))
+        f.save()
