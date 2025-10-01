@@ -4,10 +4,21 @@
 <!-- 콘텐츠 영억 -->
 <div class="container p-3">
     <div>
-        <h2 class="fw-bold">커뮤니티</h2>
-        {% if keyword %}
-        <h4>'{{keyword}}' 관련 게시글</h4>
-        {% endif %}
+        <h4 class="fw-bold">
+            {% if keyword == "all" %}
+            전체 게시글
+            {% elif keyword == "request" %}
+            요청 게시글
+            {% elif keyword == "free" %}
+            자유 게시글
+            {% elif keyword == "review" %}
+            신발 리뷰 게시글
+            {% elif keyword == "marathon" %}
+            마라톤 후기 게시글
+            {% else %}
+            '{{keyword}}' 관련 게시글
+            {% endif %}
+        </h4>
         <div class="border">
             {% if datas %}
             <div class="list-group">
