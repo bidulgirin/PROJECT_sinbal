@@ -20,30 +20,30 @@
             <table class="table">
                 <tr>
                     <td class="t_title">이름</td>
-                    <td>{{data.name}}</td>
+                    <td class="align-middle">{{data.name}}</td>
                 </tr>
                 <tr>
                     <td class="t_title">주소</td>
-                    <td>({{data.addr_num}}){{data.address}} {{data.detail_address}}</td>
+                    <td class="align-middle">({{data.addr_num}}){{data.address}} {{data.detail_address}}</td>
                 </tr>
                 <tr>
                     <td class="t_title">전화번호</td>
-                    <td>{{data.phone}}</td>
+                    <td class="align-middle">{{data.phone}}</td>
                 </tr>
                 <tr>
                     <td class="t_title">요청사항</td>
-                    <td>{{data.order_message}}</td>
+                    <td class="align-middle">{{data.order_message}}</td>
                 </tr>
             </table>
             <h4 class="fw-bold">결제정보</h4>
             <table class="table">
                 <tr>
                     <td class="t_title">결제</td>
-                    <td>{{data.status}}</td>
+                    <td class="align-middle">{{data.status}}</td>
                 </tr>
                 <tr>
                     <td class="t_title">결제수단</td>
-                    <td>
+                    <td class="align-middle">
                         {% if pay_method == 1 %}
                         <span>카드</span>
                         {% else %}
@@ -53,7 +53,7 @@
                 </tr>
                 <tr>
                     <td class="t_title">총 가격</td>
-                    <td>{{data.total_price|intcomma }}원</td>
+                    <td class="align-middle">{{data.total_price|intcomma }}원</td>
                 </tr>
             </table>
         </div>
