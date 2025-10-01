@@ -129,7 +129,10 @@
                             href="{% url 'product_detail' id=recommend_shoe.id %}"
                         >
                             {% if recommend_shoe.images %}
-                            <img src="{{recommend_shoe.images.url}}" alt="{{recommend_shoe.name}}" />
+                            <img
+                                src="{{recommend_shoe.images|default:recommend_shoe.images.url}}"
+                                alt="{{recommend_shoe.name}}"
+                            />
                             {% endif %}
                             <p class="mt-3 l_spon_shoe_name">{{recommend_shoe.name}}</p>
                         </a>

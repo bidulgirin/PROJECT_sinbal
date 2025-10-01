@@ -15,6 +15,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 # 날짜 형식으로 바꿔주는 모듈
 import pandas as pd
 from dateutil.parser import parse
+from selenium.webdriver.common.by import By
+
 
 # Create your views here.
 def home(request):
@@ -30,7 +32,8 @@ def home(request):
     # 마라톤후기 게시판 (category=4)
     marathon_post = Post.objects.filter(category = "marathon").order_by('-views')[:1]
     # 마라톤
-    marathons = Marathon.objects.all().order_by('-pk')[:3]
+    #marathons = Marathon.objects.all().order_by('pk')[:10]
+    marathons = Marathon.objects.filter(date__gte = today).order_by('pk')[:10]
     
     # 추천기능
     # 위시리스트 혹은 좋아하는 브랜드가 입력되었을경우에 발동 (현재좋아하는브랜드컬럼이보이지않으므로걍 위시리스트에서가지고옴)
@@ -98,22 +101,47 @@ def marathon_dumy_data(request):
     driver = webdriver.Chrome()
     driver.get(url)
     driver.implicitly_wait(3)
-
-    
+    website_urls = []
+    a_tags = []
 
     try:
-        driver.implicitly_wait(3)
-        a_tag = driver.find_elements("td[width='29%'] a").is_displayed()
-        
-        if a_tag:
+        #a_tags = driver.find_elements('tag name',"td[width='100%'] table:nth-child(3) td[width='29%'] a")
+        a_tags = driver.find_elements(By.XPATH, "//*[@face='Arial, Helvetica, sans-serif']/a")
+        print("a_tags!!!!!")
+        print(a_tags)
+    except Exception as e: 
+        print(e)
+
+    for a_tag in a_tags:
+        try:
             a_tag.click()
-        else:
-            return False
-    except:
-        print("없다!!!!")
+            time.sleep(10)
+            driver.implicitly_wait(20)
+
+            # 창을 바꿔주기
+            last_tab = driver.window_handles[-1]
+            driver.switch_to.window(window_name=last_tab)
+            driver.implicitly_wait(10)
+            selenium_soup = BeautifulSoup(driver.page_source, 'html.parser')
+            website_urls.append(selenium_soup.select_one("tbody tr:nth-child(11) a").attrs["href"])
+            driver.implicitly_wait(10)
+            driver.close()
+
+        except Exception as e: 
+            print(e)
+            website_urls.append("")
+
+        
 
 
-    soup = BeautifulSoup(driver.page_source, 'html.parser')
+        first_tab = driver.window_handles[0]
+
+        driver.switch_to.window(window_name=first_tab )
+        driver.implicitly_wait(10)
+    
+    print("website_urls!!!!!")
+    print(website_urls)
+    
 
     # 일단 beautifulSoup 으로 땡겨오기
     response = requests.get(url)
@@ -128,16 +156,11 @@ def marathon_dumy_data(request):
         distances = soup.select("table[width='600'] td[width='29%'] font[color='#990000']")
         #prices = soup.select("div.event-card-header table tr:nth-child(3) div:nth-child(1)")
         
-        website_urls = soup.select("div.event-card-header a")
-
-        # prices = driver.find_elements("div.event-card-header table tr:nth-child(3) div:nth-child(1)")
-        # website_urls = driver.find_elements("div.event-card-header a")
-        
         # 데이터 잘 들어오나 체크
         # print("names")
         # print(names)
-        print("dates")
-        print(dates)
+        # print("dates")
+        # print(dates)
         # print("locations")
         # print(locations)
         # print("distances")
@@ -149,19 +172,7 @@ def marathon_dumy_data(request):
 
 
         # zip 을 이용해서 데이터를 엮어보자 
-        for name,date,location,distance in zip(names,dates,locations,distances):
-            
-            # print("name")
-            # print(name.text)
-            print("date")
-            print(date)
-            print(date.text)
-            print(pd.to_datetime(parse(f"2025/{date.text}")))
-            # print("location")
-            # print(location.text)
-            # print("distance")
-            # print(distance.text)
-
+        for name,date,location,distance,website_url in zip(names,dates,locations,distances,website_urls):
 
             new_datas.append(Marathon(
                                     name = name.text,
@@ -169,9 +180,8 @@ def marathon_dumy_data(request):
                                     location = location.text,
                                     distance = distance.text,
                                     price = 0,
-                                    website_url = "",
+                                    website_url = website_url,
                                     ))
-        
         if new_datas:
             # 여러개의 데이터값을..넣으려고...해봤다...
             Marathon.objects.bulk_create(new_datas, 
