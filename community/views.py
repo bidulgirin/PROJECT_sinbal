@@ -1,10 +1,11 @@
 from django.shortcuts import redirect, render
 from community.models import Post, Comment, PostImage
+from users.models import User
 from home.models import Marathon
 from datetime import *
 from django.utils import timezone
 from community.forms import PostForm, CommentForm
-from django.db.models import Q # 모델의 데이터를 불러올때 조건값을 붙이기 위함 
+from django.db.models import Q, Count# 모델의 데이터를 불러올때 조건값을 붙이기 위함 
 from django.views.decorators.http import require_POST
 
 from django.core.paginator import Paginator # 페이지네이션
@@ -13,9 +14,9 @@ def community(request):
     today = timezone.now().date()
     # 오늘을 기준으로 해서 인기,조회 순으로 3개만 보여줄것임
     # 전체 Post 글 중에 좋아요 인기글(일주일)
-    weeks_best_posts = Post.objects.filter(created_at__gte = timezone.now() - timedelta(days=7)).order_by('-views')[:3]
+    weeks_best_posts = Post.objects.filter(created_at__gte = timezone.now() - timedelta(days=7)).annotate(like_posts=Count('like_users')).order_by('-like_posts' ,'-views')[:3]
     # 전체 Post 글 중에 실시간 인기글
-    best_posts = Post.objects.filter(created_at__gte = today).order_by('-views')[:3]
+    best_posts = Post.objects.filter(created_at__gte = today).annotate(like_posts=Count('like_users')).order_by('-like_posts' ,'-views')[:3]
     # 전체 게시판
     posts = Post.objects.all().order_by("-pk")
     # 자유 게시판 (category=1)
