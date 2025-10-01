@@ -47,7 +47,8 @@
                 {% endif %}
             </ul>
             <div class="search-and-icons">
-                {% if request.path == "/community/" or request.path == "/community/search/" %}
+                
+                {% if 'community' in request.path %}
                 <form class="d-flex mb-2 me-2" role="search" method="GET"
                     action="{% url 'community:community_search' %}">
                     <input class="form-control me-2" type="search" aria-label="Search" name="keyword"

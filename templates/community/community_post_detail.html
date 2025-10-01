@@ -44,12 +44,15 @@
                         <svg class="icon" viewBox="0 0 1024 1024">
                             <path
                                 d="M742.4 101.12A249.6 249.6 0 0 0 512 256a249.6 249.6 0 0 0-230.72-154.88C143.68 101.12 32 238.4 32 376.32c0 301.44 416 546.56 480 546.56s480-245.12 480-546.56c0-137.92-111.68-275.2-249.6-275.2z"
-                                fill="#231F20" class="heart2"></path>
+                                fill="#231F20"
+                                class="heart2"
+                            ></path>
                         </svg>
                     </label>
-                    <br>
+                    <br />
                     <span class="text-secondary">좋아요!</span>
                 </button>
+                <a class="btn btn-lg btn-outline-secondary w-100" href="javascript:history.back()">돌아가기</a>
             </div>
         </form>
         {% endif %}
@@ -61,19 +64,18 @@
         <form action="{% url 'community:comments_create' id=data.id %}" method="POST">
             {% csrf_token %} {{ form.content }}
             <input type="hidden" name="post" value="{{ data.id }}" />
-            <button type="submit" class="btn btn-outline-primary w-100 mt-3">등록</button>
+            <button type="submit" class="btn btn-outline-primary w-100 mt-3 btn-lg">등록</button>
         </form>
         <h5 class="fw-bold pt-3">댓글 목록 ({{ data.comments.all|length }})</h5>
         {% else %}
         <div class="p-5 text-center bg-white">로그인을 해주세요</div>
-        {% endif %}
-        {% if data.comments.all %}
+        {% endif %} {% if data.comments.all %}
         <!-- 댓글이 있다면 -->
         {% for i in data.comments.all %}
         <!-- 돌려돌려 돌림판~ -->
         <div class="pt-3 pb-3">
             <div class="l_commment_user">
-                <img src="{% static 'img/human.jpg' %}" alt="">
+                <img src="{% static 'img/human.jpg' %}" alt="" />
                 <div>
                     <span class="fw-bold">{{ i.author.username }}</span><br />
                     <span class="text-secondary">{{ i.author.created_at }}</span>
@@ -135,7 +137,7 @@
     </script>
     <style>
         .heart {
-            padding: .5rem;
+            padding: 0.5rem;
             box-sizing: border-box;
             height: auto;
             text-align: center;

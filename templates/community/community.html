@@ -21,11 +21,11 @@
                     <a href="{% url 'community:post_detail' id=post.id %}" class="list-group-item">
                         <div class="d-flex justify-content-between">
                             <span>{{post.title}}</span>
-                            <span class="badge bg-danger">{{post.comment_set.all.count|default:0}}</span>
+                            <span class="badge bg-danger">{{post.comments.all.count|default:0}}</span>
                         </div>
                     </a>
                     {% empty %}
-                    <div class="d-flex justify-content-between">
+                    <div class="text-center p-3">
                         <span>아직 게시글이 없습니다</span>
                     </div>
                     {% endfor %}
@@ -48,7 +48,7 @@
                         {% endif %}
                     </a>
                     {% empty %}
-                    <div class="d-flex justify-content-between">
+                    <div class="text-center p-3">
                         <span>아직 게시글이 없습니다</span>
                     </div>
                     {% endfor %}
@@ -96,7 +96,7 @@
                         {% endif %}
                         <div class="col">
                             <h5>
-                                {% if post.post_likes_set.count > 3 %}
+                                {% if post.like_users.count > 3 %}
                                 <span class="badge bg-danger me-1">인기</span>
                                 {% endif %} {% if post.created == today %}
                                 <span class="badge bg-success me-2">NEW</span>
@@ -109,9 +109,9 @@
                                 <!--  -->
                                 <i class="bi bi-clock"></i> {{post.created_at|timesince }}전
                                 <!--  -->
-                                <i class="bi bi-chat"></i> {{ post.comment_set.all.count|default:0 }}
+                                <i class="bi bi-chat"></i> {{ post.comments.all.count|default:0 }}
                                 <!--  -->
-                                <i class="bi bi-heart"></i> {{ post.post_likes_set.all.count|default:0 }}
+                                <i class="bi bi-heart"></i> {{ post.like_users.all.count|default:0 }}
                             </small>
                         </div>
                     </div>
@@ -142,9 +142,9 @@
                         <!--  -->
                         <i class="bi bi-clock"></i> {{post.created_at|timesince }}전
                         <!--  -->
-                        <i class="bi bi-chat"></i> {{ post.comment_set.all.count|default:0 }}
+                        <i class="bi bi-chat"></i> {{ post.comments.all.count|default:0 }}
                         <!--  -->
-                        <i class="bi bi-heart"></i> {{ post.post_likes_set.all.count|default:0 }}
+                        <i class="bi bi-heart"></i> {{ post.like_users.all.count|default:0 }}
                     </small>
                 </div>
                 {% empty %}
@@ -175,7 +175,7 @@
                         {% endfor %} {% endif %}
                         <div class="col">
                             <h5>
-                                {% if post.comment_set.all.count == 0 %}
+                                {% if post.comments.all.count == 0 %}
                                 <span class="badge bg-primary me-2">요청</span>
                                 {% else %}
                                 <span class="badge bg-warning text-dark me-2">답변</span>
@@ -188,9 +188,9 @@
                                 <!--  -->
                                 <i class="bi bi-clock"></i> {{post.created_at|timesince }}전
                                 <!--  -->
-                                <i class="bi bi-chat"></i> {{ post.comment_set.all.count|default:0 }}
+                                <i class="bi bi-chat"></i> {{ post.comments.all.count|default:0 }}
                                 <!--  -->
-                                <i class="bi bi-heart"></i> {{ post.post_likes_set.all.count|default:0 }}
+                                <i class="bi bi-heart"></i> {{ post.like_users.all.count|default:0 }}
                             </small>
                         </div>
                     </div>
@@ -231,9 +231,9 @@
                                 <!--  -->
                                 <i class="bi bi-clock"></i> {{post.created_at|timesince }}전
                                 <!--  -->
-                                <i class="bi bi-chat"></i> {{ post.comment_set.all.count|default:0 }}
+                                <i class="bi bi-chat"></i> {{ post.comments.all.count|default:0 }}
                                 <!--  -->
-                                <i class="bi bi-heart"></i> {{ post.post_likes_set.all.count|default:0 }}
+                                <i class="bi bi-heart"></i> {{ post.like_users.all.count|default:0 }}
                             </small>
                         </div>
                     </div>
@@ -264,9 +264,9 @@
                         <!--  -->
                         <i class="bi bi-clock"></i> {{post.created_at|timesince }}전
                         <!--  -->
-                        <i class="bi bi-chat"></i> {{ post.comment_set.all.count|default:0 }}
+                        <i class="bi bi-chat"></i> {{ post.comments.all.count|default:0 }}
                         <!--  -->
-                        <i class="bi bi-heart"></i> {{ post.post_likes_set.all.count|default:0 }}
+                        <i class="bi bi-heart"></i> {{ post.like_users.all.count|default:0 }}
                     </small>
                 </div>
                 {% empty %}
