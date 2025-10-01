@@ -17,6 +17,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 import pandas as pd
 from dateutil.parser import parse
 from selenium.webdriver.common.by import By
+from django.db.models import Count
 
 
 # Create your views here.
@@ -25,13 +26,13 @@ def home(request):
     categorys = Category.objects.all()[:5]
     hot_shoes = Shoe.objects.all().order_by("-rating")[:6]
     # 자유 게시판 (category=1)
-    free_post = Post.objects.filter(category = "free").order_by('-views')[:1]
+    free_post = Post.objects.filter(category = "free").annotate(like_posts=Count('like_users')).order_by('-like_posts' ,'-views')[:1]
     # 요청 게시판 (category=2)
-    request_post = Post.objects.filter(category = "request").order_by('-views')[:1]
+    request_post = Post.objects.filter(category = "request").annotate(like_posts=Count('like_users')).order_by('-like_posts' ,'-views')[:1]
     # 신발리뷰 게시판 (category=3)
-    review_post = Post.objects.filter(category = "review").order_by('-views')[:1]
+    review_post = Post.objects.filter(category = "review").annotate(like_posts=Count('like_users')).order_by('-like_posts' ,'-views')[:1]
     # 마라톤후기 게시판 (category=4)
-    marathon_post = Post.objects.filter(category = "marathon").order_by('-views')[:1]
+    marathon_post = Post.objects.filter(category = "marathon").annotate(like_posts=Count('like_users')).order_by('-like_posts' ,'-views')[:1]
     # 마라톤
     #marathons = Marathon.objects.all().order_by('pk')[:10]
     marathons = Marathon.objects.filter(date__gte = today).order_by('pk')[:10]
