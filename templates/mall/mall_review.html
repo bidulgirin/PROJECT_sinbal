@@ -1,5 +1,9 @@
 <!-- 몰 리뷰 쓰기 -->
-{% extends 'base/base.html' %} {% load static %} {% block content %}
+{% extends 'base/base.html' %}
+<!-- head title -->
+{% block head_name %}이런신발 - 쇼핑몰 {% endblock %}
+<!--  -->
+{% load static %} {% block content %}
 <div class="container">
     <h1 class="fw-bold pt-3 pb-3">'{{shoe.name}}'상품의 후기</h1>
     <form class="form-group" method="POST" action="{% url 'mall_review' shoe_id=shoe.id %}"

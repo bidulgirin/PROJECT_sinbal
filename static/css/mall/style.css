@@ -125,3 +125,19 @@ li {
 .display-img {
     width: 100%;
 }
+
+.l_card {
+    width: 24%;
+}
+
+@media screen and (max-width: 970px) {
+    .l_card {
+        width: 49%;
+    }
+}
+
+@media screen and (max-width: 540px) {
+    .l_card {
+        width: 100%;
+    }
+}

@@ -7,11 +7,28 @@
 <section class="myPage-content container-xl">
     {% include 'base/mypage_navi.html' %}
     <section class="myPage-main">
-        <h1 class="myPage-title fw-bold">내 주문정보</h1>
+        <h1 class="myPage-title fw-bold">내 장바구니</h1>
         <!--  -->
         <!-- 장바구니 컨텐츠 -->
         {% include 'mall/components/cart_contents.html' %}
     </section>
 </section>
+<style>
+    .l_cart_content_by_mypage {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+    }
+
+    .l_cart_content_by_mypage .col {
+        width: 100%;
+    }
+
+    .l_cart_content_by_mypage .col:nth-child(2) {
+        background-color: white;
+        border: 1px solid #e3e3e3;
+    }
+</style>
 <!-- endblock -->
 {% endblock %}
