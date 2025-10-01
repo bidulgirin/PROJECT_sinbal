@@ -6,7 +6,6 @@
 <div class="container mt-4 g_height">
     <!-- 메인 이미지 (Bootstrap 이미지 클래스 활용) -->
     <div class="mb-5">
-
         <!-- 메인 콘텐츠 영역 -->
         <div class="row mt-4">
             <!-- 가운데 메인 콘텐츠 -->
@@ -26,18 +25,22 @@
                         {% if free_post %} {% for i in free_post %}
                         <li class="list-group-item">
                             <i class="bi bi-chat-dots text-primary"></i>
-                            {{ i.title }}
+                            <a href="{% url 'community:post_detail' id=i.id %}">{{ i.title }}</a>
                             <span class="badge bg-danger float-end">HOT</span>
                         </li>
-                        {% endfor %} {% endif %} {% if request_post %} {% for i in request_post %}
+                        {% endfor %} {% endif %}
+                        <!--  -->
+                        {% if request_post %} {% for i in request_post %}
                         <li class="list-group-item">
                             <i class="bi bi-question-circle text-warning"></i>
-                            질문) {{ i.title }}
+                            <a href="{% url 'community:post_detail' id=i.id %}">질문) {{ i.title }}</a>
                         </li>
-                        {% endfor %} {% endif %} {% if marathon_post %} {% for i in marathon_post %}
+                        {% endfor %}
+                        <!--  -->
+                        {% endif %} {% if marathon_post %} {% for i in marathon_post %}
                         <li class="list-group-item">
                             <i class="bi bi-trophy text-success"></i>
-                            {{ i.title }}
+                            <a href="{% url 'community:post_detail' id=i.id %}">{{ i.title }}</a>
                         </li>
                         {% endfor %} {% endif %}
                     </ul>
@@ -67,8 +70,11 @@
                                     <div class="card-body">
                                         <h6 class="card-title">{{hot_shoe.name|truncatechars:10}}</h6>
                                         <p class="price">₩{{hot_shoe.price|intcomma}}</p>
-                                        <a class="btn btn-primary btn-sm w-100"
-                                            href="{% url 'product_detail' id=hot_shoe.id %}">상세보기</a>
+                                        <a
+                                            class="btn btn-primary btn-sm w-100"
+                                            href="{% url 'product_detail' id=hot_shoe.id %}"
+                                            >상세보기</a
+                                        >
                                     </div>
                                 </div>
                             </div>
@@ -114,8 +120,11 @@
                     {% if recommend_shoe %}
                     <!-- 배너 영역 -->
                     <div class="card-body p-2">
-                        <a class="bg-light rounded text-center l_sponsor" style="height: 400px"
-                            href="{% url 'product_detail' id=recommend_shoe.id %}">
+                        <a
+                            class="bg-light rounded text-center l_sponsor"
+                            style="height: 400px"
+                            href="{% url 'product_detail' id=recommend_shoe.id %}"
+                        >
                             {% if recommend_shoe.images %}
                             <img src="{{recommend_shoe.images.url}}" alt="{{recommend_shoe.name}}" />
                             {% endif %}

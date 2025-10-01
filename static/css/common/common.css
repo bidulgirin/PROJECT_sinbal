@@ -14,7 +14,12 @@ a {
     color: #181818cc;
     text-decoration: none;
 }
-
+.card {
+    transition: all 0.3s;
+}
+.card:hover {
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.189);
+}
 .g_square {
     position: relative;
 }
