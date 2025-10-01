@@ -15,8 +15,8 @@
                             <input type="checkbox" id="all_check" />
                         </th>
                         <th scope="col" width="10%">상품</th>
-                        <th scope="col" width="40%">상품이름</th>
-                        <th scope="col" width="10%">가격</th>
+                        <th scope="col" width="35%">상품이름</th>
+                        <th scope="col" width="15%">가격</th>
                         <th scope="col" width="10%">사이즈</th>
                         <th scope="col" width="10%">수량</th>
                         <th scope="col" width="20%">삭제</th>
@@ -25,11 +25,11 @@
                 <tbody>
                     {% for data in cart_datas %}
                     <tr>
-                        <td>
+                        <td class="align-middle">
                             <input type="checkbox" name="shoe_id[]" id="{{data.shoe.id}}" value="{{data.id}}"
                                 data-price="{{data.shoe.price}}" data-count="{{data.quantity}}" />
                         </td>
-                        <td>
+                        <td class="align-middle">
                             {% if data.shoe.images %}
                             <img src="{{data.shoe.images.url}}" alt="{{data.shoe.name}}" width="60px" heihgt="60px" />
                             {% else %}
@@ -37,11 +37,11 @@
                             {% endif %}
                         </td>
 
-                        <td>{{data.shoe.name}}</td>
-                        <td>{{data.shoe.price|intcomma}}원</td>
-                        <td class="text-center">{{data.size}}</td>
-                        <td class="text-center">{{data.quantity}}</td>
-                        <td>
+                        <td class="align-middle">{{data.shoe.name}}</td>
+                        <td class="align-middle">{{data.shoe.price|intcomma}}원</td>
+                        <td class="text-center align-middle">{{data.size}}</td>
+                        <td class="text-center align-middle">{{data.quantity}}</td>
+                        <td class="align-middle">
                             <button class="btn btn-danger delete_btn" type="button" data-id="{{data.id}}">
                                 삭제
                             </button>
@@ -50,7 +50,7 @@
 
                     {% empty %}
                     <tr>
-                        <td colspan="7" class="text-center">장바구니가 텅 비었습니다</td>
+                        <td colspan="7" class="text-center align-middle">장바구니가 텅 비었습니다</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -61,14 +61,14 @@
             <table class="table">
                 <tr>
                     <td width="100px">총 가격</td>
-                    <td>
+                    <td class="align-middle">
                         <span id="total_price_dom">0</span>
                         원
                     </td>
                 </tr>
                 <tr>
                     <td width="100px">배송비</td>
-                    <td>0 원</td>
+                    <td class="align-middle">0 원</td>
                 </tr>
             </table>
             <button id="cart_submit_btn" class="btn btn-primary w-100" type="submit">구매하기</button>

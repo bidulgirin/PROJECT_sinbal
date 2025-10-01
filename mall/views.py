@@ -181,6 +181,7 @@ def mall_quick_parchase(request):
 
 # 상품결제
 def mall_parchase(request):
+    print(request.GET)
     # 결제를 요청
     if request.method == "POST":
         # 받을것 
@@ -198,7 +199,9 @@ def mall_parchase(request):
     ids = eval(request.GET["id[]"]) # 아 개웃기다
     # 로그인한 계정의 장바구니에서 선택한 값을 가져온다
     cart_datas = Cart.objects.filter(id__in = ids)
-
+    # 선택한 값이 하나도 없다면 내쫓는다
+    if len(cart_datas) == 0 :
+        return redirect("product")
     context = {
         "cart_datas" : cart_datas,
     }

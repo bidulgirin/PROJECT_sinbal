@@ -16,7 +16,7 @@
     <form method="POST" id="form">{% csrf_token %}</form>
 
     <!-- 글 상세페이지 -->
-    <h1 class="g_title">{{ data.title }}</h1>
+    <h4 class="g_title">{{ data.title }}</h4>
     <div class="text-secondary">조회수 : {{data.views}} | 좋아요 수 : {{ data.like_users.count }}</div>
     <hr />
     <div class="g_img_box">
@@ -50,7 +50,7 @@
                     <br />
                     <span class="text-secondary">좋아요!</span>
                 </button>
-                <a class="btn btn-lg btn-outline-secondary mt-2" href="{% url 'community:community' %}">커뮤니티
+                <a class="btn btn-outline-secondary mt-2" href="{% url 'community:community' %}">커뮤니티
                     홈</a>
             </div>
         </form>
@@ -63,7 +63,7 @@
         <form action="{% url 'community:comments_create' id=data.id %}" class="text-end" method="POST">
             {% csrf_token %} {{ form.content }}
             <input type="hidden" name="post" value="{{ data.id }}" />
-            <button type="submit" class="btn btn-outline-primary mt-3 btn-lg">등록</button>
+            <button type="submit" class="btn btn-outline-primary mt-3">등록</button>
         </form>
         <h5 class="fw-bold pt-3">댓글 목록 ({{ data.comments.all|length }})</h5>
         {% else %}

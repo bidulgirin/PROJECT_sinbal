@@ -13,11 +13,11 @@
     <div class="bottom-0 end-0 text-end pb-3">
         {% if user.id %}
         <a href="{% url 'community:add_post' %}">
-            <button class="btn btn-primary btn-lg shadow-lg">글쓰기</button>
+            <button class="btn btn-primary shadow-lg">글쓰기</button>
         </a>
         {% else %}
         <a href="/users/">
-            <button class="btn btn-primary btn-lg shadow-lg">글쓰기</button>
+            <button class="btn btn-primary shadow-lg">글쓰기</button>
         </a>
         {% endif %}
     </div>
