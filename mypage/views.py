@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
-from home.models import OrderItem, Review, Cart
+from home.models import OrderItem, Review, Cart, Order
 from mall.models import MallReview
 from mypage.models import WishList
 from community.models import Comment, Post
@@ -35,7 +35,7 @@ def Profile(request, id):
     return render(request, "users/profile.html", context)
 
 def OrderList(request, id):
-    items = OrderItem.objects.filter(id=id).order_by("-order__created_at")
+    items = Order.objects.filter(user_id=request.user.id)
     context = {
         "items" : items
     }
@@ -60,11 +60,10 @@ def CartList(request):
     return render(request, "mypage/cart_list.html", context)
 
 def MyWish(request, id):
-    if id == id:
-        wishes = WishList.objects.all()
-        context = {
-            "wishes" : wishes,
-        }
+    wishes = WishList.objects.filter(user=request.user.id)
+    context = {
+        "wishes" : wishes,
+    }
     return render(request, "mypage/wish_list.html", context)
 
 def WishDelete(request, id):
