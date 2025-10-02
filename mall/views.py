@@ -65,11 +65,13 @@ def mall_product_detail(request, id):
     page = request.GET.get("page") 
     paginator = Paginator(reviews, 4)
     review = paginator.get_page(page)
-
+    # 리뷰 개수
+    review_count = len(reviews)
     context = {
         "data" : data,
         "datas" : review, #리뷰페이지네이션
         "wish" : wish,
+        "review_count": review_count,
     }
     return render(request, "mall/product_detail.html", context)
 # 찜 등록
