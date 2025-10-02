@@ -106,7 +106,11 @@ document.addEventListener("DOMContentLoaded", function () {
     cart.addEventListener("click", (e) => {
         e.preventDefault();
         // 유저가 로그인했는지 체크
-        user_login_check();
+        if (!user_login) {
+            alert("로그인을 해주세요");
+            window.location.href = "/users/";
+            return false;
+        }
         if (quantity.value == 0) {
             alert("수량을 선택해주세요");
             return false;
@@ -123,7 +127,13 @@ document.addEventListener("DOMContentLoaded", function () {
         const quantity_ = Number(document.getElementById("quantity").value);
 
         // 유저가 로그인했는지 체크
-        user_login_check();
+
+        console.log(user_login)
+        if (!user_login) {
+            alert("로그인을 해주세요");
+            window.location.href = "/users/";
+            return false;
+        }
 
         if (quantity_ == 0) {
             alert("수량을 선택해주세요");
@@ -142,7 +152,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const form = document.createElement("form");
         form.setAttribute("method", "GET"); //Post 방식
 
-        if (wishBtn.checked) {
+        if (wishBtn && wishBtn.checked) {
             // 위시리스트에서 빼는 작업
             form.setAttribute("action", mall_wishlist_add); //요청 보낼 주소
         } else {
@@ -160,6 +170,8 @@ document.addEventListener("DOMContentLoaded", function () {
         document.body.appendChild(form);
         form.submit();
     }
-
+    if(wishBtn){
     wishBtn.addEventListener("click", wishListSubmit);
+
+    }
 });
