@@ -1,9 +1,7 @@
 <!-- 주문리스트 -->
 {% extends 'base/base.html' %}
 <!--  -->
-{% load static %}
-
-{% load humanize %}
+{% load static %} {% load humanize %}
 <!--  -->
 {% block content %}
 <section class="myPage-content container-xl">
@@ -15,39 +13,53 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <td class="text-center align-middle">주문 Id</td>
-                        <td class="text-center align-middle">사진</td>
-                        <td class="text-center align-middle">제품이름</td>
-                        <td class="text-center align-middle">가격</td>
-                        <td class="text-center align-middle">상세정보(사이즈)</td>
-                        <td class="text-center align-middle">개수</td>
+                        <td class="text-center fw-bold align-middle">주문id</td>
+                        <td class="text-center fw-bold align-middle">총가격</td>
+                        <td class="text-center fw-bold align-middle">상세정보</td>
                     </tr>
                 </thead>
                 <tbody>
                     {% for item in items %}
                     <tr>
-                        <td class="text-center align-middle">{{ item.order.id }}</td>
+                        <td>{{item.id}}</td>
+
+                        <td class="text-center align-middle">{{ item.total_price|intcomma }}</td>
                         <td class="text-center align-middle">
-                            <div class="g_square border">
-                                {% if item.shoe.images %}
-                                <img src="{{ item.shoe.images.url }}" alt="">
-                                {% else %}
-                                <img src="{% static 'img/no_img.png' %}" alt="">
-                                {% endif %}
-                            </div>
+                            <table class="table">
+                                <tr>
+                                    <td class="fw-bold">사진</td>
+                                    <td class="fw-bold">상품이름</td>
+                                    <td class="fw-bold">가격</td>
+                                    <td class="fw-bold">사이즈</td>
+                                    <td class="fw-bold">개수</td>
+                                </tr>
+
+                                {% for i in item.orderitem_set.all %}
+                                <tr>
+                                    <td class="text-center align-middle">
+                                        <div class="g_square border">
+                                            {% if i.images %}
+                                            <img src="{{ i.images.url }}" alt="" />
+                                            {% else %}
+                                            <img src="{% static 'img/no_img.png' %}" alt="" />
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                    <td>{{i.shoe.name}}</td>
+                                    <td>{{i.price|intcomma}}</td>
+                                    <td>{{i.size}}</td>
+                                    <td>{{i.quantity}}</td>
+                                </tr>
+                                {% endfor %}
+                            </table>
                         </td>
-                        <td class="text-center align-middle">{{ item.order.name }}</td>
-                        <td class="text-center align-middle">{{ item.price|intcomma }}원 </td>
-                        <td class="text-center align-middle"> {{ item.size }} </td>
-                        <td class="text-center align-middle">{{ item.quantity }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
             {% else %}
             <!-- 주문내역 없을때 -->
-            주문내역이 없습니다
-            {% endif %}
+            주문내역이 없습니다 {% endif %}
         </div>
     </section>
 </section>
