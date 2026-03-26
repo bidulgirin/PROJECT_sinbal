@@ -1,0 +1,6 @@
+sevices:
+  - type : web
+    name : my-shop
+    env : python
+    bulidCommand : pip install -r requirements.txt
+    startCommand : gunicorn sinbal_pj.wsgi
